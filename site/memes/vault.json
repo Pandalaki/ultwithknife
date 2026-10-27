@@ -676,5 +676,113 @@
    "flex"
   ],
   "kind": "gif"
+ },
+ {
+  "id": "all-in",
+  "title": "All In",
+  "tags": [
+   "bullish"
+  ],
+  "kind": "vid",
+  "dur": 6.2
+ },
+ {
+  "id": "amsterdam",
+  "title": "Amsterdam",
+  "tags": [
+   "chill"
+  ],
+  "kind": "vid",
+  "dur": 13.7
+ },
+ {
+  "id": "any-day",
+  "title": "Any Day",
+  "tags": [
+   "kult"
+  ],
+  "kind": "vid",
+  "dur": 8.7
+ },
+ {
+  "id": "blow-up",
+  "title": "Blow Up",
+  "tags": [
+   "bullish"
+  ],
+  "kind": "vid",
+  "dur": 7.0
+ },
+ {
+  "id": "burn-2",
+  "title": "Burn",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "vid",
+  "dur": 12.7
+ },
+ {
+  "id": "cant-stop-wont-stop",
+  "title": "Can’t Stop Won’t Stop",
+  "tags": [
+   "kult"
+  ],
+  "kind": "vid",
+  "dur": 5.7
+ },
+ {
+  "id": "celebrating",
+  "title": "Celebrating",
+  "tags": [
+   "party"
+  ],
+  "kind": "vid",
+  "dur": 8.0
+ },
+ {
+  "id": "cereal",
+  "title": "Cereal",
+  "tags": [
+   "chill"
+  ],
+  "kind": "vid",
+  "dur": 6.3
+ },
+ {
+  "id": "cooking",
+  "title": "Cooking",
+  "tags": [
+   "chill"
+  ],
+  "kind": "vid",
+  "dur": 10.0
+ },
+ {
+  "id": "counting",
+  "title": "Counting",
+  "tags": [
+   "flex"
+  ],
+  "kind": "vid",
+  "dur": 7.1
+ },
+ {
+  "id": "cry-harder-2",
+  "title": "Cry Harder",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "vid",
+  "dur": 8.6
+ },
+ {
+  "id": "dip",
+  "title": "Dip",
+  "tags": [
+   "bullish"
+  ],
+  "kind": "vid",
+  "dur": 10.0
  }
 ]
