@@ -1,0 +1,2446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Knife Catch: catch the falling knives with Colt. Dodge the paper hands. $KULT on Cronos.">
+<meta name="theme-color" content="#030508">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ult with knife">
+<meta property="og:url" content="https://ultwithknife.com/lab/">
+<meta property="og:title" content="Knife Catch · KULT Lab">
+<meta property="og:description" content="Catch the falling knives with Colt. Dodge the paper hands. Beat my score.">
+<meta property="og:image" content="https://ultwithknife.com/img/og-lab.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Knife Catch on ultwithknife.com: Colt catching falling knives">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ultwithknife">
+<meta name="twitter:title" content="Knife Catch · KULT Lab">
+<meta name="twitter:description" content="Catch the falling knives with Colt. Dodge the paper hands. Beat my score.">
+<meta name="twitter:image" content="https://ultwithknife.com/img/og-lab.jpg">
+<meta name="twitter:image:alt" content="Knife Catch on ultwithknife.com: Colt catching falling knives">
+<title>KULT Lab · Memes, games and more</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: the Lab. Same black forge as the homepage; a tab row of tools, and one framed arcade screen. */
+:root{
+  --void:#030508; --steel:#0b1118; --edge:#1a2836; --frost:#e9f4ff; --mist:#8ba3b8;
+  --ice:#3fd0ff; --deep:#1a6dff; --gold:#f2c14e; --hurt:#ff5a6e;
+  --f-display:"Dela Gothic One","Arial Black",Impact,sans-serif;
+  --f-body:"Chakra Petch","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gut:clamp(16px,4vw,56px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{overflow-x:clip}
+body{margin:0;background:var(--void);color:var(--frost);font-family:var(--f-body);font-size:17px;line-height:1.6;
+  background-image:radial-gradient(ellipse at 50% -10%,rgba(63,208,255,.12),transparent 55%)}
+a{color:inherit}
+img{max-width:100%;height:auto;display:block}
+::selection{background:var(--ice);color:var(--void)}
+:focus-visible{outline:2px solid var(--ice);outline-offset:3px;border-radius:4px}
+
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:20px;
+  padding:14px var(--gut);background:linear-gradient(to bottom,rgba(3,5,8,.92),rgba(3,5,8,.6));backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(63,208,255,.08)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-size:20px;letter-spacing:.04em}
+.brand img{width:44px;height:48px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(242,193,78,.45))}
+.nav-links{display:flex;gap:26px;margin-left:auto;font-weight:600;font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+.nav-links a{text-decoration:none;color:var(--mist);transition:color .2s}
+.nav-links a:hover,.nav-links a[aria-current]{color:var(--ice)}
+@media (max-width:760px){.nav-links{display:none}.nav .btn.ghost{margin-left:auto}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 22px;font-family:var(--f-body);font-weight:700;font-size:15px;
+  letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--void);background:var(--ice);border:0;cursor:pointer;
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--frost);box-shadow:inset 0 0 0 1.5px rgba(63,208,255,.55)}
+.btn.ghost:hover{color:var(--ice)}
+.btn.sm{padding:10px 16px;font-size:13px}
+.eyebrow{font-family:var(--f-mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--ice);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--ice);box-shadow:0 0 12px var(--ice)}
+
+main{max-width:1100px;margin:0 auto;padding-block:clamp(28px,5vw,56px) clamp(48px,7vw,88px);padding-inline:var(--gut);display:grid;gap:22px}
+.lab-head{display:grid;gap:12px}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(36px,6vw,72px);line-height:1;margin:0;text-wrap:balance}
+h1 .k{color:var(--ice);text-shadow:0 0 26px rgba(63,208,255,.6)}
+.lede{color:var(--mist);max-width:60ch;margin:0}
+
+.tabs{display:flex;flex-wrap:wrap;gap:10px}
+.tab{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;
+  border:1.5px solid var(--edge);color:var(--mist);background:var(--steel);text-decoration:none}
+.tab[aria-selected="true"]{border-color:var(--ice);color:var(--frost);box-shadow:0 0 18px rgba(63,208,255,.25)}
+.tab small{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;color:var(--gold);border:1px solid rgba(242,193,78,.5);padding:2px 6px}
+
+/* tabs + tool panels */
+.tool{display:grid;gap:18px}
+.tool-head{display:grid;gap:8px}
+.tool-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(28px,4vw,44px);line-height:1.05;margin:0;text-wrap:balance}
+.tool-head h2 .k{color:var(--ice);text-shadow:0 0 22px rgba(63,208,255,.55)}
+a.tab{cursor:pointer}
+a.tab:hover{color:var(--frost)}
+span.tab[aria-disabled]{opacity:.7}
+
+/* PFP maker */
+.pfp{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(18px,3vw,32px);align-items:start}
+.pfp-stage{position:relative;border:1px solid rgba(63,208,255,.3);background:#02060b;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(63,208,255,.08)}
+#pfpCanvas{display:block;width:100%;height:auto;aspect-ratio:1;touch-action:none;cursor:grab}
+#pfpCanvas.grabbing{cursor:grabbing}
+.drop-hint{position:absolute;inset:10px;display:grid;place-items:center;border:2px dashed var(--ice);background:rgba(3,5,8,.75);font-family:var(--f-display);font-size:28px;color:var(--ice);pointer-events:none}
+.pfp-tools{display:grid;gap:14px;min-width:0}
+.tool-group{display:grid;gap:12px;padding:16px;border:1px solid var(--edge);background:var(--steel)}
+.tg-label{font-family:var(--f-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ice)}
+.row-l{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.stickers{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px}
+.stk{display:grid;justify-items:center;gap:6px;padding:10px 6px 8px;background:#060c13;border:1.5px solid var(--edge);color:var(--frost);font-family:var(--f-body);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,transform .2s}
+.stk:hover{border-color:var(--ice);transform:translateY(-2px)}
+.stk img{width:56px;height:44px;object-fit:contain}
+.soon-note{margin:0;font-size:13px;color:var(--mist)}
+.slider{display:grid;grid-template-columns:96px 1fr;align-items:center;gap:12px;font-size:14px;color:var(--mist)}
+.slider input{width:100%;accent-color:var(--ice)}
+.check{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--frost);cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--ice)}
+.btn.danger{box-shadow:inset 0 0 0 1.5px rgba(255,90,110,.6)}
+.btn.danger:hover{color:var(--hurt)}
+label.btn{user-select:none}
+.busy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(3,5,8,.7);font-family:var(--f-mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--ice)}
+.spin{width:44px;height:44px;border:3px solid rgba(63,208,255,.25);border-top-color:var(--ice);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn:disabled{opacity:.45;cursor:default;transform:none}
+.pfp-col{display:grid;gap:10px;min-width:0}
+.selbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(63,208,255,.4);background:var(--steel)}
+.selbar #selName{font-family:var(--f-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ice);margin-right:auto}
+.hint-line{margin:0;font-size:14px;color:var(--mist)}
+.stk[aria-pressed="true"]{border-color:var(--ice);box-shadow:0 0 0 1px var(--ice) inset,0 0 18px rgba(63,208,255,.25)}
+.stk:disabled{opacity:.4;cursor:default;transform:none}
+#pfpCanvas{cursor:grab}
+@media (max-width:860px){.pfp{grid-template-columns:1fr}}
+
+/* share instructions after Post on X (desktop) */
+.share-note{margin:0;padding:12px 14px;font-size:15px;line-height:1.5;color:var(--frost);background:rgba(63,208,255,.1);border:1px solid rgba(63,208,255,.45);max-width:460px;text-align:left}
+.share-note b{color:var(--ice)}
+.share-note a{color:var(--ice)}
+.share-note kbd{font-family:var(--f-mono);font-size:13px;padding:1px 6px;border:1px solid rgba(233,244,255,.4);border-bottom-width:2px;background:rgba(3,5,8,.5)}
+/* Colt Says */
+.poses{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.bg-off{opacity:.35;pointer-events:none}
+.hand-picks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.hand-picks>*{display:grid;justify-items:center;gap:4px;padding:8px 4px 6px;cursor:pointer;background:#060c13;border:1.5px solid var(--edge);color:var(--frost);font:700 11px var(--f-body);letter-spacing:.06em;text-transform:uppercase;text-align:center}
+.hand-picks canvas{width:40px;height:40px}
+.hand-picks .plus{display:grid;place-items:center;width:40px;height:40px;font:400 30px var(--f-display);color:var(--ice)}
+.hand-picks [aria-checked="true"]{border-color:var(--ice);box-shadow:0 0 0 1px var(--ice) inset,0 0 14px rgba(63,208,255,.25)}
+@media (max-width:480px){.hand-picks{grid-template-columns:repeat(3,minmax(0,1fr))}.hand-picks>*{min-height:84px}}
+#csCanvas.grab{cursor:grab;touch-action:none}#csCanvas.grabbing{cursor:grabbing}
+.bg-note{margin:0;font-size:14px;color:var(--mist)}
+.poses button{padding:0;aspect-ratio:1;cursor:pointer;border:1.5px solid var(--edge);background:#060c13;overflow:hidden}
+.poses img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s}
+.poses button:hover img{transform:scale(1.06)}
+.poses button[aria-checked="true"]{border-color:var(--ice);box-shadow:0 0 0 2px var(--ice)}
+
+.cs-stage{border:1px solid rgba(63,208,255,.3);background:#02060b;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(63,208,255,.08)}
+#csCanvas{display:block;width:100%;height:auto}
+#csText{width:100%;resize:vertical;min-height:84px;padding:12px 14px;font:600 18px/1.4 var(--f-body);color:var(--frost);background:#060c13;border:1.5px solid var(--edge);outline:none}
+#csText:focus{border-color:var(--ice);box-shadow:0 0 0 3px rgba(63,208,255,.15)}
+.cs-meta{justify-content:space-between}
+.cs-count{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;color:var(--mist)}
+.cs-count.full{color:var(--gold)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg button{display:grid;gap:2px;padding:10px 12px;text-align:left;cursor:pointer;background:#060c13;border:1.5px solid var(--edge);color:var(--frost);font:700 15px var(--f-body);letter-spacing:.06em;text-transform:uppercase}
+.seg button small{font:500 12px var(--f-body);letter-spacing:0;text-transform:none;color:var(--mist)}
+.seg button[aria-checked="true"]{border-color:var(--ice);box-shadow:0 0 0 1px var(--ice) inset,0 0 18px rgba(63,208,255,.2)}
+.swatches{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.swatches button{position:relative;aspect-ratio:1;cursor:pointer;border:1.5px solid var(--edge);background:var(--sw);padding:0;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.swatches button span{width:100%;padding:3px 2px;font:700 10px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:#fff;background:rgba(3,5,8,.65)}
+.swatches button[aria-checked="true"]{border-color:var(--ice);box-shadow:0 0 0 2px var(--ice)}
+@media (max-width:420px){.swatches{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* phones: while typing, keep a smaller live preview pinned under the header */
+@media (max-width:860px){
+  #panel-says.typing .cs-stage{position:sticky;top:calc(env(safe-area-inset-top,0px) + 74px);z-index:5;width:min(100%,38vh);margin-inline:auto}
+}
+
+/* Memes tab: the loud one */
+.tab.tab-memes{position:relative;gap:10px;padding:6px 16px 6px 6px;color:var(--void);background:linear-gradient(100deg,var(--ice),#8fe6ff 40%,var(--gold) 75%,var(--ice));background-size:220% 100%;
+  border-color:transparent;font-size:16px;animation:tmShine 4s linear infinite,tmPop .7s cubic-bezier(.2,1.6,.4,1) .2s both;box-shadow:0 0 24px rgba(63,208,255,.45)}
+.tab.tab-memes:hover{color:var(--void);transform:translateY(-2px) rotate(-1.5deg)}
+.tab.tab-memes[aria-selected="true"]{border-color:var(--frost);color:var(--void);box-shadow:0 0 0 2px var(--void),0 0 0 4px var(--ice),0 0 32px rgba(63,208,255,.6)}
+.tm-pic{width:34px;height:34px;border-radius:50%;overflow:hidden;border:2px solid var(--void);background:var(--void);flex:none;animation:tmWiggle 2.6s ease-in-out infinite}
+.tm-pic img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .25s}
+.tm-txt{font-family:var(--f-display);font-weight:400;letter-spacing:.06em}
+.tm-n{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;padding:2px 7px;color:var(--frost);background:var(--void)}
+.tm-n:empty{display:none}
+@keyframes tmShine{to{background-position:-220% 0}}
+@keyframes tmPop{from{transform:scale(.6) rotate(-6deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes tmWiggle{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-12deg)}90%{transform:rotate(10deg)}95%{transform:rotate(-6deg)}}
+@media (prefers-reduced-motion:reduce){.tab.tab-memes,.tm-pic{animation:none}}
+/* Meme vault */
+.mv-types{max-width:420px}
+.mv-types button{display:flex;align-items:baseline;gap:8px;font-size:16px}
+.mv-types small{font-family:var(--f-mono);color:var(--ice)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 14px;cursor:pointer;background:var(--steel);border:1.5px solid var(--edge);color:var(--mist);font:700 13px var(--f-body);letter-spacing:.1em;text-transform:uppercase}
+.chip:hover{color:var(--frost)}
+.chip[aria-checked="true"]{border-color:var(--ice);color:var(--frost);box-shadow:0 0 14px rgba(63,208,255,.22)}
+.chip b{font-family:var(--f-mono);font-weight:500;color:var(--ice);margin-left:6px}
+.vault{columns:4 220px;column-gap:12px}
+.mv-tile{position:relative;break-inside:avoid;margin:0 0 12px;background:#060c13;border:1px solid var(--edge);overflow:hidden;transition:border-color .2s,transform .2s}
+.mv-tile:hover{border-color:rgba(63,208,255,.7)}
+.mv-open{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;position:relative}
+.mv-open img,.mv-open video{display:block;width:100%;height:auto}
+.mv-open video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s}
+.mv-open video.on{opacity:1}
+.mv-cap{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 8px;text-align:left;font:700 13px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:#fff;background:linear-gradient(transparent,rgba(3,5,8,.85));pointer-events:none}
+.mv-dl{position:absolute;top:8px;right:8px;width:38px;height:38px;display:grid;place-items:center;color:var(--void);background:var(--ice);text-decoration:none;opacity:0;transition:opacity .2s;clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.mv-tile:hover .mv-dl,.mv-dl:focus-visible{opacity:1}
+@media (hover:none){.mv-dl{opacity:1}}
+.mv-empty{color:var(--mist)}
+.mv-lb{position:fixed;inset:0;z-index:90;display:grid;grid-template-rows:1fr auto;background:rgba(3,5,8,.94);backdrop-filter:blur(6px)}
+.mv-stage{margin:0;min-height:0;display:grid;place-items:center;padding:56px 64px 12px}
+.mv-stage video,.mv-stage img{max-width:100%;max-height:100%;width:auto;height:auto;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(63,208,255,.25)}
+.mv-info{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 20px;padding:14px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+.mv-info h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:24px}
+.mv-meta{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
+.mv-x,.mv-nav{position:absolute;z-index:2;display:grid;place-items:center;width:48px;height:48px;padding:0;border:1px solid var(--edge);background:rgba(3,5,8,.6);color:var(--frost);font-size:28px;line-height:1;cursor:pointer}
+.mv-x{top:max(10px,env(safe-area-inset-top,0px));right:10px}
+.mv-nav{top:50%;transform:translateY(-50%)}
+.mv-nav.prev{left:10px}.mv-nav.next{right:10px}
+.mv-x:hover,.mv-nav:hover{color:var(--ice);border-color:var(--ice)}
+@media (max-width:640px){.vault{columns:2;column-gap:8px}.mv-tile{margin-bottom:8px}.mv-stage{padding:60px 8px 8px}.mv-nav{top:42%;width:40px;height:52px;background:rgba(3,5,8,.45);border-color:transparent}.mv-nav.prev{left:4px}.mv-nav.next{right:4px}.mv-info h3{font-size:20px;width:100%;text-align:center}}
+body.mv-lock{overflow:hidden}
+/* arcade screen */
+.arcade{position:relative;border:1px solid rgba(63,208,255,.3);background:#02060b;box-shadow:0 0 0 1px rgba(3,5,8,.9),0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(63,208,255,.08)}
+.arcade{scroll-margin-top:84px}
+#game,#kt{display:block;width:100%;height:min(calc(100vh - 110px),640px);height:min(calc(100dvh - 110px),640px);min-height:420px;touch-action:none;cursor:none}
+#kt{cursor:pointer;outline:none}
+.snd{position:absolute;top:10px;right:10px;z-index:3;width:42px;height:42px;display:grid;place-items:center;padding:0;cursor:pointer;color:var(--frost);background:rgba(3,5,8,.55);border:1px solid var(--edge)}
+.snd:hover{color:var(--ice);border-color:var(--ice)}
+.snd .x{display:none}.snd.off .x{display:inline}.snd.off .w{display:none}.snd.off{color:var(--mist)}
+.overlay{position:absolute;inset:0;display:grid;place-items:center;padding:20px;background:rgba(3,5,8,.72);backdrop-filter:blur(3px);text-align:center}
+.panel{display:grid;gap:14px;justify-items:center;max-width:460px}
+.panel h2{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,5vw,48px);line-height:1;margin:0}
+.panel p{margin:0;color:var(--mist)}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 18px;margin:4px 0 6px;padding:0;list-style:none;font-size:15px}
+.legend li{display:flex;align-items:center;gap:8px}
+.legend canvas{width:30px;height:30px}
+.legend b{color:var(--frost)}
+.big-score{font-family:var(--f-display);font-size:clamp(56px,10vw,96px);line-height:1;color:var(--ice);text-shadow:0 0 30px rgba(63,208,255,.55);font-variant-numeric:tabular-nums}
+.best{font-family:var(--f-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mist)}
+.best b{color:var(--frost)}
+.new-best{font-family:var(--f-mono);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--void);background:var(--gold);padding:5px 10px;transform:rotate(-3deg)}
+.colt-says{font-family:var(--f-display);font-size:20px;color:var(--frost)}
+.colt-says::before{content:"Colt: ";color:var(--ice)}
+.row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.hint{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);opacity:.85}
+
+.side{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stat{border:1px solid var(--edge);background:var(--steel);padding:14px 16px;display:grid;gap:2px}
+.stat span{font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mist)}
+.stat b{font-family:var(--f-display);font-weight:400;font-size:26px;font-variant-numeric:tabular-nums}
+@media (max-width:560px){.side{grid-template-columns:1fr 1fr}.side .stat:last-child{grid-column:span 2}}
+
+footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;gap:14px;border-top:1px solid var(--edge);color:var(--mist);font-size:14px}
+.disclaimer{max-width:90ch;font-size:13px;line-height:1.6;opacity:.85;margin:0}
+/* desktop "post on X" helper */
+.xm{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:16px;background:rgba(3,5,8,.78);backdrop-filter:blur(6px)}
+.xm-box{position:relative;width:min(440px,100%);max-height:calc(100vh - 32px);overflow:auto;background:#07101a;border:1.5px solid var(--ice);box-shadow:0 0 60px rgba(63,208,255,.25);padding:22px 22px 20px;text-align:left}
+.xm-box h3{margin:0 0 14px;font-family:var(--f-display);font-size:24px;line-height:1.1;color:var(--frost)}
+.xm-box h3 .k{color:var(--ice)}
+.xm-img{display:block;width:100%;height:auto;max-height:240px;object-fit:contain;background:#03070c;border:1px solid var(--edge);margin-bottom:16px}
+.xm-steps{margin:0 0 18px;padding:0;list-style:none;display:grid;gap:10px;font-size:16px;line-height:1.45;color:var(--frost)}
+.xm-steps li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.xm-steps .n{display:grid;place-items:center;width:28px;height:28px;font-family:var(--f-mono);font-size:13px;color:var(--void);background:var(--ice)}
+.xm-steps .n.ok{background:#4be38f}
+.xm-steps b{color:var(--ice)}
+.xm-steps kbd{font-family:var(--f-mono);font-size:14px;padding:1px 7px;border:1px solid rgba(233,244,255,.45);border-bottom-width:3px;background:rgba(3,5,8,.6);color:var(--frost)}
+.xm-go{width:100%;justify-content:center}
+.xm-alt{display:block;margin:12px auto 0;background:none;border:0;color:var(--mist);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer}
+.xm-alt:hover{color:var(--ice)}
+.xm-x{position:absolute;top:8px;right:8px;width:38px;height:38px;border:0;background:none;color:var(--mist);font-size:26px;line-height:1;cursor:pointer}
+.xm-x:hover{color:var(--frost)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;z-index:60;
+  background:var(--ice);color:var(--void);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:13px;padding:12px 20px;transition:all .3s;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="../"><img src="../img/pendant-sm.webp" alt="" width="40" height="40">KULT</a>
+  <nav class="nav-links" aria-label="Site">
+    <a href="./" aria-current="page">Lab</a>
+  </nav>
+  <a class="btn ghost sm" href="https://x.com/ultwithknife" target="_blank" rel="noopener" aria-label="KULT on X">X</a>
+  <a class="btn sm" id="buyNav" href="https://vvs.finance/trade/swap?inputCurrency=cro&amp;outputCurrency=0xd0186314CF470650Da5C395346c8A657831d1fc6&amp;exactAmount=0&amp;exactField=input" target="_blank" rel="noopener">Buy $KULT</a>
+</header>
+
+<main>
+  <div class="lab-head">
+    <div class="eyebrow">The KULT Lab</div>
+    <h1>Play with the <span class="k">knife.</span></h1>
+    <p class="lede">Two games, a PFP maker, a quote card maker and a vault of Colt GIFs and memes for the Kult. Everything runs right here on your device.</p>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Lab tools">
+    <a class="tab tab-memes" role="tab" aria-selected="true" href="#memes" data-tab="memes"><span class="tm-pic" aria-hidden="true"><img id="tmPic" src="../memes/files/kult-very-nice.webp" alt=""></span><span class="tm-txt">Memes</span><b class="tm-n" id="tmN"></b></a>
+    <a class="tab" role="tab" aria-selected="false" href="#colt-says" data-tab="colt-says">Colt Says</a>
+    <a class="tab" role="tab" aria-selected="false" href="#knife-catch" data-tab="knife-catch">Knife Catch</a>
+    <a class="tab" role="tab" aria-selected="false" href="#knife-throw" data-tab="knife-throw">Knife Throw <small>New</small></a>
+    <a class="tab" role="tab" aria-selected="false" href="#pfp" data-tab="pfp">Become Colt</a>
+  </div>
+
+  <section class="tool" id="panel-kc" hidden aria-label="Knife Catch">
+  <div class="tool-head">
+    <h2>Knife <span class="k">Catch.</span></h2>
+    <p class="lede">Everyone says don't catch a falling knife. Colt never listened. Slide him under the knives, grab the flames, and stay away from the paper hands.</p>
+  </div>
+  <div class="arcade">
+    <canvas id="game" aria-label="Knife Catch game. Move Colt left and right to catch falling knives."></canvas>
+
+    <div class="overlay" id="startScreen">
+      <div class="panel">
+        <h2>Catch the knives.</h2>
+        <ul class="legend">
+          <li><canvas data-icon="knife" width="60" height="60"></canvas><span><b>Knife</b> +1</span></li>
+          <li><canvas data-icon="flame" width="60" height="60"></canvas><span><b>Flame</b> +5</span></li>
+          <li><canvas data-icon="paper" width="60" height="60"></canvas><span><b>Paper hands</b> lose a life</span></li>
+          <li><canvas data-icon="candle" width="60" height="60"></canvas><span><b>Red candle</b> lose a life</span></li>
+        </ul>
+        <p>Catch knives in a row to stack your multiplier, up to x5. Miss one and it resets.</p>
+        <button class="btn" id="startBtn" type="button">Start</button>
+        <span class="hint">Drag, move the mouse, or use the arrow keys</span>
+      </div>
+    </div>
+
+    <div class="overlay" id="pauseScreen" hidden>
+      <div class="panel">
+        <h2>Paused.</h2>
+        <button class="btn" id="resumeBtn" type="button">Resume</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="overScreen" hidden>
+      <div class="panel">
+        <span class="best">Your score</span>
+        <div class="big-score" id="finalScore">0</div>
+        <span class="new-best" id="newBest" hidden>New best</span>
+        <span class="best">Best: <b id="bestOver">0</b></span>
+        <p class="colt-says" id="coltSays">Never fold.</p>
+        <div class="row">
+          <button class="btn" id="againBtn" type="button">Play again</button>
+          <a class="btn ghost" id="shareX" href="#" target="_blank" rel="noopener">Post on X</a>
+          <button class="btn ghost" id="cardBtn" type="button">Save score card</button>
+        </div>
+        <p class="share-note" id="kcNote" hidden aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="side" aria-live="polite">
+    <div class="stat"><span>Your best</span><b id="bestStat">0</b></div>
+    <div class="stat"><span>Games played</span><b id="playsStat">0</b></div>
+    <div class="stat"><span>Knives caught, all time</span><b id="totalStat">0</b></div>
+  </div>
+  </section>
+
+  <section class="tool" id="panel-kt" hidden aria-label="Knife Throw">
+  <div class="tool-head">
+    <h2>Knife <span class="k">Throw.</span></h2>
+    <p class="lede">Stick every knife in the spinning shield. Hit a knife that's already in there and you're done. Slice the paper hands off the rim for bonus points, and watch out: every fifth level is a boss.</p>
+  </div>
+  <div class="arcade" id="ktArcade">
+    <canvas id="kt" tabindex="0" aria-label="Knife Throw game. Tap, click or press Space to throw a knife at the spinning shield."></canvas>
+    <button class="snd" id="ktSound" type="button" aria-pressed="true" aria-label="Sound on">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M4 9h4l5-4v14l-5-4H4z"/><path class="w" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="x" d="M16.5 9.5l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+
+    <div class="overlay" id="ktStart">
+      <div class="panel">
+        <h2>Throw the knives.</h2>
+        <ul class="legend">
+          <li><canvas data-kt-icon="stick" width="60" height="60"></canvas><span><b>Stick it</b> +1</span></li>
+          <li><canvas data-kt-icon="paper" width="60" height="60"></canvas><span><b>Slice paper hands</b> +3</span></li>
+          <li><canvas data-kt-icon="clash" width="60" height="60"></canvas><span><b>Hit a knife</b> game over</span></li>
+        </ul>
+        <p>Clear the shield to level up. It spins faster, flips direction, and fights back.</p>
+        <button class="btn" id="ktStartBtn" type="button">Start</button>
+        <span class="hint">Tap, click or press Space to throw</span>
+      </div>
+    </div>
+
+    <div class="overlay" id="ktPause" hidden>
+      <div class="panel">
+        <h2>Paused.</h2>
+        <button class="btn" id="ktResume" type="button">Resume</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="ktOver" hidden>
+      <div class="panel">
+        <span class="best">Your score</span>
+        <div class="big-score" id="ktFinal">0</div>
+        <span class="best" id="ktReached">Reached level 1</span>
+        <span class="new-best" id="ktNewBest" hidden>New best</span>
+        <span class="best">Best: <b id="ktBestOver">0</b></span>
+        <p class="colt-says" id="ktColt">Never fold.</p>
+        <div class="row">
+          <button class="btn" id="ktAgain" type="button">Play again</button>
+          <a class="btn ghost" id="ktShare" href="#" target="_blank" rel="noopener">Post on X</a>
+          <button class="btn ghost" id="ktCard" type="button">Save score card</button>
+        </div>
+        <p class="share-note" id="ktNote" hidden aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="side" aria-live="polite">
+    <div class="stat"><span>Your best</span><b id="ktBestStat">0</b></div>
+    <div class="stat"><span>Highest level</span><b id="ktLevelStat">0</b></div>
+    <div class="stat"><span>Knives thrown, all time</span><b id="ktTotalStat">0</b></div>
+  </div>
+  </section>
+
+  <section class="tool" id="panel-pfp" hidden aria-labelledby="pfpTitle">
+    <div class="tool-head">
+      <h2 id="pfpTitle">Become <span class="k">Colt.</span></h2>
+      <p class="lede">Upload a selfie or your cartoon PFP and your head lands on Colt's track suit and chain. Add the hair, shades and mustache, move them where you like, and save your PFP. Your photo never leaves your device.</p>
+    </div>
+    <div class="pfp">
+      <div class="pfp-col">
+        <div class="pfp-stage" id="pfpStage">
+          <canvas id="pfpCanvas" width="1080" height="1080" aria-label="Your Colt PFP. Tap an item to select it, drag to move, pinch to resize and rotate."></canvas>
+          <div class="drop-hint" id="dropHint" hidden>Drop your photo</div>
+          <div class="busy" id="pfpBusy" hidden><span class="spin"></span><span id="busyText">Finding your face…</span></div>
+        </div>
+        <div class="selbar" id="selBar" hidden>
+          <span id="selName">Head</span>
+          <button class="btn ghost sm" id="selSnap" type="button">Snap back</button>
+          <button class="btn ghost sm" id="selHide" type="button">Remove</button>
+        </div>
+        <p class="hint-line" id="editHint">Tap an item to select it. Drag to move. Pinch with two fingers, or use the round corner handle, to resize and rotate.</p>
+      </div>
+      <div class="pfp-tools">
+        <div class="tool-group">
+          <span class="tg-label">1. Your photo</span>
+          <div class="row-l">
+            <label class="btn" for="pfpFile">Upload photo</label>
+            <input id="pfpFile" type="file" accept="image/*" hidden>
+          </div>
+          <p class="soon-note">Works with selfies and cartoon PFPs. Best results: one face, looking at the camera.</p>
+        </div>
+        <div class="tool-group">
+          <span class="tg-label">2. Add the drip</span>
+          <div class="stickers" id="dripBtns">
+            <button class="stk" type="button" data-key="hair" aria-pressed="false" disabled><img src="../img/pfp-hair-front.webp" alt=""><span>Hair</span></button>
+            <button class="stk" type="button" data-key="shades" aria-pressed="false" disabled><img src="../img/pfp-shades-front.webp" alt=""><span>Shades</span></button>
+            <button class="stk" type="button" data-key="mustache" aria-pressed="false" disabled><img src="../img/pfp-mustache.webp" alt=""><span>Mustache</span></button>
+          </div>
+          <p class="soon-note" id="dripNote">Upload a photo first. Each piece snaps onto your face, then you can move it.</p>
+        </div>
+        <div class="tool-group">
+          <label class="check"><input id="pfpGuide" type="checkbox" checked> Show circle crop guide</label>
+          <div class="row-l">
+            <button class="btn" id="pfpSave" type="button" disabled>Save PFP</button>
+            <button class="btn ghost sm" id="pfpResetAll" type="button" disabled>Reset all</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="tool" id="panel-says" hidden aria-labelledby="csTitle">
+    <div class="tool-head">
+      <h2 id="csTitle">Colt <span class="k">Says.</span></h2>
+      <p class="lede">Put any words in Colt's mouth. Type a line, pick a pose and a backdrop, then save it or post it.</p>
+    </div>
+    <div class="pfp">
+      <div class="pfp-col">
+        <div class="cs-stage"><canvas id="csCanvas" width="1080" height="1080" aria-label="Your Colt Says card"></canvas></div>
+      </div>
+      <div class="pfp-tools">
+        <div class="tool-group">
+          <label class="tg-label" for="csText" id="csPrompt">1. What does Colt say?</label>
+          <textarea id="csText" maxlength="140" rows="3" placeholder="Never fold." spellcheck="true"></textarea>
+          <div class="row-l cs-meta">
+            <button class="btn ghost sm" id="csShuffle" type="button">Shuffle</button>
+            <span class="cs-count" id="csCount" aria-live="polite">0 / 140</span>
+          </div>
+        </div>
+        <div class="tool-group">
+          <span class="tg-label">2. Pick Colt</span>
+          <div class="poses" role="radiogroup" aria-label="Colt's pose">
+            <button type="button" role="radio" aria-checked="true" data-pose="crossed" aria-label="Arms crossed"><img src="../img/pose-crossed-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="pockets" aria-label="Hands in pockets"><img src="../img/pose-pockets-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="shaka" aria-label="Shaka"><img src="../img/pose-shaka-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="squat" aria-label="Squatting"><img src="../img/pose-squat-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="ponder" aria-label="Thinking, facing right"><img src="../img/pose-ponder-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="chin" aria-label="Thinking, facing left"><img src="../img/pose-chin-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="hand" aria-label="Scene: Colt holding out an empty hand, you choose what's in it"><img src="../img/pose-hand-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="phonelaugh" aria-label="Scene: Colt laughing on the phone"><img src="../img/pose-phone-laugh-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="phonepoint" aria-label="Scene: Colt on the phone, pointing at his pendant"><img src="../img/pose-phone-point-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="climb" aria-label="Scene: Colt climbing a staircase of blue candles"><img src="../img/pose-climb-t.webp" alt="" width="160" height="160"></button>
+          </div>
+          <div class="seg" role="radiogroup" aria-label="Bubble">
+            <button type="button" role="radio" aria-checked="true" data-bubble="says">Says <small>speech bubble</small></button>
+            <button type="button" role="radio" aria-checked="false" data-bubble="thinks">Thinks <small>thought bubble</small></button>
+          </div>
+        </div>
+        <div class="tool-group" id="csHand" hidden>
+          <span class="tg-label">In his hand</span>
+          <div class="hand-picks" role="radiogroup" aria-label="What Colt is holding">
+            <button type="button" role="radio" aria-checked="true" data-item="candle"><canvas width="80" height="80" data-hi="candle"></canvas><span>Green candle</span></button>
+            <button type="button" role="radio" aria-checked="false" data-item="knife"><canvas width="80" height="80" data-hi="knife"></canvas><span>Knife</span></button>
+            <button type="button" role="radio" aria-checked="false" data-item="pendant"><canvas width="80" height="80" data-hi="pendant"></canvas><span>Pendant</span></button>
+            <button type="button" role="radio" aria-checked="false" data-item="flame"><canvas width="80" height="80" data-hi="flame"></canvas><span>Flame</span></button>
+            <label class="hand-up" role="radio" aria-checked="false" data-item="upload" tabindex="0"><input type="file" id="csHandFile" accept="image/*" hidden><span class="plus" aria-hidden="true">+</span><span>Your image</span></label>
+          </div>
+          <label class="slider"><span>Size</span><input type="range" id="csHandSize" min="8" max="60" value="26"></label>
+          <label class="check"><input type="checkbox" id="csHandGlow" checked> Glow</label>
+          <p class="hint-line">Drag it on the card to move it. Images with a see-through background (PNG) look best.</p>
+        </div>
+        <div class="tool-group">
+          <span class="tg-label">3. Backdrop</span>
+          <p class="bg-note" id="csBgNote" hidden>This scene brings its own background.</p>
+          <div class="swatches" id="csSwatches" role="radiogroup" aria-label="Backdrop">
+            <button type="button" role="radio" aria-checked="true" data-bg="blue" style="--sw:linear-gradient(160deg,#5fe0ff,#1597d6)"><span>Kult Blue</span></button>
+            <button type="button" role="radio" aria-checked="false" data-bg="forge" style="--sw:radial-gradient(circle at 50% 70%,#0f3550,#030508 70%)"><span>Forge</span></button>
+            <button type="button" role="radio" aria-checked="false" data-bg="space" style="--sw:url(../img/constellation.webp) center/cover"><span>Stars</span></button>
+            <button type="button" role="radio" aria-checked="false" data-bg="office" style="--sw:url(../img/office.webp) 30% 40%/cover"><span>Office</span></button>
+            <button type="button" role="radio" aria-checked="false" data-bg="tunnel" style="--sw:url(../img/bg-tunnel-t.webp) center/cover"><span>Tunnel</span></button>
+            <button type="button" role="radio" aria-checked="false" data-bg="slash" style="--sw:url(../img/bg-slash-t.webp) center/cover"><span>Slash</span></button>
+            <button type="button" role="radio" aria-checked="false" data-bg="icek" style="--sw:url(../img/bg-icek-t.webp) center/cover"><span>Ice K</span></button>
+            <button type="button" role="radio" aria-checked="false" data-bg="flame" style="--sw:url(../img/bg-flame-t.webp) center/cover"><span>Blue Flame</span></button>
+            <button type="button" role="radio" aria-checked="false" data-bg="crystal" style="--sw:url(../img/bg-crystal-t.webp) center/cover"><span>Crystal</span></button>
+            <button type="button" role="radio" aria-checked="false" data-bg="neonk" style="--sw:url(../img/bg-neonk-t.webp) center/cover"><span>Neon K</span></button>
+          </div>
+        </div>
+        <div class="tool-group">
+          <span class="tg-label">4. Shape</span>
+          <div class="seg" role="radiogroup" aria-label="Shape">
+            <button type="button" role="radio" aria-checked="true" data-fmt="square">Square <small>PFP, Telegram</small></button>
+            <button type="button" role="radio" aria-checked="false" data-fmt="wide">Wide <small>fills an X post</small></button>
+          </div>
+        </div>
+        <div class="tool-group">
+          <div class="row-l">
+            <button class="btn" id="csSave" type="button">Save image</button>
+            <a class="btn ghost" id="csPost" href="#" target="_blank" rel="noopener">Post on X</a>
+          </div>
+          <p class="share-note" id="csNote" hidden aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool" id="panel-memes" aria-labelledby="mvH">
+  <div class="tool-head">
+    <h2 id="mvH">Meme <span class="k">Vault.</span></h2>
+    <p class="lede"><span id="mvCounts">Colt GIFs and memes</span>, free for the Kult. Tap one to see it big, then download it and post it anywhere.</p>
+  </div>
+  <div class="seg mv-types" role="radiogroup" aria-label="GIFs or memes">
+    <button type="button" role="radio" aria-checked="true" data-k="gif">GIFs <small id="mvNgif"></small></button>
+    <button type="button" role="radio" aria-checked="false" data-k="img">Memes <small id="mvNimg"></small></button>
+  </div>
+  <div class="chips" id="mvChips" role="radiogroup" aria-label="Filter"></div>
+  <div class="vault" id="mvGrid"></div>
+  <p class="mv-empty" id="mvEmpty" hidden>Nothing here yet.</p>
+  </section>
+
+  <div class="mv-lb" id="mvLb" hidden role="dialog" aria-modal="true" aria-labelledby="mvTitle">
+    <button class="mv-x" id="mvClose" type="button" aria-label="Close">×</button>
+    <button class="mv-nav prev" id="mvPrev" type="button" aria-label="Previous">‹</button>
+    <button class="mv-nav next" id="mvNext" type="button" aria-label="Next">›</button>
+    <figure class="mv-stage" id="mvStage"></figure>
+    <div class="mv-info">
+      <h3 id="mvTitle"></h3>
+      <span class="mv-meta" id="mvMeta"></span>
+      <div class="row-l">
+        <a class="btn" id="mvDl" href="#" download>Download GIF</a>
+        <button class="btn ghost" id="mvCopy" type="button">Copy link</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p class="disclaimer">Photos you use in Become Colt never leave your device, including the face detection. Scores are saved only in this browser and are just for fun. Nothing here is a reward, prize or promise of anything. $KULT is a memecoin with no intrinsic value; only buy what you can afford to lose.</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* Desktop X sharing: X doesn't let any website attach an image to a post, so: copy the card to the clipboard
+   (or save it if copying isn't allowed), then show a clear two-step popup — open X, press Ctrl/⌘+V.
+   The X window is opened from the popup's own button so the person reads the step before X takes focus. */
+window.kultIsPhone = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent)) || (matchMedia("(pointer:coarse)").matches && matchMedia("(hover:none)").matches);
+window.kultShareDesktop = async (getBlob, href, fileName, noteEl) => {
+  const mac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent), key = mac ? "⌘" : "Ctrl";
+  const blobP = Promise.resolve().then(getBlob);
+  let copied = false;
+  try {
+    if(navigator.clipboard && window.ClipboardItem){ await navigator.clipboard.write([new ClipboardItem({ "image/png": blobP })]); copied = true; }
+  } catch(e){ copied = false; }
+  const blob = await blobP.catch(() => null);
+  const saveFile = () => { if(!blob) return; const u = URL.createObjectURL(blob), a = document.createElement("a"); a.href = u; a.download = fileName; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000); };
+  if(!copied) saveFile();
+  const old = document.querySelector(".xm"); if(old) old.remove();
+  const prevFocus = document.activeElement, url = blob ? URL.createObjectURL(blob) : "";
+  const m = document.createElement("div");
+  m.className = "xm"; m.setAttribute("role", "dialog"); m.setAttribute("aria-modal", "true"); m.setAttribute("aria-labelledby", "xmT");
+  m.innerHTML = `<div class="xm-box">
+    <button class="xm-x" type="button" aria-label="Close">×</button>
+    <h3 id="xmT">One step before <span class="k">X</span></h3>
+    ${url ? `<img class="xm-img" src="${url}" alt="Your image">` : ""}
+    <ol class="xm-steps">
+      <li><span class="n ok">✓</span><span>${copied ? "Your image is <b>copied</b>." : `Your image is <b>saved</b> as <i>${fileName}</i>.`}</span></li>
+      <li><span class="n">2</span><span>${copied ? `<b>In X, press <kbd>${key}</kbd> + <kbd>V</kbd></b> to paste your image into the post. X won't add it by itself.` : "In X, click the image icon in the post and pick that file. X won't add it by itself."}</span></li>
+    </ol>
+    <a class="btn xm-go" href="${href}" target="_blank" rel="noopener">${copied ? `Got it, open X` : "Open X"}</a>
+    ${copied ? `<button class="xm-alt" type="button">Or save the image instead</button>` : ""}
+  </div>`;
+  document.body.appendChild(m);
+  const close = () => { m.remove(); document.removeEventListener("keydown", onKey); if(url) setTimeout(() => URL.revokeObjectURL(url), 1000); try { prevFocus && prevFocus.focus(); } catch(e){} };
+  const onKey = e => { if(e.key === "Escape") close(); };
+  document.addEventListener("keydown", onKey);
+  m.addEventListener("click", e => { if(e.target === m) close(); });
+  m.querySelector(".xm-x").addEventListener("click", close);
+  const alt = m.querySelector(".xm-alt"); if(alt) alt.addEventListener("click", () => { saveFile(); alt.textContent = `Saved as ${fileName}`; alt.disabled = true; });
+  // after X opens, the popup's job is done; leave a short reminder by the button
+  m.querySelector(".xm-go").addEventListener("click", () => setTimeout(close, 300));
+  m.querySelector(".xm-go").focus();
+  if(noteEl){
+    noteEl.innerHTML = copied
+      ? `<b>Image copied.</b> In the X post, press <kbd>${key}</kbd> + <kbd>V</kbd> to attach it.`
+      : `<b>Image saved.</b> In the X post, click the image icon and pick <i>${fileName}</i>.`;
+    noteEl.hidden = false;
+  }
+  return copied;
+};
+document.addEventListener("DOMContentLoaded", () => {
+  if(kultIsPhone) return;
+  ["shareX", "csPost"].forEach(id => { const b = document.getElementById(id); if(b){ b.textContent = "Copy image + Post on X"; b.title = "Copies your image, then shows you how to paste it into X"; } });
+});
+(() => {
+"use strict";
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = id => document.getElementById(id);
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+const toast = $("toast"); let tt;
+const say = m => { toast.textContent = m; toast.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove("on"), 1800); };
+
+/* ---------- art ---------- */
+const load = src => new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
+const ART = {};
+const ready = Promise.all([
+  load("../img/game-colt.webp").then(i => ART.colt = i),
+  load("../img/game-knife.webp").then(i => ART.knife = i),
+  load("../img/game-flame.png").then(i => ART.flame = i),
+  load("../img/wordmark.webp").then(i => ART.wordmark = i),
+  document.fonts ? document.fonts.load('40px "Dela Gothic One"').catch(()=>{}) : null
+]);
+
+function drawPaper(c, s){
+  // a limp paper hand: crumpled-white glove with fold lines and a red warning glow
+  c.save();
+  c.shadowColor = "rgba(255,90,110,.75)"; c.shadowBlur = s*.35;
+  c.fillStyle = "#f3efe4"; c.strokeStyle = "#9aa7b4"; c.lineWidth = Math.max(1, s*.03); c.lineJoin = "round";
+  const u = s/10;
+  c.beginPath();
+  c.moveTo(-3*u, 4.5*u); c.lineTo(-3.2*u, -.5*u);
+  // fingers
+  const fing = [[-3.1,-4.2],[-1.4,-5],[.3,-4.8],[2,-3.9]];
+  fing.forEach(([fx,fy], i) => { const x = fx*u, w = 1.5*u; c.lineTo(x, -0.6*u); c.lineTo(x, fy*u+.7*u); c.quadraticCurveTo(x+w/2, fy*u-.6*u, x+w, fy*u+.7*u); c.lineTo(x+w, -0.4*u); });
+  // thumb flopping down
+  c.lineTo(3.6*u, .2*u); c.quadraticCurveTo(5.2*u, .8*u, 4.4*u, 2*u); c.lineTo(3.1*u, 1.8*u);
+  c.lineTo(3*u, 4.5*u); c.closePath();
+  c.fill(); c.shadowBlur = 0; c.stroke();
+  c.beginPath(); c.moveTo(-2.4*u, 1.4*u); c.lineTo(1.6*u, 3.2*u); c.moveTo(-1.8*u, 3.4*u); c.lineTo(2.2*u, .8*u); c.strokeStyle = "rgba(120,135,150,.8)"; c.stroke();
+  c.fillStyle = "#ff5a6e"; c.fillRect(-3*u, 4.1*u, 6*u, 1.1*u);
+  c.restore();
+}
+function drawCandle(c, s){
+  const u = s/10; c.save();
+  c.shadowColor = "rgba(255,90,110,.8)"; c.shadowBlur = s*.35;
+  c.strokeStyle = "#ff5a6e"; c.lineWidth = Math.max(1.5, u*.7);
+  c.beginPath(); c.moveTo(0,-5*u); c.lineTo(0,5*u); c.stroke();
+  c.fillStyle = "#ff3b54"; c.fillRect(-2.2*u, -3*u, 4.4*u, 6.4*u);
+  c.shadowBlur = 0; c.fillStyle = "rgba(255,255,255,.25)"; c.fillRect(-2.2*u, -3*u, 1.1*u, 6.4*u);
+  c.restore();
+}
+function drawItem(c, type, s){
+  if(type === "knife" && ART.knife){ const h = s*1.2, w = h*ART.knife.width/ART.knife.height; c.drawImage(ART.knife, -w/2, -h/2, w, h); return; }
+  if(type === "flame" && ART.flame){ const h = s*1.15, w = h*ART.flame.width/ART.flame.height; c.drawImage(ART.flame, -w/2, -h/2, w, h); return; }
+  if(type === "paper"){ drawPaper(c, s); return; }
+  if(type === "candle"){ drawCandle(c, s); return; }
+}
+
+/* ---------- canvas ---------- */
+const cv = $("game"), cx = cv.getContext("2d");
+let W = 0, H = 0, DPR = 1;
+function size(){
+  const r = cv.getBoundingClientRect(); if(!r.width) return;
+  DPR = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height;
+  cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR); cx.setTransform(DPR,0,0,DPR,0,0);
+  player.w = Math.max(96, Math.min(150, W*.2));
+  player.h = ART.colt ? player.w*ART.colt.height/ART.colt.width : player.w*.9;
+  player.x = Math.min(Math.max(player.x || W/2, player.w/2), W - player.w/2);
+  player.tx = player.x;
+}
+const player = { x: 0, tx: 0, w: 120, h: 108, tilt: 0 };
+
+/* ---------- game state ---------- */
+let state = "ready", items = [], fx = [], texts = [], score = 0, lives = 3, combo = 0, mult = 1, t = 0, spawnT = 0, shake = 0, hurtFlash = 0, caught = 0, last = 0;
+const BEST = "kult-knife-best", PLAYS = "kult-knife-plays", TOTAL = "kult-knife-total";
+function stats(){
+  $("bestStat").textContent = store.get(BEST, 0).toLocaleString("en-US");
+  $("playsStat").textContent = store.get(PLAYS, 0).toLocaleString("en-US");
+  $("totalStat").textContent = store.get(TOTAL, 0).toLocaleString("en-US");
+}
+stats();
+
+function reset(){
+  items = []; fx = []; texts = []; score = 0; lives = 3; combo = 0; mult = 1; t = 0; spawnT = .4; shake = 0; hurtFlash = 0; caught = 0;
+  player.x = player.tx = W/2;
+}
+function start(){
+  reset(); state = "play";
+  $("startScreen").hidden = true; $("overScreen").hidden = true; $("pauseScreen").hidden = true; $("kcNote").hidden = true;
+  last = performance.now(); cv.focus({ preventScroll: true });
+  const ar = document.querySelector(".arcade").getBoundingClientRect();
+  if(ar.top < 76 || ar.bottom > innerHeight) document.querySelector(".arcade").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+}
+function pause(){ if(state !== "play") return; state = "paused"; $("pauseScreen").hidden = false; }
+function resume(){ if(state !== "paused") return; state = "play"; $("pauseScreen").hidden = true; last = performance.now(); }
+
+const OVER_LINES = ["Never fold.", "HODL or fall on the knife.", "It's a KULT, not a cult.", "Pick up the knife.", "Run it back.", "Pressure makes diamonds.", "Trust the process."];
+function gameOver(){
+  state = "over";
+  const best = store.get(BEST, 0), isBest = score > best;
+  if(isBest) store.set(BEST, score);
+  store.set(PLAYS, store.get(PLAYS, 0) + 1);
+  store.set(TOTAL, store.get(TOTAL, 0) + caught);
+  stats();
+  $("finalScore").textContent = score.toLocaleString("en-US");
+  $("bestOver").textContent = Math.max(best, score).toLocaleString("en-US");
+  $("newBest").hidden = !(isBest && score > 0);
+  $("coltSays").textContent = score === 0 ? "Paper hands detected." : OVER_LINES[Math.floor(Math.random()*OVER_LINES.length)];
+  const text = [
+    `\u{1F52A} I scored ${score.toLocaleString("en-US")} in Knife Catch` + (isBest && score > 0 ? " (new personal best)" : ""),
+    "",
+    "Colt says catch the falling knives. Think you can beat me?",
+    "",
+    "$KULT · @ultwithknife",
+    // a fresh address per score makes X fetch the preview card new every time instead of reusing an old one
+    `https://ultwithknife.com/lab/?score=${score}-${Date.now().toString(36)}`
+  ].join("\n");
+  shareText = text; prepShare();
+  $("shareX").href = "https://x.com/intent/post?text=" + encodeURIComponent(text);
+  setTimeout(() => { $("overScreen").hidden = false; $("againBtn").focus({ preventScroll: true }); }, 450);
+}
+
+/* difficulty ramps with time survived */
+const fallSpeed = () => H * Math.min(.95, .30 + t*.012);
+const spawnGap = () => Math.max(.32, .95 - t*.018);
+function spawn(){
+  const r = Math.random(), hazard = Math.min(.34, .14 + t*.006);
+  let type = "knife";
+  if(r < hazard) type = (t > 20 && Math.random() < .4) ? "candle" : "paper";
+  else if(r < hazard + .08) type = "flame";
+  const s = Math.max(40, Math.min(64, W*.075));
+  items.push({ type, s, x: s/2 + Math.random()*(W - s), y: -s, vy: fallSpeed()*(.85 + Math.random()*.3), rot: (Math.random()-.5)*.8, vr: (Math.random()-.5)*(type === "knife" ? 2.4 : 1.2) });
+}
+function burst(x, y, color, n){
+  if(reduce) n = Math.min(n, 6);
+  for(let i=0;i<n;i++){ const a = Math.random()*Math.PI*2, v = 60 + Math.random()*220; fx.push({ x, y, vx: Math.cos(a)*v, vy: Math.sin(a)*v - 80, life: 1, r: 1.5 + Math.random()*3, color }); }
+}
+function popText(x, y, str, color){ texts.push({ x, y, str, color, life: 1 }); }
+
+function update(dt){
+  t += dt;
+  // player eases toward target
+  const prev = player.x;
+  player.x += (player.tx - player.x) * Math.min(1, dt*18);
+  player.tilt += (((player.x - prev)/Math.max(dt, .001))*.0006 - player.tilt) * Math.min(1, dt*10);
+  player.tilt = Math.max(-.18, Math.min(.18, player.tilt));
+  if(keys.left) player.tx -= W*1.3*dt;
+  if(keys.right) player.tx += W*1.3*dt;
+  player.tx = Math.min(Math.max(player.tx, player.w/2), W - player.w/2);
+
+  spawnT -= dt; if(spawnT <= 0){ spawn(); spawnT = spawnGap(); }
+
+  const top = H - player.h, hx = player.x, hw = player.w*.42;
+  for(let i = items.length-1; i >= 0; i--){
+    const it = items[i];
+    it.y += it.vy*dt; it.rot += it.vr*dt;
+    const inX = Math.abs(it.x - hx) < hw + it.s*.28;
+    const inY = it.y + it.s*.4 > top + player.h*.04 && it.y < top + player.h*.55;
+    if(inX && inY){
+      items.splice(i, 1);
+      if(it.type === "knife" || it.type === "flame"){
+        const base = it.type === "flame" ? 5 : 1;
+        combo++; mult = Math.min(5, 1 + Math.floor(combo/8));
+        const pts = base*mult; score += pts; caught++;
+        burst(it.x, it.y, it.type === "flame" ? "26,109,255" : "63,208,255", it.type === "flame" ? 26 : 14);
+        popText(it.x, it.y - 10, "+" + pts, it.type === "flame" ? "#9fdcff" : "#e9f4ff");
+      } else {
+        lives--; combo = 0; mult = 1; shake = reduce ? 0 : .35; hurtFlash = 1;
+        burst(it.x, it.y, "255,90,110", 22);
+        popText(it.x, it.y - 10, it.type === "paper" ? "paper hands!" : "rekt", "#ff5a6e");
+        if(lives <= 0){ gameOver(); return; }
+      }
+      continue;
+    }
+    if(it.y - it.s > H){
+      items.splice(i, 1);
+      if(it.type === "knife" || it.type === "flame"){ if(combo >= 8) popText(it.x, H - 30, "combo lost", "#8ba3b8"); combo = 0; mult = 1; }
+    }
+  }
+}
+
+function render(dt){
+  cx.save();
+  cx.clearRect(0, 0, W, H);
+  if(shake > 0){ shake -= dt; const m = shake*18; cx.translate((Math.random()-.5)*m, (Math.random()-.5)*m); }
+  // backdrop: faint grid + floor glow
+  const g = cx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#02060b"); g.addColorStop(1, "#06121c"); cx.fillStyle = g; cx.fillRect(-20, -20, W+40, H+40);
+  cx.strokeStyle = "rgba(63,208,255,.05)"; cx.lineWidth = 1;
+  for(let x = (W%48)/2; x < W; x += 48){ cx.beginPath(); cx.moveTo(x, 0); cx.lineTo(x, H); cx.stroke(); }
+  for(let y = 0; y < H; y += 48){ cx.beginPath(); cx.moveTo(0, y); cx.lineTo(W, y); cx.stroke(); }
+  const fg = cx.createRadialGradient(player.x, H, 0, player.x, H, player.w*1.6); fg.addColorStop(0, "rgba(63,208,255,.25)"); fg.addColorStop(1, "rgba(63,208,255,0)");
+  cx.fillStyle = fg; cx.fillRect(0, H - player.w*1.6, W, player.w*1.6);
+
+  // items
+  for(const it of items){ cx.save(); cx.translate(it.x, it.y); cx.rotate(it.rot); drawItem(cx, it.type, it.s); cx.restore(); }
+
+  // Colt
+  if(ART.colt){
+    cx.save(); cx.translate(player.x, H); cx.rotate(player.tilt);
+    cx.shadowColor = "rgba(63,208,255,.35)"; cx.shadowBlur = 24;
+    cx.drawImage(ART.colt, -player.w/2, -player.h, player.w, player.h);
+    cx.restore();
+  }
+
+  // particles
+  for(let i = fx.length-1; i >= 0; i--){
+    const p = fx[i]; p.life -= dt*1.6; if(p.life <= 0){ fx.splice(i, 1); continue; }
+    p.x += p.vx*dt; p.y += p.vy*dt; p.vy += 420*dt;
+    cx.fillStyle = `rgba(${p.color},${p.life})`; cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.283); cx.fill();
+  }
+  // floating texts
+  cx.textAlign = "center"; cx.font = '20px "Dela Gothic One","Arial Black",sans-serif';
+  for(let i = texts.length-1; i >= 0; i--){
+    const p = texts[i]; p.life -= dt*1.4; if(p.life <= 0){ texts.splice(i, 1); continue; }
+    p.y -= 50*dt; cx.globalAlpha = Math.min(1, p.life*1.5); cx.fillStyle = p.color; cx.fillText(p.str, p.x, p.y); cx.globalAlpha = 1;
+  }
+
+  // HUD
+  if(state !== "ready"){
+    cx.textAlign = "left"; cx.fillStyle = "#e9f4ff"; cx.font = '34px "Dela Gothic One","Arial Black",sans-serif';
+    cx.fillText(score.toLocaleString("en-US"), 18, 46);
+    if(mult > 1){ cx.font = '700 15px "JetBrains Mono",monospace'; cx.fillStyle = "#3fd0ff"; cx.fillText("x" + mult + " COMBO", 20, 70); }
+    // lives: small knives
+    for(let i = 0; i < 3; i++){
+      cx.save(); cx.globalAlpha = i < lives ? 1 : .18; cx.translate(W - 22 - i*30, 34); cx.rotate(.5); drawItem(cx, "knife", 30); cx.restore();
+    }
+  }
+  if(hurtFlash > 0){ hurtFlash -= dt*2.5; cx.fillStyle = `rgba(255,90,110,${Math.max(0, hurtFlash)*.22})`; cx.fillRect(-20, -20, W+40, H+40); }
+  cx.restore();
+}
+
+function loop(now){
+  const dt = Math.min(.05, (now - last)/1000 || 0); last = now;
+  if(state === "play") update(dt);
+  render(state === "play" || state === "over" ? dt : 0);
+  requestAnimationFrame(loop);
+}
+
+/* ---------- controls ---------- */
+const keys = { left: false, right: false };
+function aim(e){ const r = cv.getBoundingClientRect(); player.tx = Math.min(Math.max(e.clientX - r.left, player.w/2), W - player.w/2); }
+cv.addEventListener("pointerdown", e => { aim(e); cv.setPointerCapture?.(e.pointerId); });
+cv.addEventListener("pointermove", e => { if(e.pointerType === "mouse" || e.buttons || e.pressure > 0) aim(e); });
+addEventListener("keydown", e => {
+  if(e.key === "ArrowLeft" || e.key === "a" || e.key === "A"){ keys.left = true; if(state === "play") e.preventDefault(); }
+  if(e.key === "ArrowRight" || e.key === "d" || e.key === "D"){ keys.right = true; if(state === "play") e.preventDefault(); }
+  if((e.key === " " || e.key === "Enter") && (state === "ready" || state === "over") && !$("panel-kc").hidden && document.activeElement?.tagName !== "A"){ e.preventDefault(); start(); }
+  if(e.key === "Escape" || e.key === "p" || e.key === "P"){ state === "play" ? pause() : resume(); }
+});
+addEventListener("keyup", e => {
+  if(e.key === "ArrowLeft" || e.key === "a" || e.key === "A") keys.left = false;
+  if(e.key === "ArrowRight" || e.key === "d" || e.key === "D") keys.right = false;
+});
+document.addEventListener("visibilitychange", () => { if(document.hidden) pause(); });
+$("startBtn").addEventListener("click", start);
+$("againBtn").addEventListener("click", start);
+$("resumeBtn").addEventListener("click", resume);
+
+/* ---------- score card ---------- */
+function scoreCard(){
+  const S = 1080, c = document.createElement("canvas"); c.width = c.height = S; const g = c.getContext("2d");
+  const bg = g.createLinearGradient(0, 0, 0, S); bg.addColorStop(0, "#030508"); bg.addColorStop(1, "#071a28"); g.fillStyle = bg; g.fillRect(0, 0, S, S);
+  const glow = g.createRadialGradient(780, 760, 0, 780, 760, 520); glow.addColorStop(0, "rgba(63,208,255,.35)"); glow.addColorStop(1, "rgba(63,208,255,0)"); g.fillStyle = glow; g.fillRect(0, 0, S, S);
+  g.strokeStyle = "rgba(63,208,255,.06)"; for(let i = 0; i < S; i += 60){ g.beginPath(); g.moveTo(i, 0); g.lineTo(i, S); g.stroke(); g.beginPath(); g.moveTo(0, i); g.lineTo(S, i); g.stroke(); }
+  // falling knives
+  [[560,120,.6],[880,140,-.4],[680,320,.3],[990,430,.8]].forEach(([x,y,r]) => { g.save(); g.translate(x, y); g.rotate(r); g.globalAlpha = .5; drawItem(g, "knife", 110); g.restore(); });
+  if(ART.colt){ const w = 620, h = w*ART.colt.height/ART.colt.width; g.drawImage(ART.colt, S - w + 40, S - h, w, h); }
+  if(ART.wordmark){ const w = 360, h = w*ART.wordmark.height/ART.wordmark.width; g.drawImage(ART.wordmark, 60, 60, w, h); }
+  g.textAlign = "left"; g.fillStyle = "#8ba3b8"; g.font = '700 30px "JetBrains Mono",monospace'; g.fillText("KNIFE CATCH · MY SCORE", 70, 470);
+  g.fillStyle = "#3fd0ff"; g.shadowColor = "rgba(63,208,255,.6)"; g.shadowBlur = 40; g.font = '220px "Dela Gothic One","Arial Black",sans-serif'; g.fillText(score.toLocaleString("en-US"), 60, 690); g.shadowBlur = 0;
+  g.fillStyle = "#e9f4ff"; g.font = '54px "Dela Gothic One","Arial Black",sans-serif'; g.fillText("Catching falling knives.", 70, 770);
+  g.fillStyle = "#8ba3b8"; g.font = '700 30px "JetBrains Mono",monospace'; g.fillText("BEST: " + store.get(BEST, 0).toLocaleString("en-US"), 70, 840);
+  g.fillStyle = "#e9f4ff"; g.font = '700 30px "JetBrains Mono",monospace'; g.fillText("ultwithknife.com/lab  ·  $KULT", 70, 1010);
+  return c;
+}
+/* Post on X: on phones, share the score card image and the text together (X app gets the image attached);
+   elsewhere, open X with the text and the link, whose preview card shows the Knife Catch image */
+let shareText = "", shareFile = null;
+function prepShare(){
+  shareFile = null;
+  const c = scoreCard(); c.toBlob(b => { if(b) shareFile = new File([b], `kult-knife-catch-${score}.png`, { type: "image/png" }); }, "image/png");
+}
+$("shareX").addEventListener("click", e => {
+  if(!kultIsPhone || !shareFile || !navigator.canShare || !navigator.canShare({ files: [shareFile], text: shareText })){ e.preventDefault(); kultShareDesktop(() => new Promise(r => scoreCard().toBlob(r, "image/png")), $("shareX").href, `kult-knife-catch-${score}.png`, $("kcNote")); return; }
+  e.preventDefault();
+  navigator.share({ files: [shareFile], text: shareText }).catch(err => { if(!err || err.name !== "AbortError") window.open($("shareX").href, "_blank", "noopener"); });
+});
+$("cardBtn").addEventListener("click", async () => {
+  const c = scoreCard();
+  const blob = await new Promise(r => c.toBlob(r, "image/png"));
+  if(!blob){ say("Couldn't make the card"); return; }
+  const file = new File([blob], `kult-knife-catch-${score}.png`, { type: "image/png" });
+  try {
+    if(navigator.canShare && navigator.canShare({ files: [file] })){ await navigator.share({ files: [file], text: `I scored ${score} in Knife Catch. $KULT` }); return; }
+  } catch(e){ if(e && e.name === "AbortError") return; }
+  const url = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = url; a.download = file.name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  say("Score card saved");
+});
+
+/* legend icons */
+document.querySelectorAll("canvas[data-icon]").forEach(c => {
+  const g = c.getContext("2d");
+  ready.then(() => { g.clearRect(0, 0, 60, 60); g.save(); g.translate(30, 30); if(c.dataset.icon === "knife") g.rotate(.5); drawItem(g, c.dataset.icon, 46); g.restore(); });
+});
+
+window.KultArt = { drawPaper };
+/* boot */
+window.KC = { show(){ size(); if(!player.x || player.x > W) player.x = player.tx = W/2; }, hide(){ pause(); } };
+ready.then(() => { size(); player.x = player.tx = W/2; last = performance.now(); requestAnimationFrame(loop); });
+addEventListener("resize", () => { if(W) size(); });
+})();
+</script>
+<script>
+/* ================= Knife Throw: stick knives in a spinning shield ================= */
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const TAU = Math.PI * 2;
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+const toastEl = $("toast"); let tt;
+const say = m => { toastEl.textContent = m; toastEl.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove("on"), 1800); };
+const DISPLAY = '"Dela Gothic One","Arial Black",sans-serif', MONO = '"JetBrains Mono",monospace';
+
+/* ---------- art ---------- */
+const load = src => new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
+const ART = {};
+const ready = Promise.all([
+  load("../img/game-knife.webp").then(i => ART.knife = i),
+  load("../img/token.webp").then(i => ART.token = i),
+  load("../img/pendant.webp").then(i => ART.pendant = i),
+  load("../img/colt-cameo.webp").then(i => ART.colt = i),
+  load("../img/wordmark.webp").then(i => ART.wordmark = i),
+  document.fonts ? document.fonts.load('40px "Dela Gothic One"').catch(() => {}) : null
+]);
+const drawPaper = (g, s) => window.KultArt && window.KultArt.drawPaper(g, s);
+
+// the knife art points down (handle up). rot = which way the blade points, in radians (screen space, y down)
+function drawKnife(g, x, y, len, pointAngle, alpha = 1){
+  if(!ART.knife) return;
+  const w = len * ART.knife.width / ART.knife.height;
+  g.save(); g.globalAlpha = alpha; g.translate(x, y); g.rotate(pointAngle - Math.PI/2);
+  g.drawImage(ART.knife, -w/2, -len/2, w, len);
+  g.restore();
+}
+function drawShield(g, r, rot, boss, flash = 0){
+  const rim = boss ? "#f2c14e" : "#3fd0ff", rimA = boss ? "242,193,78" : "63,208,255";
+  g.save();
+  g.shadowColor = `rgba(${rimA},.5)`; g.shadowBlur = r*.4;
+  const grad = g.createRadialGradient(-r*.3, -r*.35, r*.08, 0, 0, r);
+  grad.addColorStop(0, boss ? "#2a2212" : "#17304a"); grad.addColorStop(1, boss ? "#0d0904" : "#050c14");
+  g.fillStyle = grad; g.beginPath(); g.arc(0, 0, r, 0, TAU); g.fill(); g.shadowBlur = 0;
+  g.rotate(rot);
+  g.lineWidth = Math.max(1.5, r*.012); g.strokeStyle = `rgba(${rimA},.2)`;
+  [.8, .6].forEach(k => { g.beginPath(); g.arc(0, 0, r*k, 0, TAU); g.stroke(); });
+  // rim notches so the spin reads clearly
+  g.strokeStyle = `rgba(${rimA},.45)`; g.lineWidth = Math.max(2, r*.02);
+  for(let i = 0; i < 24; i++){ const a = i/24*TAU, k = i % 3 === 0 ? .84 : .9; g.beginPath(); g.moveTo(Math.cos(a)*r*k, Math.sin(a)*r*k); g.lineTo(Math.cos(a)*r*.96, Math.sin(a)*r*.96); g.stroke(); }
+  const img = boss ? ART.pendant : ART.token;
+  if(img){ const s = r * (boss ? 1.22 : 1.18), k = s / Math.max(img.width, img.height); g.drawImage(img, -img.width*k/2, -img.height*k/2 + (boss ? r*.05 : 0), img.width*k, img.height*k); }
+  g.rotate(-rot);
+  g.lineWidth = Math.max(3, r*.05); g.strokeStyle = rim; g.shadowColor = rim; g.shadowBlur = 16;
+  g.beginPath(); g.arc(0, 0, r, 0, TAU); g.stroke();
+  if(flash > 0){ g.shadowBlur = 0; g.strokeStyle = `rgba(255,255,255,${flash*.8})`; g.lineWidth = r*.07; g.beginPath(); g.arc(0, 0, r*1.01, 0, TAU); g.stroke(); }
+  g.restore();
+}
+
+/* ---------- sound (synthesized, nothing to download) ---------- */
+let AC = null, muted = store.get("kult-sound-off", false);
+function ac(){
+  if(!AC){ try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){ return null; } }
+  if(AC.state === "suspended") AC.resume().catch(() => {});
+  return AC;
+}
+function tone(f0, dur, type, vol, f1, at = 0){
+  const a = AC, t = a.currentTime + at, o = a.createOscillator(), gn = a.createGain();
+  o.type = type; o.frequency.setValueAtTime(f0, t); if(f1) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+  gn.gain.setValueAtTime(vol, t); gn.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(gn).connect(a.destination); o.start(t); o.stop(t + dur + .02);
+}
+let NOISE = null;
+function noise(dur, vol, freq, q, type, at = 0){
+  const a = AC, t = a.currentTime + at;
+  if(!NOISE){ NOISE = a.createBuffer(1, a.sampleRate, a.sampleRate); const d = NOISE.getChannelData(0); for(let i = 0; i < d.length; i++) d[i] = Math.random()*2 - 1; }
+  const s = a.createBufferSource(), f = a.createBiquadFilter(), gn = a.createGain();
+  s.buffer = NOISE; f.type = type; f.frequency.value = freq; f.Q.value = q;
+  gn.gain.setValueAtTime(vol, t); gn.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  s.connect(f).connect(gn).connect(a.destination); s.start(t); s.stop(t + dur + .02);
+}
+function sfx(name){
+  if(muted || !ac()) return;
+  try {
+    if(name === "throw"){ noise(.12, .12, 2200, .9, "bandpass"); }
+    if(name === "thunk"){ tone(170, .14, "sine", .55, 55); noise(.06, .35, 1100, .7, "lowpass"); }
+    if(name === "slice"){ noise(.16, .28, 3200, 1.1, "highpass"); tone(1200, .09, "triangle", .1, 1800); }
+    if(name === "clang"){ tone(980, .45, "square", .08, 930); tone(1470, .38, "square", .06, 1440); noise(.1, .3, 4000, 1, "highpass"); }
+    if(name === "shatter"){ noise(.5, .4, 2600, .5, "bandpass"); tone(240, .35, "sawtooth", .08, 70); }
+    if(name === "level"){ [523, 659, 784, 1047].forEach((f, i) => tone(f, .18, "triangle", .14, 0, i*.07)); }
+    if(name === "boss"){ [196, 185, 175].forEach((f, i) => tone(f, .32, "sawtooth", .1, f*.9, i*.2)); }
+  } catch(e){}
+}
+function syncSound(){
+  const b = $("ktSound"); b.setAttribute("aria-pressed", String(!muted)); b.setAttribute("aria-label", muted ? "Sound off" : "Sound on"); b.classList.toggle("off", muted);
+}
+$("ktSound").addEventListener("click", () => { muted = !muted; store.set("kult-sound-off", muted); syncSound(); if(!muted) sfx("thunk"); });
+syncSound();
+
+/* ---------- canvas ---------- */
+const cv = $("kt"), cx = cv.getContext("2d");
+let W = 0, H = 0, DPR = 1, R = 100, LEN = 90, KW = 35, START_Y = 0;
+const T = { x: 0, y: 0, rot: 0, w: 0, bump: 0, flash: 0, grow: 1 };
+function size(){
+  const r = cv.getBoundingClientRect(); if(!r.width) return;
+  DPR = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height;
+  cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR); cx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  R = Math.max(70, Math.min(W*.27, H*.2, 150));
+  LEN = R * .92; KW = LEN * 94 / 240;
+  T.x = W/2; T.y = Math.max(R + 76, H*.35);
+  START_Y = H - LEN*.5 - 24;
+}
+
+/* ---------- game state ---------- */
+const BEST = "kult-throw-best", LVL = "kult-throw-level", TOTAL = "kult-throw-total";
+let state = "ready", level = 1, spec = null, score = 0, left = 0, lt = 0, stuck = [], papers = [], flying = null, loadT = 1;
+let debris = [], sparks = [], texts = [], shake = 0, hurt = 0, thrown = 0, sliced = 0, banner = null, cameo = null, timer = 0, next = null, last = 0, board = [];
+function stats(){
+  $("ktBestStat").textContent = store.get(BEST, 0).toLocaleString("en-US");
+  $("ktLevelStat").textContent = store.get(LVL, 0).toLocaleString("en-US");
+  $("ktTotalStat").textContent = store.get(TOTAL, 0).toLocaleString("en-US");
+}
+stats();
+
+const adiff = (a, b) => Math.abs(((a - b) % TAU + TAU*1.5) % TAU - Math.PI);
+function freeAngle(taken, gap){
+  for(let k = 0; k < 80; k++){ const a = Math.random()*TAU; if(taken.every(b => adiff(a, b) > gap)) return a; }
+  return null;
+}
+// each level: how many knives, what's already stuck, and how the shield moves
+function levelSpec(n){
+  const boss = n % 5 === 0;
+  const knives = boss ? 8 : Math.min(10, 5 + Math.floor((n - 1)*.6));
+  const pre = n === 1 ? 0 : Math.min(6, 1 + Math.floor(n/2.5) + (boss ? 1 : 0));
+  const paperN = boss ? 1 : n < 3 ? 1 : 2;
+  const speed = Math.min(3.3, 1.5 + n*.09) * (n % 2 ? 1 : -1);
+  const mix = ["wobble", "reverse", "surge", "stopgo"];
+  const pat = boss ? "boss" : n === 1 ? "steady" : n === 2 ? "wobble" : n === 3 ? "steady" : n === 4 ? "reverse" : mix[Math.floor(Math.random()*mix.length)];
+  return { boss, knives, pre, paperN, speed, pat };
+}
+function spinTarget(t){
+  const s = spec.speed;
+  switch(spec.pat){
+    case "steady": return s;
+    case "wobble": return s*(1 + .6*Math.sin(t*1.8));
+    case "reverse": return s*1.35*Math.sin(t*.9);
+    case "surge": return s*(.25 + 1.7*Math.pow(Math.max(0, Math.sin(t*2)), 2));
+    case "stopgo": return (t % 2.4) < 1.5 ? s*1.35 : s*.08;
+    case "boss": return s*(1.15 + .75*Math.sin(t*2.7)) * (Math.sin(t*.6) > -.35 ? 1 : -1.25);
+  }
+  return s;
+}
+function startLevel(n){
+  level = n; spec = levelSpec(n); left = spec.knives; lt = 0; stuck = []; papers = []; flying = null; loadT = 0;
+  T.w = spinTarget(0); T.grow = 0; T.flash = 0;
+  const gap = .55;
+  for(let i = 0; i < spec.pre; i++){ const a = freeAngle(stuck.map(k => k.a), gap); if(a !== null) stuck.push({ a, pre: true, hit: 0 }); }
+  for(let i = 0; i < spec.paperN; i++){ const a = freeAngle([...stuck.map(k => k.a), ...papers.map(p => p.a)], .6); if(a !== null) papers.push({ a, alive: true, wob: Math.random()*TAU }); }
+  banner = { big: spec.boss ? "BOSS LEVEL" : "LEVEL " + n, small: spec.boss ? "The Pendant spins back" : (n === 1 ? "Stick " + left + " knives" : left + " knives · don't touch the others"), life: 1.6, boss: spec.boss };
+  if(spec.boss) sfx("boss");
+  state = "play";
+}
+function reset(){ stuck = []; papers = []; board = []; score = 0; thrown = 0; sliced = 0; debris = []; sparks = []; texts = []; shake = 0; hurt = 0; cameo = null; T.rot = 0; }
+function start(){
+  ac();
+  reset(); startLevel(1);
+  ["ktStart", "ktOver", "ktPause"].forEach(id => $(id).hidden = true); $("ktNote").hidden = true;
+  last = performance.now(); cv.focus({ preventScroll: true });
+  const ar = $("ktArcade").getBoundingClientRect();
+  if(ar.top < 76 || ar.bottom > innerHeight) $("ktArcade").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+}
+let pausedFrom = null;
+function pause(){ if(state === "ready" || state === "over" || state === "paused") return; pausedFrom = state; state = "paused"; $("ktPause").hidden = false; }
+function resume(){ if(state !== "paused") return; state = pausedFrom || "play"; $("ktPause").hidden = true; last = performance.now(); }
+
+function burst(x, y, color, n, spread = 1){
+  if(reduce) n = Math.min(n, 6);
+  for(let i = 0; i < n; i++){ const a = Math.random()*TAU, v = (80 + Math.random()*260)*spread; sparks.push({ x, y, vx: Math.cos(a)*v, vy: Math.sin(a)*v - 60, life: 1, r: 1.5 + Math.random()*2.8, color }); }
+}
+const pop = (x, y, str, color, big = false) => texts.push({ x, y, str, color, life: 1, big });
+
+function throwKnife(){
+  if(state !== "play" || flying || left <= 0 || loadT < .6) return;
+  flying = { y: START_Y, vy: -Math.max(2000, H*3.6) }; left--; thrown++; loadT = 0;
+  sfx("throw");
+}
+const HIT_LINES = ["Clean.", "Sharp.", "The knife chose you.", "Never fold.", "Pressure makes diamonds.", "Ice cold.", "Built different.", "That's the Kult."];
+const BOSS_LINES = ["Boss down. Respect.", "You took my pendant?!", "OK, you're him."];
+function clearLevel(){
+  state = "clear"; timer = 0;
+  const bonus = level*2; score += bonus;
+  sfx("shatter"); setTimeout(() => sfx("level"), 260);
+  shake = reduce ? 0 : .25;
+  // shield breaks into wedges, knives and paper fly off
+  const ty = T.y, n = 9, off = Math.random()*TAU;
+  for(let i = 0; i < n; i++){
+    const a0 = off + i/n*TAU, a1 = off + (i + 1)/n*TAU, m = (a0 + a1)/2, v = 260 + Math.random()*260;
+    debris.push({ kind: "shard", x: T.x, y: ty, vx: Math.cos(m)*v, vy: Math.sin(m)*v - 220, rot: 0, vr: (Math.random() - .5)*6, a0, a1, r: R, boss: spec.boss, life: 1.6 });
+  }
+  stuck.forEach(k => { const a = k.a + T.rot, v = 380 + Math.random()*260; debris.push({ kind: "knife", x: T.x + Math.cos(a)*(R + LEN*.3), y: ty + Math.sin(a)*(R + LEN*.3), vx: Math.cos(a)*v, vy: Math.sin(a)*v - 260, rot: a + Math.PI, vr: (Math.random() - .5)*14, life: 1.6 }); });
+  papers.filter(p => p.alive).forEach(p => { const a = p.a + T.rot; debris.push({ kind: "paper", x: T.x + Math.cos(a)*R, y: ty + Math.sin(a)*R, vx: Math.cos(a)*300, vy: -300, rot: a + Math.PI/2, vr: 6, life: 1.6 }); });
+  burst(T.x, ty, spec.boss ? "242,193,78" : "63,208,255", 46, 1.6);
+  pop(T.x, ty - R*.2, "+" + bonus + " CLEAR", spec.boss ? "#f2c14e" : "#3fd0ff", true);
+  cameo = { line: spec.boss ? BOSS_LINES[Math.floor(Math.random()*BOSS_LINES.length)] : HIT_LINES[Math.floor(Math.random()*HIT_LINES.length)], t: 0 };
+  stuck = []; papers = [];
+  next = () => startLevel(level + 1);
+}
+function fail(){
+  state = "dying"; timer = 0;
+  sfx("clang"); shake = reduce ? 0 : .45; hurt = 1;
+  try { navigator.vibrate && navigator.vibrate([60, 40, 90]); } catch(e){}
+  const tipY = T.y + R;
+  burst(T.x, tipY, "255,255,255", 18); burst(T.x, tipY, "255,90,110", 14);
+  debris.push({ kind: "knife", x: T.x, y: tipY + LEN*.4, vx: (Math.random() < .5 ? -1 : 1)*(240 + Math.random()*160), vy: 420, rot: -Math.PI/2, vr: (Math.random() < .5 ? -1 : 1)*16, life: 2.2 });
+  pop(T.x, tipY + 40, "CLANG", "#ff5a6e", true);
+  board = stuck.map(k => k.a + T.rot);
+  next = gameOver;
+}
+
+const OVER_LINES = ["Never fold.", "HODL or fall on the knife.", "Pick up the knife.", "Run it back.", "Pressure makes diamonds.", "Trust the process.", "Steady hands win."];
+function gameOver(){
+  state = "over";
+  const best = store.get(BEST, 0), isBest = score > best;
+  if(isBest) store.set(BEST, score);
+  store.set(LVL, Math.max(store.get(LVL, 0), level));
+  store.set(TOTAL, store.get(TOTAL, 0) + thrown);
+  stats();
+  $("ktFinal").textContent = score.toLocaleString("en-US");
+  $("ktReached").textContent = "Reached level " + level;
+  $("ktBestOver").textContent = Math.max(best, score).toLocaleString("en-US");
+  $("ktNewBest").hidden = !(isBest && score > 0);
+  $("ktColt").textContent = score < 3 ? "Steady hands, Kult. Steady hands." : OVER_LINES[Math.floor(Math.random()*OVER_LINES.length)];
+  shareText = [
+    `\u{1F52A} I reached level ${level} in Knife Throw with ${score.toLocaleString("en-US")} points` + (isBest && score > 0 ? " (new personal best)" : ""),
+    "",
+    "Think you can beat me? https://ultwithknife.com/lab/throw/",
+    "",
+    "$KULT @ultwithknife #cronos #crofam"
+  ].join("\n");
+  prepShare();
+  $("ktShare").href = "https://x.com/intent/post?text=" + encodeURIComponent(shareText);
+  $("ktOver").hidden = false; $("ktAgain").focus({ preventScroll: true });
+}
+
+function update(dt){
+  lt += dt;
+  T.w += (spinTarget(lt) - T.w) * Math.min(1, dt*5);
+  T.rot += T.w*dt;
+  T.bump = Math.max(0, T.bump - dt*7); T.flash = Math.max(0, T.flash - dt*4); T.grow = Math.min(1, T.grow + dt*3.2);
+  loadT = Math.min(1, loadT + dt*7);
+  papers.forEach(p => p.wob += dt*5);
+  stuck.forEach(k => k.hit = Math.max(0, k.hit - dt*5));
+  if(flying){
+    flying.y += flying.vy*dt;
+    const tip = flying.y - LEN/2, contact = T.y + R - LEN*.2;
+    if(tip <= contact){
+      flying = null;
+      const a = Math.PI/2 - T.rot, gap = KW*.74/R;
+      if(stuck.some(k => adiff(a, k.a) < gap)){ fail(); return; }
+      stuck.push({ a, hit: 1 }); score++; T.bump = 1; T.flash = .6;
+      sfx("thunk"); burst(T.x, T.y + R, "200,240,255", 10, .7);
+      const p = papers.find(p => p.alive && adiff(a, p.a) < .3);
+      if(p){
+        p.alive = false; score += 3; sliced++; sfx("slice");
+        const pa = p.a + T.rot;
+        debris.push({ kind: "paper", x: T.x + Math.cos(pa)*(R + R*.18), y: T.y + Math.sin(pa)*(R + R*.18), vx: (Math.random() - .5)*300, vy: -380, rot: pa + Math.PI/2, vr: (Math.random() - .5)*12, life: 1.5 });
+        burst(T.x, T.y + R + 10, "255,90,110", 16);
+        pop(T.x + 50, T.y + R + 20, "+3 SLICED", "#ff8a9a");
+      } else pop(T.x + 36, T.y + R + 24, "+1", "#e9f4ff");
+      if(left === 0) clearLevel();
+    }
+  }
+}
+function updateFx(dt){
+  for(let i = debris.length - 1; i >= 0; i--){
+    const d = debris[i]; d.life -= dt; d.x += d.vx*dt; d.y += d.vy*dt; d.vy += 1500*dt; d.rot += d.vr*dt;
+    if(d.life <= 0 || d.y > H + 200) debris.splice(i, 1);
+  }
+  for(let i = sparks.length - 1; i >= 0; i--){
+    const p = sparks[i]; p.life -= dt*1.7; if(p.life <= 0){ sparks.splice(i, 1); continue; }
+    p.x += p.vx*dt; p.y += p.vy*dt; p.vy += 500*dt;
+  }
+  for(let i = texts.length - 1; i >= 0; i--){ const p = texts[i]; p.life -= dt*1.2; p.y -= 46*dt; if(p.life <= 0) texts.splice(i, 1); }
+  if(banner){ banner.life -= dt; if(banner.life <= 0) banner = null; }
+  if(cameo){ cameo.t += dt; if(cameo.t > 1.45) cameo = null; }
+  if(shake > 0) shake -= dt;
+  if(hurt > 0) hurt -= dt*2.2;
+  if(state === "clear" || state === "dying"){
+    timer += dt;
+    if(timer > (state === "clear" ? 1.35 : .95)){ const n = next; next = null; n && n(); }
+  }
+}
+
+/* ---------- drawing ---------- */
+function rr(g, x, y, w, h, r){ g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+function render(){
+  cx.save();
+  cx.clearRect(0, 0, W, H);
+  if(shake > 0){ const m = shake*20; cx.translate((Math.random() - .5)*m, (Math.random() - .5)*m); }
+  const g = cx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#02060b"); g.addColorStop(1, "#06121c"); cx.fillStyle = g; cx.fillRect(-20, -20, W + 40, H + 40);
+  const boss = spec && spec.boss && state !== "ready";
+  const halo = cx.createRadialGradient(T.x, T.y, R*.5, T.x, T.y, R*2.6);
+  halo.addColorStop(0, boss ? "rgba(242,193,78,.16)" : "rgba(63,208,255,.14)"); halo.addColorStop(1, "rgba(63,208,255,0)");
+  cx.fillStyle = halo; cx.fillRect(0, 0, W, H);
+  cx.strokeStyle = "rgba(63,208,255,.045)"; cx.lineWidth = 1;
+  for(let x = (W % 48)/2; x < W; x += 48){ cx.beginPath(); cx.moveTo(x, 0); cx.lineTo(x, H); cx.stroke(); }
+  for(let y = 0; y < H; y += 48){ cx.beginPath(); cx.moveTo(0, y); cx.lineTo(W, y); cx.stroke(); }
+  // throw lane
+  const lane = cx.createLinearGradient(0, T.y + R, 0, H); lane.addColorStop(0, "rgba(63,208,255,0)"); lane.addColorStop(1, "rgba(63,208,255,.1)");
+  cx.fillStyle = lane; cx.fillRect(T.x - KW*.7, T.y + R, KW*1.4, H - T.y - R);
+
+  const showShield = state === "play" || state === "dying" || state === "paused" || state === "ready" || (state === "over");
+  if(showShield && (state !== "clear")){
+    const ty = T.y - T.bump*7, sc = (.4 + .6*easeOut(T.grow));
+    cx.save(); cx.translate(T.x, ty); cx.scale(sc, sc);
+    // stuck knives sit behind the shield face so they look embedded
+    stuck.forEach(k => { const a = k.a + T.rot, d = R - LEN*.2 + LEN/2 + k.hit*6; drawKnife(cx, Math.cos(a)*d, Math.sin(a)*d, LEN, a + Math.PI, 1); });
+    papers.forEach(p => { if(!p.alive) return; const a = p.a + T.rot, d = R + R*.17, s = R*.36; cx.save(); cx.translate(Math.cos(a)*d, Math.sin(a)*d); cx.rotate(a + Math.PI/2 + Math.sin(p.wob)*.12); drawPaper(cx, s); cx.restore(); });
+    drawShield(cx, R, T.rot, boss, T.flash);
+    cx.restore();
+  }
+  // knife in flight + the next knife waiting
+  if(flying) drawKnife(cx, T.x, flying.y, LEN, -Math.PI/2);
+  else if((state === "play" || state === "ready" || state === "paused") && left > 0 || state === "ready"){
+    const k = easeOut(loadT); drawKnife(cx, T.x, START_Y + (1 - k)*LEN*.8, LEN, -Math.PI/2, k);
+  }
+  // debris
+  debris.forEach(d => {
+    cx.save(); cx.globalAlpha = Math.min(1, d.life*1.5);
+    if(d.kind === "knife") drawKnife(cx, d.x, d.y, LEN, d.rot);
+    else if(d.kind === "paper"){ cx.translate(d.x, d.y); cx.rotate(d.rot); drawPaper(cx, R*.36); }
+    else {
+      cx.translate(d.x, d.y); cx.rotate(d.rot);
+      cx.beginPath(); cx.moveTo(0, 0); cx.arc(0, 0, d.r, d.a0, d.a1); cx.closePath();
+      cx.fillStyle = d.boss ? "#2a2212" : "#10243a"; cx.fill();
+      cx.lineWidth = 3; cx.strokeStyle = d.boss ? "#f2c14e" : "#3fd0ff"; cx.stroke();
+    }
+    cx.restore();
+  });
+  sparks.forEach(p => { cx.fillStyle = `rgba(${p.color},${p.life})`; cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, TAU); cx.fill(); });
+  cx.textAlign = "center";
+  texts.forEach(p => { cx.globalAlpha = Math.min(1, p.life*1.6); cx.fillStyle = p.color; cx.font = (p.big ? 30 : 20) + "px " + DISPLAY; cx.fillText(p.str, p.x, p.y); cx.globalAlpha = 1; });
+
+  // HUD
+  if(state !== "ready"){
+    cx.textAlign = "left"; cx.fillStyle = "#e9f4ff"; cx.font = "34px " + DISPLAY; cx.fillText(score.toLocaleString("en-US"), 18, 46);
+    cx.font = "700 14px " + MONO; cx.fillStyle = boss ? "#f2c14e" : "#3fd0ff"; cx.fillText((boss ? "BOSS · " : "") + "LEVEL " + level, 20, 70);
+    cx.fillStyle = "#8ba3b8"; cx.fillText("BEST " + Math.max(store.get(BEST, 0), score).toLocaleString("en-US"), 20, 90);
+    // knives left
+    if(spec){
+      const n = spec.knives, step = Math.min(18, (W*.3)/n), kl = Math.min(44, LEN*.5);
+      for(let i = 0; i < n; i++) drawKnife(cx, 22 + i*step, H - kl*.5 - 14, kl, -Math.PI/2, i < left + (flying ? 0 : 0) ? 1 : .16);
+    }
+  }
+  // level banner
+  if(banner && state !== "over"){
+    const a = Math.min(1, banner.life*2.2, (1.6 - banner.life)*3.5), y = T.y + R + (H - T.y - R)*.42;
+    cx.globalAlpha = Math.max(0, a); cx.textAlign = "center";
+    cx.font = Math.round(Math.min(46, W*.1)) + "px " + DISPLAY; cx.fillStyle = banner.boss ? "#f2c14e" : "#e9f4ff";
+    cx.shadowColor = banner.boss ? "rgba(242,193,78,.7)" : "rgba(63,208,255,.7)"; cx.shadowBlur = 24;
+    cx.fillText(banner.big, W/2, y); cx.shadowBlur = 0;
+    cx.font = "700 14px " + MONO; cx.fillStyle = "#8ba3b8"; cx.fillText(banner.small.toUpperCase(), W/2, y + 28);
+    cx.globalAlpha = 1;
+  }
+  // Colt cheers between levels
+  if(cameo && ART.colt){
+    const t = cameo.t, k = t < .25 ? easeOut(t/.25) : t > 1.2 ? 1 - easeOut((t - 1.2)/.25) : 1;
+    const ch = Math.min(H*.4, 250), cw = ch*ART.colt.width/ART.colt.height, x = W - cw*k + 10, y = H - ch;
+    cx.drawImage(ART.colt, x, y, cw, ch);
+    if(k > .9){
+      cx.font = Math.round(Math.min(20, W*.045)) + "px " + DISPLAY;
+      const tw = cx.measureText(cameo.line).width, bw = tw + 30, bh = 46, bx = Math.max(8, x + cw*.1 - bw), by = y + ch*.12;
+      cx.fillStyle = "#e9f4ff"; rr(cx, bx, by, bw, bh, 12); cx.fill();
+      cx.beginPath(); cx.moveTo(bx + bw - 22, by + bh - 2); cx.lineTo(bx + bw + 6, by + bh + 12); cx.lineTo(bx + bw - 6, by + bh - 2); cx.fill();
+      cx.fillStyle = "#030508"; cx.textAlign = "left"; cx.fillText(cameo.line, bx + 15, by + 30);
+    }
+  }
+  if(hurt > 0){ cx.fillStyle = `rgba(255,90,110,${Math.max(0, hurt)*.22})`; cx.fillRect(-20, -20, W + 40, H + 40); }
+  cx.restore();
+}
+const easeOut = x => 1 - Math.pow(1 - Math.max(0, Math.min(1, x)), 3);
+
+function loop(now){
+  const dt = Math.min(.05, (now - last)/1000 || 0); last = now;
+  if(state === "play") update(dt);
+  if(state === "ready"){ T.rot += 1.1*dt; T.grow = 1; }
+  if(state !== "paused") updateFx(dt);
+  if(!$("panel-kt").hidden) render();
+  requestAnimationFrame(loop);
+}
+
+/* ---------- controls ---------- */
+cv.addEventListener("pointerdown", e => { e.preventDefault(); if(state === "play") throwKnife(); });
+addEventListener("keydown", e => {
+  if($("panel-kt").hidden || e.repeat && state !== "play") return;
+  const tag = document.activeElement?.tagName;
+  if((e.key === " " || e.key === "Enter" || e.key === "ArrowUp" || e.key === "w" || e.key === "W") && state === "play"){ e.preventDefault(); throwKnife(); return; }
+  if((e.key === " " || e.key === "Enter") && (state === "ready" || state === "over") && tag !== "A" && tag !== "BUTTON"){ e.preventDefault(); start(); return; }
+  if(e.key === "Escape" || e.key === "p" || e.key === "P"){ state === "paused" ? resume() : pause(); }
+});
+document.addEventListener("visibilitychange", () => { if(document.hidden) pause(); });
+$("ktStartBtn").addEventListener("click", start);
+$("ktAgain").addEventListener("click", start);
+$("ktResume").addEventListener("click", resume);
+
+/* ---------- score card ---------- */
+function scoreCard(){
+  const S = 1080, c = document.createElement("canvas"); c.width = c.height = S; const g = c.getContext("2d");
+  const bg = g.createLinearGradient(0, 0, 0, S); bg.addColorStop(0, "#030508"); bg.addColorStop(1, "#071a28"); g.fillStyle = bg; g.fillRect(0, 0, S, S);
+  const cxx = 780, cyy = 360, r = 175, boss = level % 5 === 0;
+  const glow = g.createRadialGradient(cxx, cyy, 0, cxx, cyy, 560); glow.addColorStop(0, boss ? "rgba(242,193,78,.3)" : "rgba(63,208,255,.32)"); glow.addColorStop(1, "rgba(63,208,255,0)"); g.fillStyle = glow; g.fillRect(0, 0, S, S);
+  g.strokeStyle = "rgba(63,208,255,.06)"; for(let i = 0; i < S; i += 60){ g.beginPath(); g.moveTo(i, 0); g.lineTo(i, S); g.stroke(); g.beginPath(); g.moveTo(0, i); g.lineTo(S, i); g.stroke(); }
+  // the shield as it was, with the knives that were in it
+  const ang = board.length ? board : [0, 1.3, 2.4, 3.6, 4.7].map(a => a + .3);
+  const len = r*.92;
+  g.save(); g.translate(cxx, cyy);
+  ang.forEach(a => { const d = r - len*.2 + len/2; drawKnife(g, Math.cos(a)*d, Math.sin(a)*d, len, a + Math.PI); });
+  drawShield(g, r, .4, boss);
+  g.restore();
+  if(ART.wordmark){ const w = 360, h = w*ART.wordmark.height/ART.wordmark.width; g.drawImage(ART.wordmark, 60, 60, w, h); }
+  g.textAlign = "left"; g.fillStyle = "#8ba3b8"; g.font = "700 30px " + MONO; g.fillText("KNIFE THROW · MY SCORE", 70, 610);
+  g.fillStyle = "#3fd0ff"; g.shadowColor = "rgba(63,208,255,.6)"; g.shadowBlur = 40; g.font = "200px " + DISPLAY; g.fillText(score.toLocaleString("en-US"), 60, 800); g.shadowBlur = 0;
+  g.fillStyle = "#e9f4ff"; g.font = "56px " + DISPLAY; g.fillText("Level " + level + ".", 70, 885);
+  g.fillStyle = "#8ba3b8"; g.font = "700 30px " + MONO; g.fillText("BEST: " + store.get(BEST, 0).toLocaleString("en-US"), 470, 885);
+  g.fillStyle = "#e9f4ff"; g.font = "700 30px " + MONO; g.fillText("ultwithknife.com/lab  ·  $KULT", 70, 1010);
+  return c;
+}
+let shareText = "", shareFile = null;
+const cardName = () => `kult-knife-throw-${score}.png`;
+function prepShare(){ shareFile = null; scoreCard().toBlob(b => { if(b) shareFile = new File([b], cardName(), { type: "image/png" }); }, "image/png"); }
+$("ktShare").addEventListener("click", e => {
+  e.preventDefault();
+  if(!kultIsPhone || !shareFile || !navigator.canShare || !navigator.canShare({ files: [shareFile], text: shareText })){
+    kultShareDesktop(() => new Promise(r => scoreCard().toBlob(r, "image/png")), $("ktShare").href, cardName(), $("ktNote")); return;
+  }
+  navigator.share({ files: [shareFile], text: shareText }).catch(err => { if(!err || err.name !== "AbortError") window.open($("ktShare").href, "_blank", "noopener"); });
+});
+$("ktCard").addEventListener("click", async () => {
+  const blob = await new Promise(r => scoreCard().toBlob(r, "image/png"));
+  if(!blob){ say("Couldn't make the card"); return; }
+  const file = new File([blob], cardName(), { type: "image/png" });
+  try { if(kultIsPhone && navigator.canShare && navigator.canShare({ files: [file] })){ await navigator.share({ files: [file] }); return; } }
+  catch(e){ if(e && e.name === "AbortError") return; }
+  const url = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = url; a.download = file.name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  say("Score card saved");
+});
+if(!kultIsPhone){ $("ktShare").textContent = "Copy image + Post on X"; $("ktShare").title = "Copies your image, then shows you how to paste it into X"; }
+
+/* legend icons */
+ready.then(() => document.querySelectorAll("canvas[data-kt-icon]").forEach(c => {
+  const g = c.getContext("2d"), k = c.dataset.ktIcon; g.clearRect(0, 0, 60, 60);
+  if(k === "stick"){ g.save(); g.translate(30, 30); g.beginPath(); g.arc(0, -40, 34, 0, TAU); g.fillStyle = "#10243a"; g.fill(); g.lineWidth = 4; g.strokeStyle = "#3fd0ff"; g.stroke(); g.restore(); drawKnife(g, 30, 36, 44, -Math.PI/2); }
+  if(k === "paper"){ g.save(); g.translate(30, 30); drawPaper(g, 40); g.restore(); }
+  if(k === "clash"){ drawKnife(g, 24, 30, 46, -Math.PI/2 - .45); drawKnife(g, 36, 30, 46, -Math.PI/2 + .45); g.fillStyle = "#ff5a6e"; g.beginPath(); g.arc(30, 14, 4, 0, TAU); g.fill(); }
+}));
+
+/* boot */
+window.KT = { show(){ size(); last = performance.now(); }, hide(){ pause(); } };
+ready.then(() => { size(); spec = null; stuck = [.3, 1.5, 2.6, 3.9, 5.1].map(a => ({ a, hit: 0 })); papers = [{ a: 4.5, alive: true, wob: 0 }]; last = performance.now(); requestAnimationFrame(loop); });
+addEventListener("resize", () => { if(W) size(); });
+})();
+</script>
+<script>
+/* ================= Meme vault: Colt GIFs to scroll, open and download ================= */
+(() => {
+"use strict";
+const MEMES = /*MEMES*/[{"id":"kult-army","t":"Kult Army","tags":["kult"],"k":"gif","w":800,"h":600,"kb":9502},{"id":"very-nice","t":"Very Nice","tags":["reaction"],"k":"gif","w":400,"h":711,"kb":4880},{"id":"lambo-cash","t":"Lambo Cash","tags":["bullish","flex"],"k":"gif","w":400,"h":225,"kb":2484},{"id":"moon-landing","t":"Moon Landing","tags":["bullish"],"k":"gif","w":400,"h":225,"kb":2582},{"id":"nacho-bath","t":"Dip","tags":["flex","chill"],"k":"gif","w":800,"h":450,"kb":1919},{"id":"times-square","t":"Times Square","tags":["kult","flex"],"k":"gif","w":400,"h":225,"kb":3152},{"id":"poker-face","t":"All In","tags":["reaction"],"k":"gif","w":800,"h":450,"kb":3925},{"id":"bull-run","t":"Bull Shit","tags":["bullish"],"k":"gif","w":400,"h":400,"kb":1665},{"id":"kult-rally","t":"Kult Rally","tags":["kult","bullish"],"k":"gif","w":800,"h":450,"kb":9035},{"id":"big-entrance","t":"Big Entrance","tags":["party","flex"],"k":"gif","w":800,"h":800,"kb":6182},{"id":"popcorn","t":"Popcorn","tags":["reaction"],"k":"gif","w":400,"h":551,"kb":3270},{"id":"red-carpet","t":"Red Carpet","tags":["flex"],"k":"gif","w":400,"h":225,"kb":2326},{"id":"counting-coins","t":"Counting Coins","tags":["reaction"],"k":"gif","w":800,"h":434,"kb":2511},{"id":"going-up","t":"Going Up","tags":["bullish"],"k":"gif","w":400,"h":225,"kb":3624},{"id":"dj-colt","t":"DJ Colt","tags":["party"],"k":"gif","w":400,"h":225,"kb":919},{"id":"stadium","t":"Stadium Show","tags":["kult","flex"],"k":"gif","w":400,"h":225,"kb":3335},{"id":"rough-morning","t":"Rough Morning","tags":["reaction"],"k":"gif","w":400,"h":225,"kb":1471},{"id":"big-wave","t":"Riding the Whales","tags":["bullish"],"k":"gif","w":400,"h":225,"kb":4054},{"id":"party-king","t":"Proud","tags":["party","flex"],"k":"gif","w":800,"h":800,"kb":7963},{"id":"the-look","t":"Colt","tags":["reaction"],"k":"gif","w":400,"h":225,"kb":1622},{"id":"squad-ride","t":"Squad Ride","tags":["kult","party"],"k":"gif","w":400,"h":225,"kb":5796},{"id":"grill-master","t":"Grill Master","tags":["chill"],"k":"gif","w":800,"h":450,"kb":4382},{"id":"cliff-edge","t":"Whale Symphony","tags":["kult"],"k":"gif","w":400,"h":225,"kb":3039},{"id":"roll-the-dice","t":"Roll the Dice","tags":["reaction"],"k":"gif","w":800,"h":450,"kb":3912},{"id":"spotlight","t":"Spotlight","tags":["flex"],"k":"gif","w":800,"h":455,"kb":1975},{"id":"cafe-colt","t":"Good Morning","tags":["chill","gmgn"],"k":"gif","w":400,"h":225,"kb":1354},{"id":"knife-walk","t":"Knife Walk","tags":["kult","flex"],"k":"gif","w":400,"h":225,"kb":3410},{"id":"stare-down","t":"Stare Down","tags":["reaction"],"k":"gif","w":800,"h":600,"kb":3917},{"id":"keynote","t":"Keynote","tags":["kult"],"k":"gif","w":400,"h":225,"kb":3089},{"id":"fresh-shave","t":"Fresh Shave","tags":["chill"],"k":"gif","w":400,"h":225,"kb":1673},{"id":"flyers","t":"Spreading the Word","tags":["kult"],"k":"gif","w":400,"h":225,"kb":1091},{"id":"dance-moves","t":"KULT of Personality","tags":["party"],"k":"gif","w":400,"h":210,"kb":3463},{"id":"red-glow","t":"Red Glow","tags":["reaction"],"k":"gif","w":800,"h":590,"kb":9321},{"id":"plaza-pose","t":"Stand Out","tags":["flex"],"k":"gif","w":400,"h":225,"kb":5019},{"id":"beach-day","t":"One Last Drag","tags":["chill"],"k":"gif","w":400,"h":225,"kb":1492},{"id":"touch-grass","t":"Touch Grass","tags":["chill"],"k":"gif","w":800,"h":450,"kb":2875},{"id":"when-i-dip","t":"When I Dip","tags":["chill","reaction"],"k":"img","ext":"jpg","w":640,"h":616,"kb":269},{"id":"bottom-is-in","t":"The Bottom Is In","tags":["bullish"],"k":"img","ext":"jpg","w":640,"h":632,"kb":313},{"id":"built-different","t":"Built Different","tags":["flex"],"k":"img","ext":"jpg","w":640,"h":640,"kb":450},{"id":"cry-harder","t":"Cry Harder","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":640,"kb":404},{"id":"good-morning","t":"Good Morning","tags":["gmgn"],"k":"img","ext":"jpg","w":640,"h":640,"kb":320},{"id":"good-night","t":"Good Night","tags":["gmgn"],"k":"img","ext":"jpg","w":640,"h":640,"kb":221},{"id":"can-you-smell-it","t":"Can You Smell It","tags":["bullish"],"k":"img","ext":"jpg","w":640,"h":463,"kb":296},{"id":"dont-hate-the-player","t":"Don't Hate the Player","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":427,"kb":322},{"id":"do-your-own-research","t":"Do Your Own Research","tags":["kult"],"k":"img","ext":"jpg","w":640,"h":640,"kb":371},{"id":"grass-best-friend","t":"Grass Is Your Best Friend","tags":["reaction","chill"],"k":"img","ext":"jpg","w":640,"h":632,"kb":349},{"id":"burn","t":"Burn","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":640,"kb":331},{"id":"a-men","t":"A-Men","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":640,"kb":256},{"id":"be-safe-out-there","t":"Be Safe Out There","tags":["chill"],"k":"img","ext":"jpg","w":640,"h":640,"kb":404},{"id":"real-recognize-real","t":"Real Recognize Real","tags":["flex"],"k":"img","ext":"jpg","w":640,"h":631,"kb":248},{"id":"respect","t":"Respect","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":640,"kb":214},{"id":"rookie-numbers","t":"Rookie Numbers","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":640,"kb":307},{"id":"scared-money","t":"Scared Money Don’t Make Money","tags":["bullish"],"k":"img","ext":"jpg","w":640,"h":640,"kb":379},{"id":"nothing-but-green","t":"Nothing But Green","tags":["bullish"],"k":"img","ext":"jpg","w":640,"h":640,"kb":310},{"id":"holding-strong","t":"Holding Strong","tags":["kult"],"k":"img","ext":"jpg","w":640,"h":640,"kb":352},{"id":"i-dont-chase","t":"I Don’t Chase. I Attract.","tags":["flex"],"k":"img","ext":"jpg","w":640,"h":627,"kb":338},{"id":"i-got-this","t":"I Got This","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":640,"kb":195},{"id":"its-magic","t":"It’s Magic!","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":532,"kb":184},{"id":"only-temporary","t":"It’s Only Temporary","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":634,"kb":252},{"id":"my-man","t":"My Man...","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":352,"kb":238},{"id":"never-fold","t":"Never Fold","tags":["kult"],"k":"img","ext":"jpg","w":640,"h":640,"kb":323},{"id":"next-cycle","t":"The Next Cycle Is Now","tags":["bullish"],"k":"img","ext":"jpg","w":640,"h":427,"kb":335},{"id":"nice-rug","t":"This Is a Nice Rug","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":640,"kb":415},{"id":"no-weak-hands","t":"No Weak Hands","tags":["kult"],"k":"img","ext":"jpg","w":640,"h":640,"kb":316},{"id":"patience","t":"Patience","tags":["kult"],"k":"img","ext":"jpg","w":640,"h":640,"kb":272},{"id":"still-here","t":"Still Here","tags":["kult"],"k":"img","ext":"jpg","w":640,"h":626,"kb":280},{"id":"streets-made-me","t":"The Streets Made Me","tags":["kult","flex"],"k":"img","ext":"jpg","w":640,"h":640,"kb":377},{"id":"this-guy-gets-it","t":"This Guy Gets It","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":640,"kb":349},{"id":"trust-the-process","t":"Trust the Process","tags":["kult"],"k":"img","ext":"jpg","w":640,"h":632,"kb":259},{"id":"trust-your-gut","t":"Trust Your Gut","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":533,"kb":303},{"id":"vision-is-clear","t":"The Vision Is Clear","tags":["bullish"],"k":"img","ext":"jpg","w":640,"h":632,"kb":253},{"id":"whale-watching","t":"Whale Watching","tags":["chill","reaction"],"k":"img","ext":"jpg","w":640,"h":640,"kb":409},{"id":"wealth-takes-time","t":"Wealth Takes Time","tags":["kult"],"k":"img","ext":"jpg","w":640,"h":426,"kb":243},{"id":"excuse-me","t":"Excuse Me?","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":380,"kb":236},{"id":"pass","t":"Pass","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":640,"kb":319},{"id":"reach-for-the-stars","t":"Reach for the Stars","tags":["bullish"],"k":"img","ext":"jpg","w":640,"h":640,"kb":317},{"id":"still-early","t":"Still Early","tags":["bullish"],"k":"img","ext":"jpg","w":640,"h":640,"kb":376},{"id":"ult-rich","t":"Rich vs. Ult Rich","tags":["flex"],"k":"img","ext":"jpg","w":640,"h":640,"kb":269},{"id":"who-da-f-is-dat-guy","t":"Who Da F*** Is Dat Guy","tags":["reaction"],"k":"img","ext":"jpg","w":640,"h":640,"kb":210},{"id":"you-got-the-balls","t":"You Got the Balls?","tags":["flex"],"k":"img","ext":"jpg","w":640,"h":521,"kb":380}]/*END*/;
+const DIR = "../memes/files/", SITE = "https://ultwithknife.com/lab/#memes/";
+const TAGS = [["all", "All"], ["bullish", "Bullish"], ["reaction", "Reactions"], ["flex", "Flex"], ["party", "Party"], ["chill", "Chill"], ["gmgn", "GM / GN"], ["kult", "Kult"]];
+const $ = id => document.getElementById(id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const toastEl = $("toast"); let tt;
+const say = m => { toastEl.textContent = m; toastEl.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove("on"), 1800); };
+const fileOf = m => DIR + "kult-" + m.id + "." + (m.k === "gif" ? "gif" : m.ext);
+const sizeOf = kb => kb >= 1024 ? (kb/1024).toFixed(1) + " MB" : kb + " KB";
+let built = false, filter = "all", kind = "gif", shown = [], cur = -1;
+// the light video previews need H.264; the rare browser without it gets still posters in the grid and the GIF itself in the viewer
+const canMP4 = !!document.createElement("video").canPlayType('video/mp4; codecs="avc1.42E01E"');
+
+/* grid tiles play their short video preview only while on screen */
+const io = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => {
+  const v = e.target.querySelector("video"); if(!v) return;
+  if(e.isIntersecting && !reduce){ if(!v.src) v.src = v.dataset.src; v.play().then(() => v.classList.add("on")).catch(() => {}); }
+  else v.pause();
+}), { threshold: .4 }) : null;
+
+function build(){
+  built = true;
+  const nG = MEMES.filter(m => m.k === "gif").length, nI = MEMES.length - nG;
+  $("mvNgif").textContent = nG; $("mvNimg").textContent = nI;
+  $("mvCounts").textContent = `${nG} Colt GIFs` + (nI ? ` and ${nI} memes` : "");
+  document.querySelectorAll(".mv-types button").forEach(b => b.addEventListener("click", () => setKind(b.dataset.k)));
+  const grid = $("mvGrid");
+  grid.innerHTML = MEMES.map((m, i) => `<div class="mv-tile" data-i="${i}">
+    <button class="mv-open" type="button" aria-label="Open ${m.t}">
+      <img src="${DIR}kult-${m.id}.webp" alt="${m.t}" width="${m.w}" height="${m.h}" loading="lazy" decoding="async">
+      ${m.k === "gif" && canMP4 ? `<video muted loop playsinline preload="none" data-src="${DIR}kult-${m.id}.mp4" aria-hidden="true"></video>` : ""}
+      <span class="mv-cap">${m.t}</span>
+    </button>
+    <a class="mv-dl" href="${fileOf(m)}" download="kult-${m.id}.${m.k === "gif" ? "gif" : m.ext}" aria-label="Download ${m.t}" title="Download">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 4v11m0 0l-5-5m5 5l5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/></svg>
+    </a>
+  </div>`).join("");
+  grid.querySelectorAll(".mv-tile").forEach(t => {
+    io && io.observe(t);
+    if(reduce){ const v = t.querySelector("video"); if(v){ t.addEventListener("mouseenter", () => { if(!v.src) v.src = v.dataset.src; v.play().then(() => v.classList.add("on")).catch(() => {}); }); t.addEventListener("mouseleave", () => v.pause()); } }
+    t.querySelector(".mv-open").addEventListener("click", () => open(+t.dataset.i));
+    t.querySelector(".mv-dl").addEventListener("click", e => { if(saveViaShare(MEMES[+t.dataset.i])) e.preventDefault(); });
+  });
+  $("mvChips").addEventListener("click", e => { const b = e.target.closest(".chip"); if(b) setFilter(b.dataset.f); });
+  setKind(kind);
+}
+function setKind(k){
+  kind = k;
+  document.querySelectorAll(".mv-types button").forEach(b => b.setAttribute("aria-checked", String(b.dataset.k === k)));
+  const counts = {}, mine = MEMES.filter(m => m.k === k); mine.forEach(m => m.tags.forEach(t => counts[t] = (counts[t] || 0) + 1));
+  $("mvChips").innerHTML = TAGS.filter(([t]) => t === "all" || counts[t]).map(([t, label]) =>
+    `<button class="chip" type="button" role="radio" aria-checked="${t === "all"}" data-f="${t}">${label}<b>${t === "all" ? mine.length : counts[t]}</b></button>`).join("");
+  setFilter("all");
+}
+function setFilter(f){
+  filter = f;
+  document.querySelectorAll("#mvChips .chip").forEach(c => c.setAttribute("aria-checked", String(c.dataset.f === f)));
+  shown = MEMES.map((m, i) => i).filter(i => MEMES[i].k === kind && (f === "all" || MEMES[i].tags.includes(f)));
+  document.querySelectorAll("#mvGrid .mv-tile").forEach(t => t.hidden = !shown.includes(+t.dataset.i));
+  $("mvEmpty").hidden = shown.length > 0;
+}
+
+/* phones: the share sheet's "Save Image" puts the GIF straight into the photo library */
+function saveViaShare(m){
+  if(!kultIsPhone || !navigator.canShare) return false;
+  const name = `kult-${m.id}.${m.k === "gif" ? "gif" : m.ext}`, type = m.k === "gif" ? "image/gif" : (m.ext === "png" ? "image/png" : "image/jpeg");
+  say("Getting it ready…");
+  fetch(fileOf(m)).then(r => r.blob()).then(b => {
+    const f = new File([b], name, { type });
+    if(!navigator.canShare({ files: [f] })) throw 0;
+    return navigator.share({ files: [f] });
+  }).catch(err => { if(err && err.name === "AbortError") return; const a = document.createElement("a"); a.href = fileOf(m); a.download = name; document.body.appendChild(a); a.click(); a.remove(); });
+  return true;
+}
+
+/* full-size viewer */
+let lastFocus = null;
+function open(i, fromHash){
+  cur = i; const m = MEMES[i];
+  const stage = $("mvStage");
+  stage.innerHTML = m.k === "gif" && canMP4
+    ? `<video src="${DIR}kult-${m.id}.mp4" poster="${DIR}kult-${m.id}.webp" muted loop playsinline autoplay width="${m.w}" height="${m.h}" aria-label="${m.t}"></video>`
+    : `<img src="${fileOf(m)}" alt="${m.t}" width="${m.w}" height="${m.h}">`;
+  $("mvTitle").textContent = m.t;
+  $("mvMeta").textContent = (m.k === "gif" ? "GIF" : m.ext.toUpperCase()) + " · " + sizeOf(m.kb);
+  const dl = $("mvDl"); dl.href = fileOf(m); dl.download = `kult-${m.id}.${m.k === "gif" ? "gif" : m.ext}`; dl.textContent = kultIsPhone ? "Save" : (m.k === "gif" ? "Download GIF" : "Download");
+  const pos = shown.indexOf(i); $("mvPrev").hidden = $("mvNext").hidden = shown.length < 2 || pos < 0;
+  if($("mvLb").hidden){ lastFocus = document.activeElement; $("mvLb").hidden = false; document.body.classList.add("mv-lock"); $("mvClose").focus({ preventScroll: true }); }
+  if(!fromHash) history.replaceState(null, "", "#memes/" + m.id);
+}
+function close(){
+  if($("mvLb").hidden) return;
+  $("mvLb").hidden = true; $("mvStage").innerHTML = ""; document.body.classList.remove("mv-lock"); cur = -1;
+  history.replaceState(null, "", "#memes");
+  try { lastFocus && lastFocus.focus({ preventScroll: true }); } catch(e){}
+}
+function step(d){ if(cur < 0 || !shown.length) return; const pos = shown.indexOf(cur); open(shown[(pos + d + shown.length) % shown.length]); }
+$("mvClose").addEventListener("click", close);
+$("mvPrev").addEventListener("click", () => step(-1));
+$("mvNext").addEventListener("click", () => step(1));
+$("mvLb").addEventListener("click", e => { if(e.target === $("mvLb") || e.target === $("mvStage")) close(); });
+$("mvDl").addEventListener("click", e => { if(cur >= 0 && saveViaShare(MEMES[cur])) e.preventDefault(); });
+$("mvCopy").addEventListener("click", () => {
+  const url = SITE + MEMES[cur].id;
+  (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(() => say("Link copied"), () => { prompt("Copy this link:", url); });
+});
+addEventListener("keydown", e => {
+  if($("mvLb").hidden) return;
+  if(e.key === "Escape"){ e.preventDefault(); close(); }
+  if(e.key === "ArrowRight"){ e.preventDefault(); step(1); }
+  if(e.key === "ArrowLeft"){ e.preventDefault(); step(-1); }
+});
+// swipe left / right in the viewer
+let sx = null, sy = 0;
+$("mvLb").addEventListener("pointerdown", e => { if(e.pointerType !== "mouse"){ sx = e.clientX; sy = e.clientY; } });
+$("mvLb").addEventListener("pointerup", e => { if(sx === null) return; const dx = e.clientX - sx, dy = e.clientY - sy; sx = null; if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)*1.3) step(dx < 0 ? 1 : -1); });
+
+/* the Memes tab's little picture flips through the vault */
+(() => {
+  const pic = $("tmPic"); if(!pic) return;
+  $("tmN").textContent = MEMES.length;
+  if(reduce) return;
+  const picks = MEMES.filter((m, i) => i % 3 === 0).map(m => DIR + "kult-" + m.id + ".webp");
+  let k = 0;
+  setInterval(() => {
+    if(document.hidden) return;
+    k = (k + 1) % picks.length; const src = picks[k], im = new Image();
+    im.onload = () => { pic.style.opacity = 0; setTimeout(() => { pic.src = src; pic.style.opacity = 1; }, 200); };
+    im.src = src;
+  }, 1600);
+})();
+window.MV = {
+  show(id){ if(!built) build(); if(id){ const i = MEMES.findIndex(m => m.id === id); if(i >= 0){ if(MEMES[i].k !== kind) setKind(MEMES[i].k); open(i, true); } } },
+  hide(){ close(); }
+};
+})();
+</script>
+<script>
+/* ================= Become Colt: your head on Colt's body, drip you can move (all on-device) ================= */
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const cv = $("pfpCanvas"), g = cv.getContext("2d"), S = 1080;
+const load = src => new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
+const toast = $("toast"); let tt;
+const say = m => { toast.textContent = m; toast.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove("on"), 2400); };
+const busy = (on, t) => { $("pfpBusy").hidden = !on; if(t) $("busyText").textContent = t; };
+const V = "../vendor/";
+
+/* body template: where the chin lands and how tall Colt's eye-to-chin is (1080px space) */
+const BODY = { src: "../img/colt-body.jpg", neck: "../img/colt-neck-mask.png", chin: [539, 528], faceH: 215 };
+/* drip art + the point in each image (as a fraction) that sits on the face */
+const DRIP = {
+  hair:     { label: "Hair",     src: "../img/pfp-hair-front.webp",   anchor: [.545, .50] },
+  shades:   { label: "Shades",   src: "../img/pfp-shades-front.webp", anchor: [.50, .42] },
+  mustache: { label: "Mustache", src: "../img/pfp-mustache.webp",     anchor: [.50, .42] }
+};
+const ORDER = ["head", "hair", "shades", "mustache"];
+let body = null, neckImg = null, neckCanvas = null, guide = true, L = null, sel = null;
+const layers = {};   // key -> { key, img, ax, ay, x, y, s, rot, on, alpha:{w,h,k,data}, box:[x0,y0,x1,y1] }
+
+/* ---------- face finder (landmarks) ---------- */
+let faceReady = null;
+function addScript(src){ return new Promise((res, rej) => { const t = document.createElement("script"); t.src = src; t.onload = res; t.onerror = rej; document.head.appendChild(t); }); }
+async function loadNet(net, name){
+  if(net.isLoaded) return;
+  const r = await fetch(V + "models/" + name + ".json"); if(!r.ok) throw new Error(name + " " + r.status);
+  const j = await r.json(), bin = Uint8Array.from(atob(j.data), c => c.charCodeAt(0)).buffer;
+  net.loadFromWeightMap(faceapi.tf.io.decodeWeights(bin, j.manifest.flatMap(g => g.weights)));
+}
+function loadFace(){
+  if(faceReady) return faceReady;
+  faceReady = (window.faceapi ? Promise.resolve() : addScript(V + "face-api.js"))
+    .then(async () => { const tf = faceapi.tf; let ok = false; try { ok = await tf.setBackend("webgl"); } catch(e){} if(!ok) await tf.setBackend("cpu"); await tf.ready(); })
+    .then(() => Promise.all([loadNet(faceapi.nets.tinyFaceDetector, "tiny_face_detector_model"), loadNet(faceapi.nets.faceLandmark68Net, "face_landmark_68_model")]))
+    .catch(e => { faceReady = null; throw e; });
+  return faceReady;
+}
+async function landmarks(c){
+  // a result only counts if it looks like a real face: sensible proportions, eyes inside the face box, not a speck
+  const sane = f => {
+    const P = f.landmarks.positions, b = f.detection.box, ex = P.slice(36, 48).reduce((s, p) => s + p.x, 0)/12, ey = P.slice(36, 48).reduce((s, p) => s + p.y, 0)/12;
+    const eyeChin = Math.hypot(P[8].x - ex, P[8].y - ey), jaw = Math.hypot(P[16].x - P[0].x, P[16].y - P[0].y), eyes = Math.hypot(P[45].x - P[36].x, P[45].y - P[36].y);
+    return ex > b.x && ex < b.x + b.width && ey > b.y && ey < b.y + b.height && eyeChin > jaw*.35 && eyeChin < jaw*1.5 && eyes > jaw*.22 && b.width > Math.max(c.width, c.height)*.04;
+  };
+  let det = [];
+  for(const size of [416, 608]){ det = (await faceapi.detectAllFaces(c, new faceapi.TinyFaceDetectorOptions({ inputSize: size, scoreThreshold: .3 })).withFaceLandmarks()).filter(sane); if(det.length) break; }
+  if(!det.length){ busy(true, "Looking harder…"); await loadNet(faceapi.nets.ssdMobilenetv1, "ssd_mobilenetv1_model"); det = (await faceapi.detectAllFaces(c, new faceapi.SsdMobilenetv1Options({ minConfidence: .2 })).withFaceLandmarks()).filter(sane); }
+  if(!det.length) return null;
+  return det.sort((a, b) => b.detection.box.area - a.detection.box.area)[0].landmarks.positions.map(p => [p.x, p.y]);
+}
+
+/* ---------- person cutout (MediaPipe selfie segmentation) ---------- */
+let segReady = null, seg = null;
+function loadSeg(){
+  if(segReady) return segReady;
+  segReady = (async () => {
+    const blobs = await (await fetch(V + "seg/seg-model.json")).json();
+    if(!window.__kultFetch){
+      const real = window.fetch.bind(window); window.__kultFetch = real;
+      window.fetch = (u, o) => { const s = String(u && u.url || u), k = Object.keys(blobs).find(k => s.endsWith(k));
+        return k ? Promise.resolve(new Response(Uint8Array.from(atob(blobs[k]), c => c.charCodeAt(0)))) : real(u, o); };
+    }
+    if(!window.SelfieSegmentation) await addScript(V + "seg/selfie_segmentation.js");
+    seg = new SelfieSegmentation({ locateFile: f => /\.data$/.test(f) ? V + "seg/empty.txt" : V + "seg/" + f });
+    seg.setOptions({ modelSelection: 0, selfieMode: false });
+    await seg.initialize();
+  })().catch(e => { segReady = null; throw e; });
+  return segReady;
+}
+function cutout(c){
+  return new Promise((res, rej) => {
+    const out = document.createElement("canvas"); out.width = c.width; out.height = c.height;
+    seg.onResults(r => { try { out.getContext("2d").drawImage(r.segmentationMask, 0, 0, c.width, c.height); res(out); } catch(e){ rej(e); } });
+    seg.send({ image: c }).catch(rej);
+  });
+}
+
+/* ---------- helpers ---------- */
+const mean = a => [a.reduce((s, p) => s + p[0], 0)/a.length, a.reduce((s, p) => s + p[1], 0)/a.length];
+const dist = (a, b) => Math.hypot(b[0]-a[0], b[1]-a[1]);
+function skinTone(c, L){
+  const x = c.getContext("2d"), spots = [mean([L[2], L[31], L[3]]), mean([L[14], L[35], L[13]]), L[28]], r = Math.max(3, dist(L[0], L[16]) * .04);
+  let t = [0, 0, 0], n = 0;
+  for(const p of spots){ const d = x.getImageData(Math.round(p[0]-r), Math.round(p[1]-r), Math.round(r*2), Math.round(r*2)).data;
+    for(let i = 0; i < d.length; i += 4){ t[0] += d[i]; t[1] += d[i+1]; t[2] += d[i+2]; n++; } }
+  return t.map(v => v/n);
+}
+function tintNeck(tone){
+  const c = document.createElement("canvas"); c.width = c.height = S; const x = c.getContext("2d", { willReadFrequently: true });
+  x.drawImage(body, 0, 0, S, S); const b = x.getImageData(0, 0, S, S); x.clearRect(0, 0, S, S); x.drawImage(neckImg, 0, 0, S, S);
+  const m = x.getImageData(0, 0, S, S).data, d = b.data; let col = [0, 0, 0], n = 0;
+  for(let i = 0; i < d.length; i += 4) if(m[i+3] > 200){ col[0] += d[i]; col[1] += d[i+1]; col[2] += d[i+2]; n++; }
+  col = col.map(v => v/Math.max(1, n)); const k = tone.map((v, i) => v/Math.max(1, col[i]));
+  for(let i = 0; i < d.length; i += 4){ const a = m[i+3]/255; if(!a) continue; for(let j = 0; j < 3; j++) d[i+j] = d[i+j]*(1-a) + Math.min(255, d[i+j]*k[j])*a; }
+  x.putImageData(b, 0, 0); return c;
+}
+// small alpha map + visible-pixel box for precise tapping
+function alphaInfo(img){
+  const w0 = img.width, h0 = img.height, k = Math.min(1, 220 / Math.max(w0, h0)), w = Math.max(1, Math.round(w0*k)), h = Math.max(1, Math.round(h0*k));
+  const c = document.createElement("canvas"); c.width = w; c.height = h; const x = c.getContext("2d", { willReadFrequently: true }); x.drawImage(img, 0, 0, w, h);
+  const d = x.getImageData(0, 0, w, h).data, data = new Uint8Array(w*h); let x0 = w, y0 = h, x1 = 0, y1 = 0;
+  for(let i = 0; i < w*h; i++){ const a = d[i*4+3]; data[i] = a; if(a > 24){ const px = i % w, py = (i / w) | 0; if(px < x0) x0 = px; if(px > x1) x1 = px; if(py < y0) y0 = py; if(py > y1) y1 = py; } }
+  return { alpha: { w, h, k, data }, box: [x0/k, y0/k, (x1+1)/k, (y1+1)/k] };
+}
+const toWorld = (l, p) => { const c = Math.cos(l.rot), s = Math.sin(l.rot), dx = (p[0]-l.ax)*l.s, dy = (p[1]-l.ay)*l.s; return [l.x + dx*c - dy*s, l.y + dx*s + dy*c]; };
+const toLocal = (l, p) => { const c = Math.cos(-l.rot), s = Math.sin(-l.rot), dx = p[0]-l.x, dy = p[1]-l.y; return [l.ax + (dx*c - dy*s)/l.s, l.ay + (dx*s + dy*c)/l.s]; };
+function hitLayer(l, p){
+  const q = toLocal(l, p), a = l.alpha, ix = Math.floor(q[0]*a.k), iy = Math.floor(q[1]*a.k);
+  if(ix < 0 || iy < 0 || ix >= a.w || iy >= a.h) return false;
+  // forgive near misses on thin art: check a small neighbourhood
+  for(let y = Math.max(0, iy-3); y <= Math.min(a.h-1, iy+3); y++) for(let x = Math.max(0, ix-3); x <= Math.min(a.w-1, ix+3); x++) if(a.data[y*a.w + x] > 40) return true;
+  return false;
+}
+function corner(l){ return toWorld(l, [l.box[2], l.box[3]]); }
+
+/* ---------- placement ---------- */
+function headPoint(p){ return toWorld(layers.head, p); }
+function placeHead(){
+  const h = layers.head, eyeL = mean(L.slice(36, 42)), eyeR = mean(L.slice(42, 48)), eyeM = mean([eyeL, eyeR]);
+  h.ax = L[8][0]; h.ay = L[8][1]; h.x = BODY.chin[0]; h.y = BODY.chin[1];
+  h.s = BODY.faceH / dist(eyeM, L[8]); h.rot = -Math.atan2(eyeR[1]-eyeL[1], eyeR[0]-eyeL[0]);
+}
+function placeDrip(key){
+  const l = layers[key], d = DRIP[key], h = layers.head; if(!l || !h) return;
+  const eyeL = headPoint(mean(L.slice(36, 42))), eyeR = headPoint(mean(L.slice(42, 48))), eyeM = mean([eyeL, eyeR]), chin = headPoint(L[8]);
+  const rot = Math.atan2(eyeR[1]-eyeL[1], eyeR[0]-eyeL[0]), fh = dist(eyeM, chin), up = [Math.sin(rot), -Math.cos(rot)], fw = dist(headPoint(L[0]), headPoint(L[16]));
+  let at, w;
+  if(key === "hair"){ at = [eyeM[0] + up[0]*fh*.70, eyeM[1] + up[1]*fh*.70]; w = fw * 2.2; }
+  else if(key === "shades"){ at = eyeM; w = dist(eyeL, eyeR) * 2.4; }
+  else { const n = headPoint(L[33]), lip = headPoint(L[51]); at = [n[0]*.5 + lip[0]*.5, n[1]*.5 + lip[1]*.5]; w = dist(headPoint(L[48]), headPoint(L[54])) * 2.0; }
+  l.ax = d.anchor[0]*l.img.width; l.ay = d.anchor[1]*l.img.height; l.x = at[0]; l.y = at[1]; l.s = w / l.img.width; l.rot = rot;
+}
+
+/* ---------- draw ---------- */
+function drawLayer(ctx, l){
+  ctx.save(); ctx.translate(l.x, l.y); ctx.rotate(l.rot); ctx.scale(l.s, l.s); ctx.translate(-l.ax, -l.ay); ctx.drawImage(l.img, 0, 0); ctx.restore();
+}
+function paint(ctx, clean){
+  if(!body) return;
+  ctx.clearRect(0, 0, S, S); ctx.drawImage(neckCanvas || body, 0, 0, S, S);
+  ORDER.forEach(k => { const l = layers[k]; if(l && l.on) drawLayer(ctx, l); });
+  if(clean) return;
+  if(guide){
+    ctx.save(); ctx.fillStyle = "rgba(3,5,8,.45)"; ctx.beginPath(); ctx.rect(0, 0, S, S); ctx.arc(S/2, S/2, S/2, 0, Math.PI*2, true); ctx.fill("evenodd");
+    ctx.setLineDash([14, 12]); ctx.strokeStyle = "rgba(63,208,255,.7)"; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(S/2, S/2, S/2 - 2, 0, Math.PI*2); ctx.stroke(); ctx.restore();
+  }
+  if(!layers.head){
+    ctx.save(); ctx.font = '30px "Dela Gothic One","Arial Black",sans-serif'; ctx.textAlign = "center"; ctx.fillStyle = "rgba(3,5,8,.55)";
+    ctx.fillText("YOUR HEAD HERE", BODY.chin[0], BODY.chin[1] - 170); ctx.font = '700 22px "JetBrains Mono",monospace'; ctx.fillText("upload a photo to become Colt", BODY.chin[0], BODY.chin[1] - 130); ctx.restore();
+  }
+  if(sel && layers[sel] && layers[sel].on){
+    const l = layers[sel], b = l.box, pts = [[b[0],b[1]],[b[2],b[1]],[b[2],b[3]],[b[0],b[3]]].map(p => toWorld(l, p)), r = hr();
+    ctx.save(); ctx.strokeStyle = "#3fd0ff"; ctx.lineWidth = 3; ctx.setLineDash([12, 8]); ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath(); ctx.stroke();
+    const c = pts[2]; ctx.setLineDash([]); ctx.fillStyle = "#3fd0ff"; ctx.strokeStyle = "#030508"; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(c[0], c[1], r, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(c[0], c[1], r*.45, -2.4, 1.2); ctx.stroke(); ctx.restore();
+  }
+}
+const hr = () => 24 * S / cv.getBoundingClientRect().width;
+let raf = 0; const draw = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => paint(g, false)); };
+
+/* ---------- selection + drip buttons ---------- */
+function select(k){
+  sel = k && layers[k] && layers[k].on ? k : null;
+  $("selBar").hidden = !sel;
+  if(sel){ $("selName").textContent = sel === "head" ? "Your head" : DRIP[sel].label; $("selHide").hidden = sel === "head"; }
+  draw();
+}
+function syncButtons(){
+  document.querySelectorAll("#dripBtns .stk").forEach(b => { const l = layers[b.dataset.key]; b.disabled = !layers.head; b.setAttribute("aria-pressed", String(!!(l && l.on))); });
+  $("dripNote").textContent = layers.head ? "Tap to add or remove. Each piece snaps onto your face, then drag or pinch it into place." : "Upload a photo first. Each piece snaps onto your face, then you can move it.";
+}
+document.querySelectorAll("#dripBtns .stk").forEach(b => b.addEventListener("click", () => {
+  const k = b.dataset.key; if(!layers.head || !DRIP[k].img) return;
+  if(!layers[k]){ layers[k] = Object.assign({ key: k, img: DRIP[k].img, on: true }, DRIP[k].info); placeDrip(k); }
+  else layers[k].on = !layers[k].on;
+  select(layers[k].on ? k : (sel === k ? null : sel)); syncButtons();
+}));
+$("selSnap").addEventListener("click", () => { if(!sel) return; if(sel === "head"){ placeHead(); Object.keys(DRIP).forEach(k => layers[k] && placeDrip(k)); } else placeDrip(sel); draw(); });
+$("selHide").addEventListener("click", () => { if(!sel || sel === "head") return; layers[sel].on = false; select(null); syncButtons(); });
+$("pfpResetAll").addEventListener("click", () => { if(!layers.head) return; placeHead(); Object.keys(DRIP).forEach(k => layers[k] && placeDrip(k)); draw(); });
+$("pfpGuide").addEventListener("change", e => { guide = e.target.checked; draw(); });
+
+/* moving, resizing or turning the head carries the drip with it */
+function carryDrip(o, n){
+  const k = n.s / o.s, dr = n.rot - o.rot, c = Math.cos(dr), sn = Math.sin(dr);
+  Object.keys(DRIP).forEach(key => { const d = layers[key]; if(!d) return;
+    const dx = (d.x - o.x)*k, dy = (d.y - o.y)*k;
+    d.x = n.x + dx*c - dy*sn; d.y = n.y + dx*sn + dy*c; d.s *= k; d.rot += dr; });
+}
+
+/* ---------- touch / mouse editing ---------- */
+const pts = new Map(); let mode = null, st = null;
+const toCanvas = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * S / r.width, (e.clientY - r.top) * S / r.height]; };
+function topHit(p){ for(let i = ORDER.length-1; i >= 0; i--){ const l = layers[ORDER[i]]; if(l && l.on && hitLayer(l, p)) return l.key; } return null; }
+function startPinch(){
+  const [a, b] = [...pts.values()]; if(!sel) select(topHit(mean([a, b])) || (layers.head ? "head" : null)); if(!sel) return;
+  const l = layers[sel]; st = { d: dist(a, b), ang: Math.atan2(b[1]-a[1], b[0]-a[0]), mid: mean([a, b]), s: l.s, rot: l.rot, x: l.x, y: l.y }; mode = "pinch";
+}
+cv.addEventListener("pointerdown", e => {
+  if(!layers.head) return;
+  try { cv.setPointerCapture(e.pointerId); } catch(err){} const p = toCanvas(e); pts.set(e.pointerId, p);
+  if(pts.size === 2){ startPinch(); return; }
+  if(sel){ const c = corner(layers[sel]); if(dist(p, c) < hr()*1.7){ const l = layers[sel]; mode = "handle"; st = { d: dist(p, [l.x, l.y]), ang: Math.atan2(p[1]-l.y, p[0]-l.x), s: l.s, rot: l.rot }; return; } }
+  const k = topHit(p); select(k);
+  if(k){ mode = "move"; st = { p, x: layers[k].x, y: layers[k].y }; cv.classList.add("grabbing"); } else mode = null;
+});
+cv.addEventListener("pointermove", e => {
+  if(!pts.has(e.pointerId)) return; const p = toCanvas(e); pts.set(e.pointerId, p); if(!sel) return; const l = layers[sel];
+  const before = sel === "head" ? { x: l.x, y: l.y, s: l.s, rot: l.rot } : null;
+  if(mode === "pinch" && pts.size >= 2){
+    const [a, b] = [...pts.values()], m = mean([a, b]);
+    l.s = Math.max(.02, st.s * dist(a, b)/st.d); l.rot = st.rot + Math.atan2(b[1]-a[1], b[0]-a[0]) - st.ang; l.x = st.x + m[0] - st.mid[0]; l.y = st.y + m[1] - st.mid[1];
+  } else if(mode === "handle"){ l.s = Math.max(.02, st.s * dist(p, [l.x, l.y])/st.d); l.rot = st.rot + Math.atan2(p[1]-l.y, p[0]-l.x) - st.ang; }
+  else if(mode === "move"){ l.x = st.x + p[0] - st.p[0]; l.y = st.y + p[1] - st.p[1]; }
+  else return;
+  if(before) carryDrip(before, l);
+  draw();
+});
+const end = e => { pts.delete(e.pointerId); if(mode === "pinch" && pts.size === 1){ const [p] = [...pts.values()], l = layers[sel]; mode = "move"; st = { p, x: l.x, y: l.y }; } if(!pts.size){ mode = null; cv.classList.remove("grabbing"); } };
+cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", end);
+cv.addEventListener("wheel", e => { if(!sel) return; e.preventDefault(); const l = layers[sel], o = { x: l.x, y: l.y, s: l.s, rot: l.rot }; if(e.shiftKey) l.rot += e.deltaY * .002; else l.s *= Math.exp(-e.deltaY * .0015); if(sel === "head") carryDrip(o, l); draw(); }, { passive: false });
+addEventListener("keydown", e => {
+  if($("panel-pfp").hidden || !sel || /INPUT|TEXTAREA/.test(document.activeElement?.tagName || "")) return;
+  const l = layers[sel], step = e.shiftKey ? 10 : 2, o = { x: l.x, y: l.y, s: l.s, rot: l.rot };
+  if(e.key === "ArrowLeft") l.x -= step; else if(e.key === "ArrowRight") l.x += step; else if(e.key === "ArrowUp") l.y -= step; else if(e.key === "ArrowDown") l.y += step;
+  else if(e.key === "+" || e.key === "=") l.s *= 1.03; else if(e.key === "-") l.s /= 1.03;
+  else if((e.key === "Delete" || e.key === "Backspace") && sel !== "head"){ $("selHide").click(); e.preventDefault(); return; }
+  else return;
+  if(sel === "head") carryDrip(o, l);
+  e.preventDefault(); draw();
+});
+
+/* ---------- what kind of image is this? ----------
+   "alpha": already has a transparent background (stickers, PNG art) → use it as-is
+   "flat":  illustration on a plain background → remove that colour from the edges inward
+   "photo": everything else → person-cutout model */
+function analyse(c){
+  const w = c.width, h = c.height, d = c.getContext("2d", { willReadFrequently: true }).getImageData(0, 0, w, h).data;
+  const border = [], push = (x, y) => { const i = (y*w + x)*4; border.push([d[i], d[i+1], d[i+2], d[i+3]]); };
+  for(let x = 0; x < w; x += 2){ push(x, 0); push(x, 1); push(x, h-1); push(x, h-2); }
+  for(let y = 0; y < h; y += 2){ push(0, y); push(1, y); push(w-1, y); push(w-2, y); }
+  const clear = border.filter(p => p[3] < 200).length / border.length;
+  if(clear > .5) return { mode: "alpha" };
+  const med = [0, 1, 2].map(ch => border.map(p => p[ch]).sort((a, b) => a - b)[border.length >> 1]);
+  const near = border.filter(p => Math.hypot(p[0]-med[0], p[1]-med[1], p[2]-med[2]) < 38).length / border.length;
+  // illustrations use few colours: the 64 most common (coarse) colours cover most of the picture
+  const bins = new Map(); let n = 0;
+  for(let i = 0; i < d.length; i += 16){ if(d[i+3] < 128 || Math.hypot(d[i]-med[0], d[i+1]-med[1], d[i+2]-med[2]) < 38) continue; const key = (d[i] >> 3) << 10 | (d[i+1] >> 3) << 5 | (d[i+2] >> 3); bins.set(key, (bins.get(key) || 0) + 1); n++; }
+  const top = [...bins.values()].sort((a, b) => b - a).slice(0, 64).reduce((s, v) => s + v, 0) / Math.max(1, n);
+  if(near > .8 && top > .55) return { mode: "flat", bg: med };
+  return { mode: "photo" };
+}
+// remove a plain background by filling inward from the edges; keeps enclosed areas like eye whites
+function keyOut(c, bg){
+  const w = c.width, h = c.height, x = c.getContext("2d", { willReadFrequently: true }), im = x.getImageData(0, 0, w, h), d = im.data;
+  const T = 48, seen = new Uint8Array(w*h), stack = new Int32Array(w*h); let sp = 0;
+  const isBg = i => { const j = i*4; return Math.hypot(d[j]-bg[0], d[j+1]-bg[1], d[j+2]-bg[2]) < T; };
+  const seed = i => { if(!seen[i] && isBg(i)){ seen[i] = 1; stack[sp++] = i; } };
+  for(let i = 0; i < w; i++){ seed(i); seed((h-1)*w + i); }
+  for(let i = 0; i < h; i++){ seed(i*w); seed(i*w + w - 1); }
+  while(sp){ const i = stack[--sp], px = i % w, py = (i / w) | 0;
+    if(px > 0) seed(i-1); if(px < w-1) seed(i+1); if(py > 0) seed(i-w); if(py < h-1) seed(i+w); }
+  for(let i = 0; i < w*h; i++){
+    if(seen[i]){ d[i*4+3] = 0; continue; }
+    // soften the one-pixel rim so no light halo is left around the outline
+    const px = i % w, py = (i / w) | 0;
+    if((px > 0 && seen[i-1]) || (px < w-1 && seen[i+1]) || (py > 0 && seen[i-w]) || (py < h-1 && seen[i+w])){
+      const j = i*4, dd = Math.hypot(d[j]-bg[0], d[j+1]-bg[1], d[j+2]-bg[2]); d[j+3] = Math.round(Math.min(1, Math.max(0, (dd - 20)/70)) * d[j+3]); }
+  }
+  x.putImageData(im, 0, 0);
+}
+function visibleBox(c){
+  const w = c.width, h = c.height, d = c.getContext("2d", { willReadFrequently: true }).getImageData(0, 0, w, h).data;
+  let x0 = w, y0 = h, x1 = -1, y1 = -1;
+  for(let y = 0; y < h; y += 2) for(let x = 0; x < w; x += 2) if(d[(y*w + x)*4 + 3] > 40){ if(x < x0) x0 = x; if(x > x1) x1 = x; if(y < y0) y0 = y; if(y > y1) y1 = y; }
+  return x1 < 0 ? [0, 0, w, h] : [x0, y0, x1 + 1, y1 + 1];
+}
+// cartoon faces: the biggest patch of skin-coloured pixels is the face (works on flat-shaded art)
+function skinFace(c){
+  const k = Math.min(1, 320 / Math.max(c.width, c.height)), w = Math.max(1, Math.round(c.width*k)), h = Math.max(1, Math.round(c.height*k));
+  const t = document.createElement("canvas"); t.width = w; t.height = h; const tx = t.getContext("2d", { willReadFrequently: true }); tx.drawImage(c, 0, 0, w, h);
+  const d = tx.getImageData(0, 0, w, h).data, m = new Uint8Array(w*h); let vis = 0;
+  for(let i = 0; i < w*h; i++){ const r = d[i*4], g = d[i*4+1], b = d[i*4+2], a = d[i*4+3]; if(a > 128) vis++;
+    m[i] = a > 128 && r > 140 && r >= g && g > b && r - b > 45 && r - g < 110 ? 1 : 0; }
+  const lab = new Int32Array(w*h), stack = new Int32Array(w*h); let best = null, id = 0;
+  for(let s0 = 0; s0 < w*h; s0++){
+    if(!m[s0] || lab[s0]) continue; id++; let sp = 0, n = 0, x0 = w, y0 = h, x1 = 0, y1 = 0, sr = 0, sg = 0, sb = 0; stack[sp++] = s0; lab[s0] = id;
+    while(sp){ const i = stack[--sp], x = i % w, y = (i / w) | 0; n++; sr += d[i*4]; sg += d[i*4+1]; sb += d[i*4+2];
+      if(x < x0) x0 = x; if(x > x1) x1 = x; if(y < y0) y0 = y; if(y > y1) y1 = y;
+      for(const j of [i-1, i+1, i-w, i+w]){ if(j < 0 || j >= w*h || lab[j] || !m[j] || (j === i-1 && x === 0) || (j === i+1 && x === w-1)) continue; lab[j] = id; stack[sp++] = j; } }
+    if(!best || n > best.n) best = { n, box: [x0/k, y0/k, (x1+1)/k, (y1+1)/k], tone: [sr/n, sg/n, sb/n] };
+  }
+  if(!best || best.n < vis * .06) return null;
+  return best;
+}
+// keep only the part of the picture that is connected to the face (drops stray props and specks)
+function keepConnected(c, at){
+  const k = Math.min(1, 320 / Math.max(c.width, c.height)), w = Math.max(1, Math.round(c.width*k)), h = Math.max(1, Math.round(c.height*k));
+  const t = document.createElement("canvas"); t.width = w; t.height = h; const tx = t.getContext("2d", { willReadFrequently: true }); tx.drawImage(c, 0, 0, w, h);
+  const im = tx.getImageData(0, 0, w, h), d = im.data, keep = new Uint8Array(w*h), stack = new Int32Array(w*h); let sp = 0;
+  const sx = Math.min(w-1, Math.max(0, Math.round(at[0]*k))), sy = Math.min(h-1, Math.max(0, Math.round(at[1]*k)));
+  // start from the most opaque pixel near the face centre
+  let s0 = -1, bestA = 0;
+  for(let y = Math.max(0, sy-6); y <= Math.min(h-1, sy+6); y++) for(let x = Math.max(0, sx-6); x <= Math.min(w-1, sx+6); x++){ const a = d[(y*w+x)*4+3]; if(a > bestA){ bestA = a; s0 = y*w+x; } }
+  if(s0 < 0 || bestA < 40) return;
+  keep[s0] = 1; stack[sp++] = s0;
+  while(sp){ const i = stack[--sp], x = i % w;
+    for(const j of [i-1, i+1, i-w, i+w, i-w-1, i-w+1, i+w-1, i+w+1]){ if(j < 0 || j >= w*h || keep[j] || d[j*4+3] < 25) continue; const jx = j % w; if(Math.abs(jx - x) > 1) continue; keep[j] = 1; stack[sp++] = j; } }
+  for(let i = 0; i < w*h; i++){ d[i*4] = d[i*4+1] = d[i*4+2] = 0; d[i*4+3] = keep[i] ? 255 : 0; }
+  tx.putImageData(im, 0, 0);
+  // grow the kept area a little so the full-size edge stays intact, then cut
+  const g = document.createElement("canvas"); g.width = w; g.height = h; const gx = g.getContext("2d"); gx.filter = "blur(1.5px)"; gx.drawImage(t, 0, 0); gx.filter = "none";
+  for(let n = 0; n < 3; n++) gx.drawImage(g, 0, 0);
+  const x = c.getContext("2d"); x.globalCompositeOperation = "destination-in"; x.imageSmoothingEnabled = true; x.drawImage(g, 0, 0, c.width, c.height); x.globalCompositeOperation = "source-over";
+}
+function faceFromBox(b){
+  const [x0, y0, x1, y1] = b, w = x1 - x0, h = y1 - y0, P = (u, v) => [x0 + w*u, y0 + h*v];
+  const L = Array.from({ length: 68 }, () => P(.5, .6));
+  for(let i = 0; i <= 16; i++){ const t = i/16; L[i] = P(.1 + .8*t, .45 + .5*Math.sin(Math.PI*t)); }
+  for(let i = 36; i < 42; i++) L[i] = P(.36, .45);
+  for(let i = 42; i < 48; i++) L[i] = P(.64, .45);
+  L[33] = P(.5, .64); L[48] = P(.4, .79); L[54] = P(.6, .79); L[51] = P(.5, .76); L[8] = P(.5, 1);
+  return L;
+}
+// stand-in face points for art where no face was found, so the drip still lands somewhere sensible
+function guessLandmarks(box){
+  const [x0, y0, x1, y1] = box, w = x1 - x0, hh = Math.min(y1 - y0, w * 1.15), P = (u, v) => [x0 + w*u, y0 + hh*v];
+  const L = Array.from({ length: 68 }, () => P(.5, .6));
+  for(let i = 0; i <= 16; i++){ const t = i/16; L[i] = P(.22 + .56*t, .55 + .37*Math.sin(Math.PI*t)); }
+  for(let i = 36; i < 42; i++) L[i] = P(.38, .55);
+  for(let i = 42; i < 48; i++) L[i] = P(.62, .55);
+  L[33] = P(.5, .7); L[48] = P(.4, .82); L[54] = P(.6, .82); L[51] = P(.5, .8); L[8] = P(.5, .93);
+  return L;
+}
+
+/* ---------- upload ---------- */
+async function usePhoto(file){
+  if(!file || !/^image\//.test(file.type)){ say("That file isn't an image"); return; }
+  const url = URL.createObjectURL(file); const img = await load(url); URL.revokeObjectURL(url);
+  if(!img){ say("Couldn't open that image"); return; }
+  const k = Math.min(1, 1200 / Math.max(img.width, img.height));
+  const c = document.createElement("canvas"); c.width = Math.round(img.width*k); c.height = Math.round(img.height*k); c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+  // face finding works best on an opaque picture, so look at it over white
+  const look = document.createElement("canvas"); look.width = c.width; look.height = c.height; const lx = look.getContext("2d");
+  lx.fillStyle = "#fff"; lx.fillRect(0, 0, c.width, c.height); lx.drawImage(c, 0, 0);
+  const kind = analyse(c);
+  busy(true, "Finding your face…");
+  let lm = null;
+  try { await loadFace(); lm = await landmarks(look); }
+  catch(e){ console.warn("face finder failed", e); busy(false); say("Couldn't load the face finder. Check your connection and try again."); return; }
+
+  // cut out the head
+  const cut = document.createElement("canvas"); cut.width = c.width; cut.height = c.height; const x = cut.getContext("2d", { willReadFrequently: true });
+  x.drawImage(c, 0, 0);
+  if(kind.mode === "flat") keyOut(cut, kind.bg);
+  else if(kind.mode === "photo"){
+    busy(true, "Cutting out your head…");
+    try { await loadSeg(); const mask = await cutout(c); x.globalCompositeOperation = "destination-in"; x.drawImage(mask, 0, 0); x.globalCompositeOperation = "source-over"; }
+    catch(e){ console.warn("cutout failed", e); busy(false); say("Couldn't cut out the photo on this device. Try another browser."); return; }
+  }
+  let box = visibleBox(cut);
+  // ignore a "face" that is tiny compared with the picture (usually a false match on art)
+  if(lm && dist(lm[0], lm[16]) < (box[2] - box[0]) * .05) lm = null;
+
+  let manual = false, guessed = false, tone = null;
+  if(kind.mode !== "photo"){
+    // on art, the photo face detector can latch onto the wrong thing; check it against the skin patch
+    const f = skinFace(cut);
+    if(f){
+      const [fx0, fy0, fx1, fy1] = f.box, fw0 = fx1 - fx0, pad = fw0 * .1;
+      let ok = false;
+      if(lm){ const c0 = mean([...lm.slice(36, 48)]), wd = dist(lm[0], lm[16]); ok = c0[0] > fx0 - pad && c0[0] < fx1 + pad && c0[1] > fy0 - pad && c0[1] < fy1 + pad && wd > fw0 * .45 && wd < fw0 * 1.6; }
+      if(!ok){ lm = faceFromBox(f.box); guessed = true; tone = f.tone; }
+    }
+    if(lm) keepConnected(cut, mean([...lm.slice(36, 48), lm[30]]));
+  }
+  if(lm){
+    const eyeM = mean([mean(lm.slice(36, 42)), mean(lm.slice(42, 48))]), chin = lm[8], fh = dist(eyeM, chin), dn = [(chin[0]-eyeM[0])/fh, (chin[1]-eyeM[1])/fh], up = [-dn[0], -dn[1]], fw = dist(lm[0], lm[16]);
+    x.globalCompositeOperation = "destination-out";
+    const photo = kind.mode === "photo", far = photo ? [.08, .22] : guessed ? [.04, .2] : [.14, .34];
+    // fade out anything below the chin (shoulders, a drawn body). Skip on head-only art so a round chin is never clipped.
+    const hasBody = box[3] > chin[1] + fh * .6;
+    if(photo || hasBody){
+      const a = [chin[0] + dn[0]*fh*far[0], chin[1] + dn[1]*fh*far[0]], b = [chin[0] + dn[0]*fh*far[1], chin[1] + dn[1]*fh*far[1]];
+      const grad = x.createLinearGradient(a[0], a[1], b[0], b[1]); grad.addColorStop(0, "rgba(0,0,0,0)"); grad.addColorStop(1, "rgba(0,0,0,1)");
+      x.fillStyle = grad; x.fillRect(0, 0, cut.width, cut.height);
+    }
+    x.globalCompositeOperation = "destination-in";
+    if(photo){
+      // photos: keep a soft head-shaped zone so collars and other people drop out
+      const q = 64, z = document.createElement("canvas"); z.width = z.height = q; const zx = z.getContext("2d"), sc = q / Math.max(cut.width, cut.height);
+      const ang = Math.atan2(dn[1], dn[0]) - Math.PI/2, top = [eyeM[0] + up[0]*fh*.45, eyeM[1] + up[1]*fh*.45], low = [eyeM[0] + dn[0]*fh*.35, eyeM[1] + dn[1]*fh*.35];
+      zx.fillStyle = "#000"; zx.beginPath(); zx.ellipse(top[0]*sc, top[1]*sc, fw*.95*sc, fh*1.1*sc, ang, 0, Math.PI*2); zx.fill();
+      zx.beginPath(); zx.ellipse(low[0]*sc, low[1]*sc, fw*.52*sc, fh*.85*sc, ang, 0, Math.PI*2); zx.fill();
+      x.imageSmoothingEnabled = true; x.drawImage(z, 0, 0, q/sc, q/sc);
+    }
+    x.globalCompositeOperation = "source-over";
+    neckCanvas = tintNeck(tone || skinTone(look, lm));
+  } else {
+    if(kind.mode === "photo"){ busy(false); say("No face found. Try a photo where you face the camera, without sunglasses."); return; }
+    // art with no detectable face: bring it in anyway and let people place it by hand
+    manual = true; neckCanvas = null;
+    lm = guessLandmarks(box);
+  }
+  L = lm;
+  layers.head = Object.assign({ key: "head", img: cut, on: true }, alphaInfo(cut)); placeHead();
+  Object.keys(DRIP).forEach(k => { if(layers[k]) placeDrip(k); });
+  if(!layers.mustache && DRIP.mustache.img){ layers.mustache = Object.assign({ key: "mustache", img: DRIP.mustache.img, on: true }, DRIP.mustache.info); placeDrip("mustache"); }
+  $("pfpSave").disabled = false; $("pfpResetAll").disabled = false;
+  busy(false); syncButtons();
+  if(manual){ select("head"); say("Couldn't spot a face in that art. Drag and pinch it into place."); }
+  else if(guessed){ select(null); say("Cartoon spotted. Drag or pinch anything to fine-tune."); }
+  else { select(null); say("Welcome to the Kult. Add the drip."); }
+}
+$("pfpFile").addEventListener("change", e => { usePhoto(e.target.files[0]); e.target.value = ""; });
+const stage = $("pfpStage"), dropHint = $("dropHint");
+["dragenter","dragover"].forEach(t => stage.addEventListener(t, e => { e.preventDefault(); dropHint.hidden = false; }));
+["dragleave","drop"].forEach(t => stage.addEventListener(t, e => { e.preventDefault(); dropHint.hidden = true; }));
+stage.addEventListener("drop", e => usePhoto(e.dataTransfer.files[0]));
+addEventListener("paste", e => { if($("panel-pfp").hidden) return; const f = [...(e.clipboardData?.files || [])].find(f => /^image\//.test(f.type)); if(f) usePhoto(f); });
+
+/* ---------- save (no guide, no selection box) ---------- */
+$("pfpSave").addEventListener("click", async () => {
+  const c = document.createElement("canvas"); c.width = c.height = S; paint(c.getContext("2d"), true);
+  const blob = await new Promise(r => c.toBlob(r, "image/png")); if(!blob){ say("Couldn't save the image"); return; }
+  const file = new File([blob], "kult-colt-pfp.png", { type: "image/png" });
+  try { if(navigator.canShare && navigator.canShare({ files: [file] }) && kultIsPhone){ await navigator.share({ files: [file], text: "I became Colt. $KULT @ultwithknife" }); return; } }
+  catch(e){ if(e && e.name === "AbortError") return; }
+  const u = URL.createObjectURL(blob), a = document.createElement("a"); a.href = u; a.download = file.name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 4000); say("PFP saved");
+});
+
+/* ---------- boot ---------- */
+Promise.all([load(BODY.src), load(BODY.neck), ...Object.values(DRIP).map(d => load(d.src))]).then(([b, n, ...arts]) => {
+  body = b; neckImg = n;
+  Object.values(DRIP).forEach((d, i) => { d.img = arts[i]; if(arts[i]) d.info = alphaInfo(arts[i]); });
+  draw();
+});
+window.PFP = { show(){ draw(); loadFace().catch(() => {}); loadSeg().catch(() => {}); } };
+})();
+
+/* ================= Colt Says: quote card maker ================= */
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const cv = $("csCanvas"), g = cv.getContext("2d");
+const load = src => new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
+const toast = $("toast"); let tt;
+const say = m => { toast.textContent = m; toast.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove("on"), 2000); };
+
+const FONT = '"Dela Gothic One","Arial Black",Impact,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji"';
+const MONO = '"JetBrains Mono",ui-monospace,Menlo,monospace';
+const LINES = [
+  "Never fold.",
+  "HODL or fall on the knife.",
+  "It's a KULT, not a cult.",
+  "Pick up the knife.",
+  "Paper hands fold. Track suits don't.",
+  "Red candles build character.",
+  "Shades on. Doubts off.",
+  "The chain stays on. Always.",
+  "Every dip is a discount.",
+  "I don't chase. I attract.",
+  "Sit back. Spin the knife.",
+  "Diamonds aren't rushed.",
+  "Real recognize real.",
+  "Scared money don't make money.",
+  "Trust the process.",
+  "What if… we just don't sell?",
+  "Is it a dip if I never sell?",
+  "Imagine selling. Couldn't be me.",
+  "Touch grass? I am the grass.",
+  "Pressure makes diamonds.",
+  "Stay sharp.",
+  "Loud chain, quiet wallet moves.",
+  "OGs HODL better.",
+  "Feet up, knives out.",
+  "Respect.",
+  "When I dip, you dip, we dip.",
+  "This guy gets it.",
+  "Who da F*&% is dat guy.",
+  "Don't let them shake you.",
+  "Still early.",
+  "Patience.",
+  "Wealth takes time.",
+  "Holding strong.",
+  "Nothing but green.",
+  "Let it marinate.",
+  "Still here.",
+  "Trust your gut.",
+  "The new cycle is here.",
+  "Stay ultimate.",
+  "Built different.",
+  "Can you smell it?",
+  "The streets made me.",
+  "The vision is clear.",
+  "The bottom is in.",
+  "It's not easy being this sexy."
+];
+
+/* poses. face: which way Colt looks (the bubble goes on that side). mouth / head: where speech tails and thought
+   dots aim, as fractions of the image. Per shape: c = Colt's box [x, y, height] on the card, fx = how far across the
+   image (fraction) the bubble must stay clear of him, y1 = the lowest the bubble may reach. */
+const POSES = {
+  crossed: { src: "../img/colt-says.webp",    face: "r", bubble: "says",   mouth: [.69, .33], head: [.66, .12],
+             square: { c: [-60, 70, 1010],  fx: .81, y1: 640 }, wide: { c: [-10, 34, 720],  fx: .79, y1: 520 } },
+  pockets: { src: "../img/colt-pockets.webp", face: "r", bubble: "says",   mouth: [.63, .34], head: [.62, .1],
+             square: { c: [-120, 150, 930], fx: .70, y1: 520 }, wide: { c: [-40, 34, 720],  fx: .98, y1: 560 } },
+  shaka:   { src: "../img/colt-shaka.webp",   face: "r", bubble: "says",   mouth: [.56, .27], head: [.6, .1],
+             square: { c: [-140, 160, 920], fx: .70, y1: 510 }, wide: { c: [-60, 35, 640],  fx: .99, y1: 560 } },
+  squat:   { src: "../img/colt-squat.webp",   face: "r", bubble: "says",   mouth: [.54, .24], head: [.6, .08],
+             square: { c: [-20, 180, 900],  fx: .62, y1: 400 }, wide: { c: [20, 35, 640],   fx: .95, y1: 560 } },
+  ponder:  { src: "../img/colt-ponder.webp",  face: "r", bubble: "thinks", mouth: [.60, .33], head: [.66, .1],
+             square: { c: [-150, 180, 900], fx: .74, y1: 450 }, wide: { c: [-60, 35, 640],  fx: 1,   y1: 560 } },
+  chin:    { src: "../img/colt-thinks.webp",  face: "l", bubble: "thinks", mouth: [.42, .32], head: [.36, .15],
+             square: { c: [330, 170, 910],  fx: .31, y1: 560 }, wide: { c: [600, 6, 700],   fx: .18, y1: 540 } }
+};
+// full scenes: the picture is the whole card, the bubble goes in its empty space
+Object.assign(POSES, {
+  hand:  { src: "../img/scene-hand.webp",  scene: true, hand: true, bubble: "says", mouth: [.565, .215], head: [.56, .07],
+           square: { fit: "cover", f: [.2, .5], area: [36, 36, 525, 420], hug: "r", tag: "bl" },
+           wide:   { fit: "contain", f: [1, 0], area: [40, 40, 560, 400], hug: "r", tag: "bl" } },
+  phonelaugh: { src: "../img/scene-phone-laugh.webp", scene: true, bubble: "says", mouth: [.645, .34], head: [.66, .06],
+           square: { fit: "cover", f: [.6, .5], area: [36, 36, 540, 330], hug: "r", tag: "bl" },
+           wide:   { fit: "cover", f: [.5, .3], area: [36, 30, 480, 330], hug: "r", tag: "bl" } },
+  phonepoint: { src: "../img/scene-phone-point.webp", scene: true, bubble: "says", mouth: [.39, .37], head: [.37, .05],
+           square: { fit: "contain", f: [.5, 1], area: [36, 36, 1044, 470], hug: "l", tag: "br" },
+           wide:   { fit: "cover", f: [.5, .5], area: [800, 30, 1170, 360], hug: "l", tag: "br" } },
+  climb: { src: "../img/scene-climb.webp", scene: true, bubble: "says", mouth: [.47, .12], head: [.46, .04],
+           square: { fit: "cover", f: [.5, .5], area: [600, 40, 1040, 360], hug: "l", tag: "br" },
+           wide:   { fit: "contain", f: [0, 0], area: [515, 30, 1170, 330], hug: "l", tag: "br" } }
+});
+const SIZES = { square: [1080, 1080], wide: [1200, 675] };
+const state = { text: "", pose: "crossed", bubble: "says", bg: "blue", fmt: "square" };
+const ART = {};
+
+/* each pose image loads the first time it's needed */
+const poseCache = {};
+function poseImg(key){
+  if(poseCache[key] === undefined){ poseCache[key] = null; load(POSES[key].src).then(i => { poseCache[key] = i || false; if(state.pose === key){ redraw(); queuePrep(); } }); }
+  return poseCache[key] || null;
+}
+
+/* ---------- backgrounds ---------- */
+// knife art backdrops: each loads the first time it is picked
+const BGIMG = { tunnel: "../img/bg-tunnel.webp", slash: "../img/bg-slash.webp", icek: "../img/bg-icek.webp", flame: "../img/bg-flame.webp", crystal: "../img/bg-crystal.webp", neonk: "../img/bg-neonk.webp" };
+const bgCache = {};
+function bgImg(key){
+  if(bgCache[key] === undefined){ bgCache[key] = null; load(BGIMG[key]).then(i => { bgCache[key] = i || false; if(state.bg === key){ redraw(); queuePrep(); } }); }
+  return bgCache[key] || null;
+}
+function rng(seed){ return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+function cover(img, W, H, fx = .5, fy = .5){ const k = Math.max(W/img.width, H/img.height), w = img.width*k, h = img.height*k; g.drawImage(img, (W-w)*fx, (H-h)*fy, w, h); }
+function drawBg(W, H){
+  const b = state.bg;
+  if(b === "blue"){
+    const gr = g.createLinearGradient(0, 0, W*.3, H); gr.addColorStop(0, "#62e2ff"); gr.addColorStop(1, "#1597d6"); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+    const rg = g.createRadialGradient(W*.75, H*.2, 0, W*.75, H*.2, W*.7); rg.addColorStop(0, "rgba(255,255,255,.35)"); rg.addColorStop(1, "rgba(255,255,255,0)"); g.fillStyle = rg; g.fillRect(0, 0, W, H);
+  } else if(b === "forge"){
+    g.fillStyle = "#030508"; g.fillRect(0, 0, W, H);
+    const rg = g.createRadialGradient(W*.5, H*.85, 0, W*.5, H*.85, W*.8); rg.addColorStop(0, "rgba(63,208,255,.35)"); rg.addColorStop(1, "rgba(63,208,255,0)"); g.fillStyle = rg; g.fillRect(0, 0, W, H);
+    g.strokeStyle = "rgba(63,208,255,.06)"; g.lineWidth = 1; for(let x = 0; x < W; x += 48){ g.beginPath(); g.moveTo(x, 0); g.lineTo(x, H); g.stroke(); } for(let y = 0; y < H; y += 48){ g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke(); }
+    const r = rng(7); for(let i = 0; i < 70; i++){ const x = r()*W, y = r()*H, s = 1 + r()*3, a = .25 + r()*.6; g.fillStyle = `rgba(${r() < .7 ? "63,208,255" : "233,244,255"},${a})`; g.shadowColor = "rgba(63,208,255,.8)"; g.shadowBlur = 8; g.beginPath(); g.arc(x, y, s, 0, 6.283); g.fill(); }
+    g.shadowBlur = 0;
+  } else if(b === "space" && ART.space){
+    cover(ART.space, W, H); g.fillStyle = "rgba(3,5,8,.25)"; g.fillRect(0, 0, W, H);
+  } else if(b === "office" && ART.office){
+    g.save(); g.filter = "blur(7px)"; cover(ART.office, W + 40, H + 40, .3, .4); g.restore();
+    g.fillStyle = "rgba(3,5,8,.35)"; g.fillRect(0, 0, W, H);
+  } else if(BGIMG[b]){
+    const img = bgImg(b);
+    if(img){ cover(img, W, H, .5, .5); g.fillStyle = "rgba(3,5,8,.18)"; g.fillRect(0, 0, W, H); }
+    else { g.fillStyle = "#030508"; g.fillRect(0, 0, W, H); }
+  } else { g.fillStyle = "#1597d6"; g.fillRect(0, 0, W, H); }
+}
+
+/* ---------- text fitting ---------- */
+// words are never split. A word too wide for the bubble gets a line of its own and is drawn smaller to fit.
+let wrapFit = 1;   // how much the most oversized word must shrink (1 = nothing oversized)
+function wrap(text, maxW){
+  const lines = []; wrapFit = 1;
+  for(const para of text.split(/\n/)){
+    const words = para.split(/\s+/).filter(Boolean); let line = "";
+    if(!words.length){ lines.push(""); continue; }
+    for(const w of words){
+      const ww = g.measureText(w).width;
+      if(ww > maxW){ if(line){ lines.push(line); line = ""; } lines.push(w); wrapFit = Math.min(wrapFit, maxW / ww); continue; }
+      const t = line ? line + " " + w : w;
+      if(g.measureText(t).width <= maxW) line = t; else { if(line) lines.push(line); line = w; }
+    }
+    if(line) lines.push(line);
+  }
+  while(lines.length > 1 && lines[lines.length-1] === "") lines.pop();
+  return lines;
+}
+function layoutAt(text, maxW, base){
+  // each line keeps the base size, except a single word too wide for the bubble, which shrinks on its own
+  g.font = `${base}px ${FONT}`;
+  const lines = wrap(text, maxW).map(t => { const w = g.measureText(t).width, size = w > maxW ? Math.floor(base * maxW / w) : base; return { t, size, w: Math.min(w, maxW) }; });
+  const h = lines.reduce((s, l) => s + l.size * 1.12, 0);
+  return { size: base, lines, h, w: Math.max(...lines.map(l => l.w)), shrunk: lines.some(l => l.size < base) };
+}
+function fit(text, maxW, maxH, scale){
+  let best = null, whole = null;
+  for(let size = Math.round(92*scale); size >= 22; size -= 2){
+    const L = layoutAt(text, maxW, size);
+    if(L.h > maxH) continue;
+    if(!best) best = L;
+    if(!L.shrunk){ whole = L; break; }
+  }
+  // keep every word the same size if that costs little; otherwise shrink just the long word
+  if(whole && best && whole.size >= best.size * .85) return whole;
+  return best || whole || layoutAt(text, maxW, 22);
+}
+
+/* ---------- bubbles ---------- */
+function rr(x, y, w, h, r){ g.beginPath(); g.moveTo(x+r, y); g.arcTo(x+w, y, x+w, y+h, r); g.arcTo(x+w, y+h, x, y+h, r); g.arcTo(x, y+h, x, y, r); g.arcTo(x, y, x+w, y, r); g.closePath(); }
+const INK = "#030508";
+function speech(b, tip, lw){
+  const cx = b.x + b.w/2, cy = b.y + b.h/2;
+  // tail base on the side facing the tip
+  const bx = Math.max(b.x + 50, Math.min(b.x + b.w - 50, tip[0])), by = Math.max(b.y + 50, Math.min(b.y + b.h - 50, tip[1]));
+  let base;
+  if(tip[0] < b.x) base = [[b.x + 30, by - 34], [b.x + 30, by + 22]];
+  else if(tip[1] > b.y + b.h) base = [[bx - 34, b.y + b.h - 30], [bx + 22, b.y + b.h - 30]];
+  else if(tip[0] > b.x + b.w) base = [[b.x + b.w - 30, by - 34], [b.x + b.w - 30, by + 22]];
+  else base = [[bx - 34, b.y + 30], [bx + 22, b.y + 30]];
+  const tail = () => { g.beginPath(); g.moveTo(base[0][0], base[0][1]); g.quadraticCurveTo((base[0][0] + tip[0])/2, (base[0][1] + tip[1])/2 - 6, tip[0], tip[1]); g.quadraticCurveTo((base[1][0] + tip[0])/2, (base[1][1] + tip[1])/2 + 6, base[1][0], base[1][1]); g.closePath(); };
+  g.save(); g.shadowColor = "rgba(3,5,8,.35)"; g.shadowBlur = 30; g.shadowOffsetY = 10; rr(b.x, b.y, b.w, b.h, 40); g.fillStyle = "#fff"; g.fill(); g.restore();
+  g.lineJoin = "round"; g.strokeStyle = INK; g.lineWidth = lw*2;
+  rr(b.x, b.y, b.w, b.h, 40); g.stroke(); tail(); g.stroke();
+  g.fillStyle = "#fff"; rr(b.x, b.y, b.w, b.h, 40); g.fill(); tail(); g.fill();
+}
+function cloudR(b, scale){ return 26*scale + Math.min(b.w, b.h) * .09; }
+function cloud(b, tip, lw, scale){
+  // a puffy cloud: circles around a rounded box, outlined as one shape. b is the inner box; puffs reach r outside it.
+  const r0 = cloudR(b, scale), per = 2*(b.w + b.h), n = Math.max(10, Math.round(per / (r0 * 1.45))), pts = [];
+  for(let i = 0; i < n; i++){
+    let d = i / n * per, x, y;
+    if(d < b.w){ x = b.x + d; y = b.y; } else if((d -= b.w) < b.h){ x = b.x + b.w; y = b.y + d; } else if((d -= b.h) < b.w){ x = b.x + b.w - d; y = b.y + b.h; } else { d -= b.w; x = b.x; y = b.y + b.h - d; }
+    pts.push([x, y, r0 * (.86 + .28 * ((i * 37) % 7) / 6)]);
+  }
+  const body = () => { g.beginPath(); for(const [x, y, r] of pts){ g.moveTo(x + r, y); g.arc(x, y, r, 0, 6.283); } g.rect(b.x, b.y, b.w, b.h); };
+  // three thought dots, evenly spaced from the cloud's edge to Colt's head, shrinking as they go
+  const cx = b.x + b.w/2, cy = b.y + b.h/2, dx = tip[0] - cx, dy = tip[1] - cy, len = Math.hypot(dx, dy) || 1, ux = dx/len, uy = dy/len;
+  const tEdge = Math.min(ux ? Math.abs((b.w/2)/ux) : 1e9, uy ? Math.abs((b.h/2)/uy) : 1e9);
+  const s0 = [cx + ux*(tEdge + r0*1.1), cy + uy*(tEdge + r0*1.1)], span = Math.max(0, Math.hypot(tip[0]-s0[0], tip[1]-s0[1]));
+  const rad = [20, 14, 9].map(v => v*scale), dots = [.12, .5, .85].map((t, i) => [s0[0] + ux*span*t, s0[1] + uy*span*t, rad[i]]);
+  g.save(); g.shadowColor = "rgba(3,5,8,.35)"; g.shadowBlur = 30; g.shadowOffsetY = 10; g.fillStyle = "#fff"; body(); g.fill(); g.restore();
+  g.strokeStyle = INK; g.lineWidth = lw*2; body(); g.stroke();
+  g.fillStyle = "#fff"; body(); g.fill();
+  for(const [x, y, r] of dots){ g.beginPath(); g.arc(x, y, r, 0, 6.283); g.fillStyle = "#fff"; g.fill(); g.lineWidth = lw; g.stroke(); }
+}
+
+/* ---------- render ---------- */
+/* ---------- the empty-hand scene: whatever people put in Colt's palm ---------- */
+const HELD = { kind: "candle", img: null, x: .5, y: .76, size: 26, glow: true, box: null };
+const HELD_ART = { knife: "../img/game-knife.webp", pendant: "../img/pendant.webp", flame: "../img/game-flame.png" };
+const heldCache = {};
+function heldImg(k){
+  if(k === "upload") return HELD.img;
+  if(!HELD_ART[k]) return null;
+  if(heldCache[k] === undefined){ heldCache[k] = null; load(HELD_ART[k]).then(i => { heldCache[k] = i || false; redraw(); queuePrep(); drawHandIcons(); }); }
+  return heldCache[k] || null;
+}
+function greenCandle(c, w, h, glow){
+  // a glowing green candle, like the meme
+  c.save();
+  if(glow){ c.shadowColor = "rgba(70,255,90,.95)"; c.shadowBlur = w*1.2; }
+  c.strokeStyle = "#7dff86"; c.lineWidth = Math.max(2, w*.08); c.lineCap = "round";
+  c.beginPath(); c.moveTo(0, -h/2); c.lineTo(0, h/2); c.stroke();
+  const bw = w*.62, bh = h*.66, gr = c.createLinearGradient(-bw/2, 0, bw/2, 0);
+  gr.addColorStop(0, "#5dff6b"); gr.addColorStop(.5, "#d8ffd8"); gr.addColorStop(1, "#39e64e");
+  c.fillStyle = gr; c.fillRect(-bw/2, -bh/2, bw, bh);
+  c.restore();
+}
+function drawHeldThing(c, k, cxp, cyp, H, glow){
+  if(k === "candle"){ c.save(); c.translate(cxp, cyp); greenCandle(c, H*.32, H, glow); c.restore(); return [H*.4, H]; }
+  const im = heldImg(k); if(!im) return null;
+  const w = H * im.width / im.height;
+  c.save();
+  if(glow){ c.shadowColor = k === "flame" || k === "knife" ? "rgba(63,208,255,.95)" : "rgba(242,193,78,.85)"; if(k === "upload") c.shadowColor = "rgba(63,208,255,.8)"; c.shadowBlur = H*.25; }
+  c.drawImage(im, cxp - w/2, cyp - H/2, w, H);
+  c.restore();
+  return [w, H];
+}
+function drawHeld(ox, oy, dw, dh){
+  const H = dh * HELD.size / 100, cxp = ox + dw*HELD.x, cyp = oy + dh*HELD.y;
+  // a soft pool of light on the palm sells it
+  if(HELD.glow){ const gl = g.createRadialGradient(cxp, cyp + H*.15, 0, cxp, cyp + H*.15, H*.9); gl.addColorStop(0, HELD.kind === "candle" ? "rgba(80,255,100,.32)" : "rgba(63,208,255,.25)"); gl.addColorStop(1, "rgba(0,0,0,0)"); g.fillStyle = gl; g.fillRect(cxp - H, cyp - H, H*2, H*2.2); }
+  const sz = drawHeldThing(g, HELD.kind, cxp, cyp, H, HELD.glow);
+  HELD.box = sz ? { x: cxp - sz[0]/2, y: cyp - sz[1]/2, w: sz[0], h: sz[1], ox, oy, dw, dh } : { x: cxp - H/3, y: cyp - H/2, w: H*.66, h: H, ox, oy, dw, dh };
+}
+function drawHandIcons(){
+  document.querySelectorAll("canvas[data-hi]").forEach(c => { const x = c.getContext("2d"); x.clearRect(0, 0, 80, 80); drawHeldThing(x, c.dataset.hi, 40, 40, 62, false); });
+}
+function setHeld(k){
+  HELD.kind = k;
+  document.querySelectorAll(".hand-picks [data-item]").forEach(b => b.setAttribute("aria-checked", String(b.dataset.item === k)));
+  redraw(); queuePrep();
+}
+document.querySelectorAll(".hand-picks button[data-item]").forEach(b => b.addEventListener("click", () => setHeld(b.dataset.item)));
+const upLabel = document.querySelector(".hand-up");
+upLabel.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); $("csHandFile").click(); } });
+upLabel.addEventListener("click", e => { if(HELD.img && HELD.kind !== "upload"){ e.preventDefault(); setHeld("upload"); } });
+$("csHandFile").addEventListener("change", e => {
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const url = URL.createObjectURL(f), im = new Image();
+  im.onload = () => {
+    // keep big photos manageable
+    const k = Math.min(1, 1400 / Math.max(im.width, im.height)), c = document.createElement("canvas");
+    c.width = Math.round(im.width*k); c.height = Math.round(im.height*k); c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+    HELD.img = c; URL.revokeObjectURL(url);
+    const ic = document.createElement("canvas"); ic.width = ic.height = 80; const x = ic.getContext("2d"), s = 62/Math.max(c.width, c.height); x.drawImage(c, 40 - c.width*s/2, 40 - c.height*s/2, c.width*s, c.height*s);
+    const plus = upLabel.querySelector(".plus"); plus.textContent = ""; plus.style.background = `center/contain no-repeat url(${ic.toDataURL()})`;
+    setHeld("upload");
+  };
+  im.onerror = () => { URL.revokeObjectURL(url); say("Couldn't open that image"); };
+  im.src = url; e.target.value = "";
+});
+$("csHandSize").addEventListener("input", e => { HELD.size = +e.target.value; redraw(); });
+$("csHandGlow").addEventListener("change", e => { HELD.glow = e.target.checked; redraw(); queuePrep(); });
+// drag the item around on the card
+let drag = null;
+const cardPt = e => { const rc = cv.getBoundingClientRect(); return [(e.clientX - rc.left) * cv.width / rc.width, (e.clientY - rc.top) * cv.height / rc.height]; };
+cv.addEventListener("pointerdown", e => {
+  if(!POSES[state.pose].hand || !HELD.box) return;
+  const [x, y] = cardPt(e), b = HELD.box, padd = 30;
+  if(x < b.x - padd || x > b.x + b.w + padd || y < b.y - padd || y > b.y + b.h + padd) return;
+  drag = { x, y, hx: HELD.x, hy: HELD.y }; cv.setPointerCapture(e.pointerId); cv.classList.add("grabbing"); e.preventDefault();
+});
+cv.addEventListener("pointermove", e => {
+  if(!drag) return; const [x, y] = cardPt(e), b = HELD.box;
+  HELD.x = Math.min(.97, Math.max(.03, drag.hx + (x - drag.x)/b.dw)); HELD.y = Math.min(.97, Math.max(.03, drag.hy + (y - drag.y)/b.dh)); redraw();
+});
+["pointerup", "pointercancel"].forEach(t => cv.addEventListener(t, () => { if(drag){ drag = null; cv.classList.remove("grabbing"); queuePrep(); } }));
+function syncHand(){ const on = !!POSES[state.pose].hand; $("csHand").hidden = !on; cv.classList.toggle("grab", on); }
+
+function render(){
+  const pose = POSES[state.pose], P = pose[state.fmt], [W, H] = SIZES[state.fmt], think = state.bubble === "thinks";
+  if(cv.width !== W || cv.height !== H){ cv.width = W; cv.height = H; }
+  g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, H);
+  const img = poseImg(state.pose), scale = W / 1080, pt = think ? pose.head : pose.mouth;
+  let aim, area, hugRight, tagRight;
+  if(pose.scene){
+    // the scene image fills the card as-is (no cutout); in "contain" the leftover strip gets a dark, blurred copy
+    const iw = img ? img.width : 1402, ih = img ? img.height : 1122;
+    const k = P.fit === "cover" ? Math.max(W/iw, H/ih) : Math.min(W/iw, H/ih), dw = iw*k, dh = ih*k, ox = (W - dw)*P.f[0], oy = (H - dh)*P.f[1];
+    g.fillStyle = "#030508"; g.fillRect(0, 0, W, H);
+    if(img){
+      if(P.fit === "contain"){
+        const kc = Math.max(W/iw, H/ih); g.save(); if("filter" in g) g.filter = "blur(28px)"; g.drawImage(img, (W - iw*kc)/2, (H - ih*kc)/2, iw*kc, ih*kc); g.restore();
+        g.fillStyle = "rgba(3,5,8,.62)"; g.fillRect(0, 0, W, H);
+      }
+      g.drawImage(img, ox, oy, dw, dh);
+    }
+    if(pose.hand) drawHeld(ox, oy, dw, dh);
+    aim = [ox + dw*pt[0], oy + dh*pt[1]]; area = P.area; hugRight = P.hug === "r"; tagRight = P.tag === "br";
+  } else {
+    drawBg(W, H);
+    // Colt's box (also used before his image has loaded, so the bubble doesn't jump)
+    const [cx, cy, ch] = P.c, cw = ch * (img ? img.width / img.height : .9);
+    if(img){ g.save(); g.shadowColor = "rgba(3,5,8,.35)"; g.shadowBlur = 40; g.drawImage(img, cx, cy, cw, ch); g.restore(); }
+    aim = [cx + cw * pt[0], cy + ch * pt[1]];
+    // the bubble lives on the side Colt faces, clear of him
+    const edge = cx + cw * P.fx, margin = 40 * scale;
+    area = pose.face === "r" ? [Math.max(margin, edge + 24*scale), margin, W - margin, P.y1] : [margin, margin, Math.min(W - margin, edge - 24*scale), P.y1];
+    hugRight = pose.face !== "r"; tagRight = pose.face === "r";
+  }
+  // fit the words into the allowed area
+  const text = (state.text.trim() || LINES[0]).replace(/[ \t]+/g, " ");
+  const inset = think ? 58 * scale : 0;
+  const ax0 = area[0] + inset, ay0 = area[1] - 4*scale + inset, ax1 = area[2] - inset, ay1 = area[3] - inset, pad = (think ? 22 : 44) * scale, labelH = 38 * scale;
+  const maxW = ax1 - ax0 - pad*2, maxH = ay1 - ay0 - pad*2 - labelH;
+  const f = fit(text, maxW, maxH, Math.min(1.1, scale * 1.05));
+  const bw = Math.max(f.w, 240*scale) + pad*2, bh = f.h + labelH + pad*2;
+  // place the bubble: hug the side nearest Colt, sit high
+  const bx = hugRight ? ax1 - bw : ax0;
+  const by = Math.max(ay0, Math.min(ay1 - bh, ay0 + (ay1 - ay0 - bh) * .2));
+  const b = { x: bx, y: by, w: bw, h: bh }, lw = 5 * scale;
+  // tip stops a little short of the mouth / head
+  const dx = aim[0] - (b.x + b.w/2), dy = aim[1] - (b.y + b.h/2), dd = Math.hypot(dx, dy) || 1, gap = (think ? 40 : 26) * scale;
+  const tip = [aim[0] - dx/dd*gap, aim[1] - dy/dd*gap];
+  if(think) cloud(b, aim, lw, scale); else speech(b, tip, lw);
+  // label + words
+  g.textBaseline = "alphabetic"; g.textAlign = "left";
+  g.font = `700 ${Math.round(22*scale)}px ${MONO}`; g.fillStyle = "#1a6dff";
+  if("letterSpacing" in g) g.letterSpacing = `${(3*scale).toFixed(1)}px`;
+  g.fillText(think ? "COLT THINKS" : "COLT SAYS", b.x + pad, b.y + pad + 20*scale);
+  if("letterSpacing" in g) g.letterSpacing = "0px";
+  g.font = `${f.size}px ${FONT}`; g.fillStyle = INK;
+  let ly = b.y + pad + labelH;
+  f.lines.forEach(l => { ly += l.size * .92; g.font = `${l.size}px ${FONT}`; g.fillText(l.t, b.x + pad, ly); ly += l.size * .2; });
+  // brand tag in the free corner
+  const tagText = "$KULT · ULTWITHKNIFE.COM";
+  g.font = `700 ${Math.round(20*scale)}px ${MONO}`; const tw = g.measureText(tagText).width, ic = 34*scale, th = 46*scale, tWid = tw + ic + 36*scale;
+  const tx = tagRight ? W - tWid - 28*scale : 28*scale, ty = H - th - 26*scale;
+  g.fillStyle = "rgba(3,5,8,.78)"; rr(tx, ty, tWid, th, th/2); g.fill();
+  if(ART.logo) g.drawImage(ART.logo, tx + 10*scale, ty + (th - ic)/2, ic, ic);
+  g.fillStyle = "#e9f4ff"; g.fillText(tagText, tx + ic + 20*scale, ty + th/2 + 7*scale);
+  updatePost();
+}
+let raf = 0; const redraw = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(render); };
+
+/* ---------- controls ---------- */
+const ta = $("csText"), count = $("csCount");
+function syncCount(){ count.textContent = `${ta.value.length} / 140`; count.classList.toggle("full", ta.value.length >= 130); }
+ta.addEventListener("input", () => { state.text = ta.value; syncCount(); redraw(); $("csNote").hidden = true; });
+ta.addEventListener("focus", () => { $("panel-says").classList.add("typing"); });
+ta.addEventListener("blur", () => { $("panel-says").classList.remove("typing"); });
+let lastPick = -1;
+$("csShuffle").addEventListener("click", () => {
+  let i; do { i = Math.floor(Math.random() * LINES.length); } while(i === lastPick);
+  lastPick = i; ta.value = state.text = LINES[i]; syncCount(); redraw();
+});
+function radio(sel, key){
+  document.querySelectorAll(sel).forEach(btn => btn.addEventListener("click", () => {
+    document.querySelectorAll(sel).forEach(b => b.setAttribute("aria-checked", String(b === btn)));
+    state[key] = btn.dataset[key];
+    // each pose comes with the bubble that suits it; the Says / Thinks switch can still override
+    if(key === "pose"){ setBubble(POSES[state.pose].bubble); syncBg(); syncHand(); if(POSES[state.pose].hand) drawHandIcons(); }
+    if(key === "bubble") syncPrompt();
+    poseImg(state.pose); redraw();
+  }));
+}
+function syncPrompt(){ $("csPrompt").textContent = `1. What does Colt ${state.bubble === "says" ? "say" : "think"}?`; }
+function syncBg(){ const sc = !!POSES[state.pose].scene; $("csSwatches").classList.toggle("bg-off", sc); $("csSwatches").setAttribute("aria-disabled", String(sc)); $("csBgNote").hidden = !sc; }
+function setBubble(v){ state.bubble = v; document.querySelectorAll("[data-bubble]").forEach(b => b.setAttribute("aria-checked", String(b.dataset.bubble === v))); syncPrompt(); }
+radio("[data-pose]", "pose"); radio("[data-bubble]", "bubble"); radio("[data-bg]", "bg"); radio("[data-fmt]", "fmt");
+
+/* ---------- save + share ---------- */
+const fileName = () => `colt-${state.bubble}-${(state.text.trim() || "kult").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 32) || "kult"}.png`;
+const shareText = () => `${state.bubble === "says" ? "Colt says" : "Colt thinks"}: "${(state.text.trim() || LINES[0])}"\n\nFor more Colt wisdom go to https://ultwithknife.com/lab/says/\n\n$KULT @ultwithknife #cronos #crofam`;
+function updatePost(){ $("csPost").href = "https://x.com/intent/post?text=" + encodeURIComponent(shareText()); }
+let shareFile = null;
+function prepFile(){ shareFile = null; cv.toBlob(b => { if(b) shareFile = new File([b], fileName(), { type: "image/png" }); }, "image/png"); }
+let prepT; const queuePrep = () => { clearTimeout(prepT); prepT = setTimeout(prepFile, 350); };
+["input", "click"].forEach(t => $("panel-says").addEventListener(t, queuePrep));
+$("csSave").addEventListener("click", async () => {
+  render();
+  const blob = await new Promise(r => cv.toBlob(r, "image/png")); if(!blob){ say("Couldn't make the image"); return; }
+  const file = new File([blob], fileName(), { type: "image/png" });
+  try { if(kultIsPhone && navigator.canShare && navigator.canShare({ files: [file] })){ await navigator.share({ files: [file] }); return; } }
+  catch(e){ if(e && e.name === "AbortError") return; }
+  const u = URL.createObjectURL(blob), a = document.createElement("a"); a.href = u; a.download = file.name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 4000); say("Image saved");
+});
+// on phones, Post on X shares the image itself together with the text
+$("csPost").addEventListener("click", e => {
+  // computers (or any browser that can't share the image): copy it first, explain, and only then open X
+  if(!kultIsPhone || !shareFile || !navigator.canShare || !navigator.canShare({ files: [shareFile], text: shareText() })){ e.preventDefault(); render(); kultShareDesktop(() => new Promise(r => cv.toBlob(r, "image/png")), $("csPost").href, fileName(), $("csNote")); return; }
+  e.preventDefault();
+  navigator.share({ files: [shareFile], text: shareText() }).catch(err => { if(!err || err.name !== "AbortError") window.open($("csPost").href, "_blank", "noopener"); });
+});
+
+/* ---------- boot ---------- */
+let pre = "";
+try { pre = (new URLSearchParams(location.search).get("say") || "").slice(0, 140); } catch(e){}
+ta.value = state.text = pre || LINES[Math.floor(Math.random() * 5)]; syncCount();
+const fontReady = document.fonts ? Promise.race([Promise.all([document.fonts.load(`60px "Dela Gothic One"`), document.fonts.load(`700 20px "JetBrains Mono"`)]), new Promise(r => setTimeout(r, 2500))]).catch(() => {}) : Promise.resolve();
+Promise.all([load(POSES.crossed.src).then(i => poseCache.crossed = i || false), load("../img/constellation.webp"), load("../img/office.webp"), load("../img/pendant-sm.webp"), fontReady])
+  .then(([a, s, o, l]) => { ART.space = s; ART.office = o; ART.logo = l; render(); queuePrep();
+    // fetch the other poses quietly so switching is instant
+    setTimeout(() => Object.keys(POSES).forEach(k => poseImg(k)), 1500); });
+if(document.fonts) document.fonts.ready.then(() => { redraw(); queuePrep(); });
+window.CS = { show(){ redraw(); queuePrep(); } };
+})();
+
+/* ================= tabs ================= */
+(() => {
+  // always open the Lab at the top, even after a refresh or coming back to the page
+  try { if("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch(e){}
+  const toTop = () => window.scrollTo(0, 0);
+  toTop(); addEventListener("load", toTop); addEventListener("pageshow", e => { if(e.persisted) toTop(); });
+  const panels = { "knife-catch": "panel-kc", "knife-throw": "panel-kt", "pfp": "panel-pfp", "colt-says": "panel-says", "memes": "panel-memes" };
+  const tabs = [...document.querySelectorAll("a.tab[data-tab]")];
+  function show(hash){
+    let [name, sub] = String(hash || "").split("/");
+    if(!panels[name]) name = /[?&]score=/.test(location.search) ? "knife-catch" : "memes";
+    tabs.forEach(t => t.setAttribute("aria-selected", String(t.dataset.tab === name)));
+    Object.entries(panels).forEach(([k, id]) => document.getElementById(id).hidden = k !== name);
+    if(name !== "knife-catch") window.KC && window.KC.hide();
+    if(name !== "knife-throw") window.KT && window.KT.hide();
+    if(name !== "memes") window.MV && window.MV.hide();
+    if(name === "memes"){ window.MV && window.MV.show(sub); return; }
+    if(name === "knife-catch"){ window.KC && window.KC.show(); return; }
+    if(name === "knife-throw"){ window.KT && window.KT.show(); return; }
+    if(name === "pfp") window.PFP && window.PFP.show();
+    if(name === "colt-says") window.CS && window.CS.show();
+  }
+  tabs.forEach(t => t.addEventListener("click", e => { e.preventDefault(); history.replaceState(null, "", "#" + t.dataset.tab); show(t.dataset.tab); }));
+  addEventListener("hashchange", () => show(location.hash.slice(1)));
+  show(location.hash.slice(1));
+})();
+</script>
+</body>
+</html>

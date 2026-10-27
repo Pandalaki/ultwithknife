@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="ult with knife ($KULT) on Cronos. HODL or fall on the knife.">
+<meta name="theme-color" content="#030508">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ult with knife">
+<meta property="og:url" content="https://ultwithknife.com/">
+<meta property="og:title" content="KULT · ult with knife">
+<meta property="og:description" content="HODL or fall on the knife. $KULT on Cronos.">
+<meta property="og:image" content="https://ultwithknife.com/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="KULT, ult with knife: HODL or fall on the knife">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ultwithknife">
+<meta name="twitter:title" content="KULT · ult with knife">
+<meta name="twitter:description" content="HODL or fall on the knife. $KULT on Cronos.">
+<meta name="twitter:image" content="https://ultwithknife.com/og.jpg">
+<title>KULT · Ult With Knife</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: black forge. Asymmetric hero (wordmark left, levitating blade right) over a field of rising ice embers;
+   sections cut by diagonal "slash" dividers; one orchestrated moment = the opening slash + blade drop. */
+:root{
+  --void:#030508;        /* page ground, matches the art's black */
+  --steel:#0b1118;       /* raised panels */
+  --edge:#1a2836;        /* hairlines */
+  --frost:#e9f4ff;       /* primary text, the blade's white */
+  --mist:#8ba3b8;        /* secondary text */
+  --ice:#3fd0ff;         /* brand cyan from the flame */
+  --deep:#1a6dff;        /* deeper crystal blue */
+  --gold:#f2c14e;        /* Colt's chain */
+  --f-display:"Dela Gothic One","Arial Black",Impact,sans-serif;
+  --f-body:"Chakra Petch","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gut:clamp(16px,4vw,56px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;background:var(--void);color:var(--frost);font-family:var(--f-body);font-size:17px;line-height:1.6}
+a{color:inherit}
+img{max-width:100%;height:auto;display:block}
+::selection{background:var(--ice);color:var(--void)}
+:focus-visible{outline:2px solid var(--ice);outline-offset:3px;border-radius:4px}
+
+#embers{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.glow-cursor{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(63,208,255,.10),transparent 62%);transform:translate(-50%,-50%);left:-999px;top:-999px;transition:opacity .4s}
+main,header,footer{position:relative;z-index:1}
+main{overflow-x:clip}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:20px;
+  padding:14px var(--gut);background:linear-gradient(to bottom,rgba(3,5,8,.92),rgba(3,5,8,.6));backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(63,208,255,.08)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-size:20px;letter-spacing:.04em}
+.brand img{width:44px;height:48px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(242,193,78,.45));transform-origin:50% 8%;transition:transform .3s}
+.brand:hover img{transform:rotate(-8deg)}
+.brand img{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.nav-links{display:flex;gap:26px;margin-left:auto;font-weight:600;font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+.nav-links a{text-decoration:none;color:var(--mist);transition:color .2s}
+.nav-links a:hover{color:var(--ice)}
+@media (max-width:760px){.nav-links{display:none}}
+
+/* ---------- buttons ---------- */
+.btn{--c:var(--ice);display:inline-flex;align-items:center;gap:10px;padding:13px 22px;font-family:var(--f-body);font-weight:700;font-size:15px;
+  letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--void);background:var(--c);border:0;cursor:pointer;
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+  position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-120%)}
+.btn:hover{transform:translateY(-2px)}
+.btn:hover::after{transform:translateX(120%);transition:transform .6s}
+.btn.ghost{background:transparent;color:var(--frost);box-shadow:inset 0 0 0 1.5px rgba(63,208,255,.55)}
+.btn.ghost:hover{color:var(--ice)}
+.btn.sm{padding:10px 16px;font-size:13px}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:clamp(20px,4vw,60px);
+  padding:clamp(28px,6vw,80px) var(--gut) clamp(48px,7vw,96px);max-width:1360px;margin:0 auto;position:relative}
+.hero-copy{min-width:0;display:grid;gap:26px}
+.eyebrow{font-family:var(--f-mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--ice);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--ice);box-shadow:0 0 12px var(--ice)}
+.wordmark{width:min(100%,600px);filter:drop-shadow(0 0 30px rgba(63,208,255,.18))}
+.motto{font-family:var(--f-display);font-size:clamp(28px,4.2vw,52px);line-height:1.02;margin:0;text-wrap:balance;letter-spacing:-.005em}
+.motto span:first-child{color:var(--ice);text-shadow:0 0 28px rgba(63,208,255,.55)}
+.motto .cut{position:relative;display:inline-block;white-space:nowrap}
+.motto .cut::after{content:"";position:absolute;left:-4%;right:-4%;top:52%;height:3px;background:linear-gradient(90deg,transparent,#fff 30%,var(--ice) 70%,transparent);
+  box-shadow:0 0 14px var(--ice);transform:rotate(-8deg) scaleX(0);transform-origin:0 50%;animation:motto-cut .5s cubic-bezier(.7,0,.2,1) 1.5s forwards}
+@keyframes motto-cut{60%{opacity:1}100%{transform:rotate(-8deg) scaleX(1);opacity:0}}
+.tagline{font-size:clamp(17px,1.8vw,21px);color:var(--mist)!important;line-height:1.45;max-width:30ch;color:var(--frost);font-weight:500;text-wrap:balance}
+.tagline em{font-style:normal;color:var(--ice)}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px}
+
+.ca{display:flex;align-items:stretch;max-width:600px;background:rgba(11,17,24,.85);border:1px solid var(--edge);position:relative;overflow:hidden}
+.ca::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(63,208,255,.12),transparent);transform:translateX(-100%);animation:scan 4.5s ease-in-out infinite 2s}
+@keyframes scan{to{transform:translateX(100%)}}
+.ca-label{display:grid;place-items:center;padding:0 14px;font-family:var(--f-mono);font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--void);background:var(--ice)}
+.ca-addr{flex:1;min-width:0;padding:13px 14px;font-family:var(--f-mono);font-size:clamp(11px,1.5vw,14px);color:var(--frost);overflow-wrap:anywhere;user-select:all;align-self:center}
+.ca-copy{border:0;border-left:1px solid var(--edge);background:transparent;color:var(--ice);font-family:var(--f-body);font-weight:700;letter-spacing:.12em;font-size:13px;
+  text-transform:uppercase;padding:0 18px;cursor:pointer;transition:background .2s,color .2s;position:relative;z-index:1}
+.ca-copy:hover{background:var(--ice);color:var(--void)}
+
+.hero-blade{position:relative;min-width:0;display:grid;place-items:center;aspect-ratio:1/1.1;max-width:100%}
+.halo{position:absolute;width:78%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(63,208,255,.32),rgba(26,109,255,.12) 45%,transparent 70%);filter:blur(10px);animation:pulse 4s ease-in-out infinite}
+.ring{position:absolute;width:84%;aspect-ratio:1;border-radius:50%;border:1px dashed rgba(63,208,255,.25);animation:spin 40s linear infinite}
+.ring.r2{width:64%;border-style:solid;border-color:rgba(63,208,255,.12);animation-duration:26s;animation-direction:reverse}
+.ring::after{content:"";position:absolute;top:-4px;left:50%;width:8px;height:8px;background:var(--ice);transform:rotate(45deg);box-shadow:0 0 14px var(--ice)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{transform:scale(1.08);opacity:.8}}
+.blade-wrap{position:relative;width:88%;animation:drop 1.1s cubic-bezier(.2,1.4,.4,1) .55s both}
+.blade{width:100%;cursor:pointer;animation:float 5s ease-in-out infinite 1.7s;filter:drop-shadow(0 0 22px rgba(63,208,255,.55)) drop-shadow(0 30px 40px rgba(0,0,0,.7));transform-origin:50% 45%}
+.blade.stab{animation:stab .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes drop{from{transform:translateY(-70%) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes float{50%{transform:translateY(-16px) rotate(2deg)}}
+@keyframes stab{0%{transform:none}30%{transform:translateY(-34px) rotate(-8deg) scale(.96)}55%{transform:translateY(26px) rotate(3deg) scale(1.06)}100%{transform:none}}
+.stabs{position:absolute;bottom:0;left:0;right:0;display:grid;justify-items:center;gap:4px;pointer-events:none;text-align:center}
+.stab-n{font-family:var(--f-display);font-size:clamp(26px,3vw,38px);line-height:1;color:var(--frost);font-variant-numeric:tabular-nums;text-shadow:0 0 22px rgba(63,208,255,.55);transition:transform .15s}
+.stab-n.bump{transform:scale(1.18);color:var(--ice)}
+.stab-n.zero{opacity:0}
+.stab-cap{font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ice);opacity:.85}
+.stab-l{font-family:var(--f-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mist);opacity:.8;min-height:1.4em;padding:0 8px}
+.stab-l.hit{color:var(--ice);opacity:1;animation:lbl .5s ease-out}
+@keyframes lbl{from{transform:translateY(6px);opacity:0}}
+body.quake main{animation:quake .45s cubic-bezier(.36,.07,.19,.97)}
+@keyframes quake{10%,90%{transform:translate(-2px,1px)}20%,80%{transform:translate(4px,-2px)}30%,50%,70%{transform:translate(-6px,2px)}40%,60%{transform:translate(6px,-1px)}}
+
+/* opening slash */
+.slash{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+.slash i{position:absolute;left:-20%;top:50%;width:140%;height:3px;background:linear-gradient(90deg,transparent,#fff 40%,var(--ice) 60%,transparent);
+  box-shadow:0 0 24px 4px var(--ice);transform:rotate(-24deg) scaleX(0);transform-origin:0 50%;animation:cut .55s cubic-bezier(.7,0,.2,1) .1s forwards}
+.slash b{position:absolute;inset:0;background:var(--ice);opacity:0;animation:flash .5s ease-out .5s}
+@keyframes cut{60%{opacity:1}100%{transform:rotate(-24deg) scaleX(1);opacity:0}}
+@keyframes flash{0%{opacity:.18}100%{opacity:0}}
+
+/* ---------- marquee ---------- */
+.marquee{position:relative;z-index:1;overflow:hidden;background:var(--ice);color:var(--void);transform:rotate(-2deg) scale(1.04);margin-block:10px 30px;box-shadow:0 0 40px rgba(63,208,255,.35)}
+.marquee-track{display:flex;width:max-content;animation:roll 28s linear infinite}
+.marquee span{font-family:var(--f-display);font-size:clamp(18px,2.4vw,28px);padding:12px 0;white-space:nowrap;letter-spacing:.04em}
+.marquee span i{font-style:normal;display:inline-block;margin:0 22px;transform:translateY(-2px)}
+@keyframes roll{to{transform:translateX(-50%)}}
+
+/* ---------- sections ---------- */
+section{padding:clamp(64px,9vw,120px) var(--gut);max-width:1360px;margin:0 auto}
+.sec-head{display:grid;gap:14px;margin-bottom:clamp(32px,5vw,56px);max-width:760px}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,5.4vw,68px);line-height:1;letter-spacing:-.005em;margin:0;text-wrap:balance}
+h2 .k{color:var(--ice);text-shadow:0 0 26px rgba(63,208,255,.6)}
+h3{font-family:var(--f-display);font-weight:400;font-size:22px;line-height:1.15;margin:0;letter-spacing:.01em}
+p{margin:0}
+.lede{color:var(--mist);font-size:18px;max-width:58ch}
+
+/* lore */
+.lore{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,72px);align-items:center}
+.lore-art{position:relative;min-width:0}
+.lore-art img{width:100%;aspect-ratio:1;object-fit:cover;clip-path:polygon(0 0,92% 0,100% 8%,100% 100%,8% 100%,0 92%)}
+.lore-art::after{content:"";position:absolute;inset:-1px;border:1px solid rgba(63,208,255,.35);clip-path:polygon(0 0,92% 0,100% 8%,100% 100%,8% 100%,0 92%);pointer-events:none}
+.lore-copy{min-width:0;display:grid;gap:22px}
+.equation{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;font-family:var(--f-display);font-size:clamp(26px,3.6vw,44px);line-height:1}
+.equation .op{color:var(--mist);font-family:var(--f-body);font-weight:500}
+.equation .tile{padding:10px 16px;border:1px solid var(--edge);background:var(--steel)}
+.equation .res{color:var(--void);background:var(--ice);padding:10px 16px;box-shadow:0 0 30px rgba(63,208,255,.5)}
+.lore-copy p{color:var(--mist);max-width:58ch}
+.lore-copy p strong{color:var(--frost);font-weight:600}
+.creed{display:grid;gap:10px;margin:6px 0 0;padding:0;list-style:none}
+.creed li{display:flex;gap:14px;align-items:baseline;padding:12px 0;border-top:1px solid var(--edge);font-weight:500}
+.creed li::before{content:"";flex:none;width:9px;height:9px;transform:rotate(45deg) translateY(-2px);background:var(--ice);box-shadow:0 0 10px var(--ice)}
+
+
+
+/* Colt: full-bleed office scene + dossier */
+.scene{position:relative;z-index:1;margin:clamp(8px,2vw,24px) 0 0;height:clamp(260px,36vw,540px);overflow:hidden;border-block:1px solid rgba(63,208,255,.22)}
+.scene img{width:100%;height:100%;object-fit:cover;object-position:30% 40%;animation:pan 26s ease-in-out infinite alternate}
+@keyframes pan{from{transform:scale(1.03)}to{transform:scale(1.12) translateX(-2%)}}
+.scene::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,var(--void) 0,transparent 18%,transparent 48%,rgba(3,5,8,.92) 100%),linear-gradient(to right,rgba(3,5,8,.35),transparent 40%)}
+.scene figcaption{position:absolute;z-index:1;left:var(--gut);right:var(--gut);bottom:clamp(18px,3vw,40px);display:grid;gap:10px;max-width:1360px}
+.scene b{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,5vw,64px);line-height:1;text-shadow:0 4px 30px rgba(0,0,0,.8)}
+.colt{display:block}
+.stamp{position:absolute;left:6%;top:7%;transform:rotate(-7deg);padding:8px 14px;font-family:var(--f-mono);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);border:2px solid var(--gold);background:rgba(3,5,8,.72);box-shadow:0 0 18px rgba(242,193,78,.3)}
+.colt-copy{min-width:0;display:grid;grid-template-columns:1fr 1.1fr;grid-template-areas:"h d" "p d" "q d";grid-template-rows:auto auto 1fr;column-gap:clamp(28px,5vw,72px);row-gap:22px;align-items:start}
+.colt-copy h2{grid-area:h}
+.colt-copy > p{grid-area:p}
+.dossier{grid-area:d}
+.colt-copy > p{color:var(--mist);max-width:58ch}
+.dossier{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--edge)}
+.dossier div{display:grid;gap:4px;padding:14px 16px 14px 0;border-bottom:1px solid var(--edge);min-width:0}
+.dossier dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ice)}
+.dossier dd{margin:0;font-weight:600;color:var(--frost)}
+@media (max-width:860px){.colt-copy{grid-template-columns:1fr;grid-template-areas:"h" "p" "q" "d"}}
+@media (max-width:460px){.dossier{grid-template-columns:1fr}}
+
+
+/* Colt gallery: swipe / drag / arrow buttons */
+.cg{margin-top:clamp(56px,8vw,96px);display:grid;gap:18px;min-width:0}
+.cg-head{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.cg-nav{display:flex;gap:10px}
+.cg-btn{width:46px;height:46px;display:grid;place-items:center;font-size:20px;line-height:1;color:var(--frost);background:transparent;border:1.5px solid rgba(63,208,255,.5);cursor:pointer;transition:background .2s,color .2s,opacity .2s}
+.cg-btn:hover:not(:disabled){background:var(--ice);color:var(--void)}
+.cg-btn:disabled{opacity:.3;cursor:default}
+.cg-track{list-style:none;margin:0;padding:0 0 4px;display:grid;grid-auto-flow:column;grid-auto-columns:clamp(240px,29vw,380px);gap:16px;
+  overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;cursor:grab;outline-offset:4px}
+.cg-track::-webkit-scrollbar{display:none}
+.cg-track.drag{scroll-snap-type:none;cursor:grabbing}
+.cg-track.drag .cg-card{pointer-events:none}
+.cg-track li{scroll-snap-align:start;min-width:0}
+.cg-card{position:relative;margin:0;overflow:hidden;background:#4bd8ff;border:1px solid var(--edge);transition:border-color .3s}
+.cg-card img{width:100%;aspect-ratio:1;object-fit:cover;user-select:none;transition:transform .5s}
+.cg-card:hover{border-color:rgba(63,208,255,.7)}
+.cg-card:hover img{transform:scale(1.04)}
+.cg-card figcaption{position:absolute;left:0;right:0;bottom:0;padding:36px 16px 14px;background:linear-gradient(transparent,rgba(3,5,8,.85));font-family:var(--f-display);font-size:18px;color:var(--frost)}
+.cg-bar{height:3px;background:var(--edge);overflow:hidden}
+.cg-bar span{display:block;height:100%;width:30%;background:var(--ice);box-shadow:0 0 10px var(--ice);transform-origin:0 50%;transition:width .15s,margin-left .15s}
+@media (max-width:560px){.cg-track{grid-auto-columns:78%}}
+
+/* knife cursor (desktop mice only) */
+@media (hover:hover) and (pointer:fine){
+  html, body{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M1 1 L19 13.5 L13.5 19 Z' fill='%23e9f4ff' stroke='%233fd0ff' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M3 3 L16 16' stroke='%233fd0ff' stroke-width='.9' opacity='.8'/%3E%3Cpath d='M13 23 L23 13' stroke='%23e9f4ff' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M19.5 19.5 L27 27' stroke='%230b1118' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M19.5 19.5 L27 27' stroke='%233fd0ff' stroke-width='1.2' stroke-linecap='round' stroke-dasharray='1.6 1.6'/%3E%3Ccircle cx='28.5' cy='28.5' r='2.6' fill='%23e9f4ff' stroke='%233fd0ff' stroke-width='1'/%3E%3C/svg%3E") 1 1, auto}
+  a, button, [role=button], .blade, .cg-track, .brand img{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='5' cy='5' r='5' fill='%233fd0ff' opacity='.35'/%3E%3Cpath d='M1 1 L19 13.5 L13.5 19 Z' fill='%23e9f4ff' stroke='%233fd0ff' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M3 3 L16 16' stroke='%233fd0ff' stroke-width='.9' opacity='.8'/%3E%3Cpath d='M13 23 L23 13' stroke='%23e9f4ff' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M19.5 19.5 L27 27' stroke='%230b1118' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M19.5 19.5 L27 27' stroke='%233fd0ff' stroke-width='1.2' stroke-linecap='round' stroke-dasharray='1.6 1.6'/%3E%3Ccircle cx='28.5' cy='28.5' r='2.6' fill='%23e9f4ff' stroke='%233fd0ff' stroke-width='1'/%3E%3C/svg%3E") 1 1, pointer}
+}
+
+/* Colt's daily wisdom */
+.wisdom{grid-area:q;margin:6px 0 0;padding:22px 24px 20px;position:relative;background:linear-gradient(135deg,rgba(63,208,255,.10),rgba(11,17,24,.6) 60%);border:1px solid rgba(63,208,255,.28);display:grid;gap:10px;
+  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%)}
+.wisdom::before{content:"\201C";position:absolute;right:18px;top:-8px;font-family:var(--f-display);font-size:110px;line-height:1;color:var(--ice);opacity:.18;pointer-events:none}
+.wisdom blockquote{margin:0;font-family:var(--f-display);font-size:clamp(24px,2.6vw,34px);line-height:1.08;color:var(--frost);text-wrap:balance}
+.wisdom blockquote.fresh{animation:wis .7s cubic-bezier(.2,1.2,.4,1)}
+@keyframes wis{from{opacity:0;transform:translateY(10px)}}
+.wisdom figcaption{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist)}
+.wisdom figcaption b{color:var(--ice);font-weight:700}
+.wis-card{color:var(--ice);text-decoration:none;border-bottom:1px solid rgba(63,208,255,.45);margin-left:6px;white-space:nowrap}
+.wis-card:hover{color:var(--frost)}
+
+/* Colt pops out when the knife is tapped */
+.cameo{position:fixed;right:0;bottom:0;z-index:70;pointer-events:none;width:min(280px,58vw);transform:translateX(115%);transition:transform .5s cubic-bezier(.2,1.1,.3,1);padding-bottom:env(safe-area-inset-bottom,0px)}
+.cameo.on{transform:translateX(6%)}
+.cameo img{display:block;width:100%;height:auto;filter:drop-shadow(-10px 0 30px rgba(3,5,8,.7));transform-origin:50% 92%}
+.cameo img.nod{animation:nod .55s ease-in-out}
+@keyframes nod{35%{transform:rotate(-1.6deg) translateY(10px)}70%{transform:rotate(.5deg)}}
+.cameo-say{position:absolute;z-index:1;right:72%;top:8%;white-space:nowrap;padding:12px 16px 24px;background:var(--frost);color:var(--void);font-family:var(--f-display);font-size:clamp(16px,2vw,21px);line-height:1.1;
+  clip-path:polygon(0 0,100% 0,100% 78%,82% 78%,92% 100%,68% 78%,0 78%);opacity:0;transform:scale(.6);transform-origin:80% 100%;transition:opacity .2s,transform .25s}
+.cameo.on .cameo-say{opacity:1;transform:none;transition-delay:.2s}
+.cameo-say.pop{animation:pop .3s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.75)}}
+
+
+/* header Lab button */
+.lab-pill{margin-left:auto;display:inline-flex;align-items:center;gap:8px;padding:8px 14px 8px 8px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--frost);border:1.5px solid rgba(63,208,255,.6);border-radius:999px;background:rgba(63,208,255,.08);box-shadow:0 0 18px rgba(63,208,255,.25);animation:pill 2.6s ease-in-out infinite}
+.lab-pill .new{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;padding:3px 7px;border-radius:999px;background:var(--gold);color:var(--void)}
+.lab-pill:hover{background:rgba(63,208,255,.18);color:var(--ice)}
+@keyframes pill{50%{box-shadow:0 0 30px rgba(63,208,255,.55)}}
+.nav .btn{white-space:nowrap}
+@media (max-width:440px){.lab-pill{padding:6px 10px 6px 6px;font-size:12px}.lab-pill .new{font-size:9px;padding:2px 5px}.nav{gap:10px}.nav .btn.ghost[aria-label="KULT on X"]{display:none}}
+
+/* Lab promo section */
+.lab-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,2.5vw,28px)}
+.lab-card{display:grid;text-decoration:none;color:inherit;background:var(--steel);border:1px solid var(--edge);overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s;min-width:0}
+.lab-card img{width:100%;aspect-ratio:800/520;object-fit:cover;transition:transform .5s}
+.lab-card:hover{transform:translateY(-4px);border-color:rgba(63,208,255,.7);box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 40px rgba(63,208,255,.15)}
+.lab-card:hover img{transform:scale(1.04)}
+.lab-card-body{display:grid;gap:10px;justify-items:start;padding:clamp(18px,2.5vw,26px)}
+.lab-card-body h3{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,2.6vw,32px);margin:0;line-height:1.05}
+.lab-card-body p{margin:0;color:var(--mist)}
+.lab-tag{font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ice)}
+.lab-more{margin:clamp(18px,2.5vw,28px) 0 0;font-size:17px}
+.lab-more a{color:var(--frost);text-decoration:none;border-bottom:1px solid rgba(63,208,255,.5);padding-bottom:2px;transition:color .2s}
+.lab-more a:hover{color:var(--ice)}
+.lab-more b{color:var(--ice)}
+@media (max-width:1180px){.lab-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.lab-cards{grid-template-columns:1fr}}
+
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--edge);background:rgba(11,17,24,.7)}
+.fact{padding:26px 24px;display:grid;gap:8px;border-right:1px solid var(--edge);min-width:0}
+.fact:last-child{border-right:0}
+.fact dt{font-family:var(--f-mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mist)}
+.fact dd{margin:0;font-family:var(--f-display);font-size:clamp(22px,2.4vw,30px);line-height:1.1}
+.fact dd small{display:block;font-family:var(--f-body);font-size:14px;color:var(--mist);margin-top:6px;letter-spacing:.02em}
+.fact a{text-decoration:none;border-bottom:1px solid rgba(63,208,255,.4)}
+.fact a:hover{color:var(--ice)}
+@media (max-width:900px){.facts{grid-template-columns:repeat(2,1fr)}.fact:nth-child(2){border-right:0}.fact:nth-child(-n+2){border-bottom:1px solid var(--edge)}}
+@media (max-width:460px){.facts{grid-template-columns:1fr}.fact{border-right:0;border-bottom:1px solid var(--edge)}.fact:last-child{border-bottom:0}}
+
+
+/* launch stages */
+.stages{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.stages li{position:relative;padding:30px 18px 0 0;display:grid;gap:4px;min-width:0}
+.stages li::before{content:"";position:absolute;top:10px;left:0;right:0;height:2px;background:var(--edge)}
+.stages li::after{content:"";position:absolute;top:4px;left:0;width:14px;height:14px;transform:rotate(45deg);background:var(--void);border:2px solid var(--edge)}
+.stages li.done::before{background:var(--ice)}
+.stages li.done::after{background:var(--ice);border-color:var(--ice)}
+.stages li.now::before{background:linear-gradient(90deg,var(--ice),var(--edge))}
+.stages li.now::after{background:var(--ice);border-color:var(--ice);box-shadow:0 0 0 6px rgba(63,208,255,.18),0 0 18px var(--ice);animation:beat 1.6s ease-in-out infinite}
+@keyframes beat{50%{box-shadow:0 0 0 11px rgba(63,208,255,.05),0 0 26px var(--ice)}}
+.stages b{font-family:var(--f-display);font-weight:400;font-size:18px}
+.stages li.now b{color:var(--ice)}
+.stages span{color:var(--mist);font-size:14px}
+@media (max-width:700px){.stages{grid-template-columns:1fr 1fr;row-gap:22px}}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:s}
+.step{position:relative;padding:28px 24px 26px;background:linear-gradient(160deg,rgba(26,40,54,.55),rgba(11,17,24,.9));border:1px solid var(--edge);display:grid;gap:12px;align-content:start;min-width:0;
+  transition:border-color .3s,transform .3s}
+.step:hover{border-color:rgba(63,208,255,.55);transform:translateY(-4px)}
+.step-n{font-family:var(--f-mono);font-size:13px;font-weight:700;color:var(--ice);letter-spacing:.2em}
+.step p{color:var(--mist);font-size:15.5px}
+.step code{font-family:var(--f-mono);font-size:13px;color:var(--frost);background:rgba(63,208,255,.1);padding:1px 6px;overflow-wrap:anywhere}
+.step::after{content:"";position:absolute;right:-1px;top:-1px;width:22px;height:22px;background:linear-gradient(225deg,var(--ice) 50%,transparent 50%);opacity:.85}
+@media (max-width:1000px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.steps{grid-template-columns:1fr}}
+
+/* final call */
+.final{text-align:left;display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,70px);align-items:center;
+  background:radial-gradient(ellipse at 15% 50%,rgba(63,208,255,.16),transparent 55%),var(--steel);border:1px solid var(--edge);padding:clamp(32px,5vw,64px);position:relative;overflow:hidden}
+.final::before{content:"";position:absolute;inset:0;background:url(img/constellation.webp) right center/cover no-repeat;opacity:.28;mask-image:linear-gradient(90deg,transparent 20%,#000 75%);-webkit-mask-image:linear-gradient(90deg,transparent 20%,#000 75%);pointer-events:none}
+.final>*{position:relative}
+.final-coin{width:clamp(200px,28vw,340px);mix-blend-mode:screen;animation:hover-knife 6s ease-in-out infinite}
+@keyframes hover-knife{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(-3deg)}}
+.final-copy{display:grid;gap:20px;min-width:0}
+.final-copy p{color:var(--mist);max-width:50ch}
+@media (max-width:700px){.final{grid-template-columns:1fr}.final-coin{justify-self:start}}
+
+.socials{display:flex;flex-wrap:wrap;gap:12px}
+
+/* footer */
+footer{padding:40px var(--gut) 48px;max-width:1360px;margin:0 auto;display:grid;gap:18px;border-top:1px solid var(--edge);color:var(--mist);font-size:14px}
+.foot-row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
+.disclaimer{max-width:90ch;font-size:13px;line-height:1.6;opacity:.85}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;z-index:60;
+  background:var(--ice);color:var(--void);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:13px;padding:12px 20px;transition:all .3s;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* hero responsive */
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .hero-blade{order:-1;width:min(78vw,420px);margin:0 auto;aspect-ratio:1/1}
+  .lore{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .cameo{transition:opacity .2s!important;opacity:0}
+  .cameo.on{opacity:1;transform:translateX(6%)}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .slash{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="slash" aria-hidden="true"><i></i><b></b></div>
+<canvas id="embers" aria-hidden="true"></canvas>
+<div class="glow-cursor" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="#top"><img src="img/pendant-sm.webp" alt="" width="40" height="40">KULT</a>
+  <a class="lab-pill" href="lab/"><span class="new">New</span>Lab</a>
+  <a class="btn ghost sm" href="https://x.com/ultwithknife" target="_blank" rel="noopener" aria-label="KULT on X">X</a>
+  <a class="btn sm" id="buyNav" href="#" target="_blank" rel="noopener">Buy $KULT</a>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">$KULT · Live on VVS Finance</div>
+      <img class="wordmark" src="img/wordmark.webp" alt="KULT — ult with knife" width="1158" height="485">
+      <p class="motto"><span>HODL</span> or fall on <span class="cut">the knife.</span></p>
+      <p class="tagline">Ult was just ult. Then it picked up a knife.<br><em>Now it's a Kult.</em></p>
+      <div class="ca" role="group" aria-label="Contract address">
+        <span class="ca-label">CA</span>
+        <span class="ca-addr" id="ca">0xd0186314cf470650da5c395346c8a657831d1fc6</span>
+        <button class="ca-copy" id="copyCa" type="button">Copy</button>
+      </div>
+      <div class="cta-row">
+        <a class="btn" id="buyBtn" href="#" target="_blank" rel="noopener">Buy on VVS Finance</a>
+        <a class="btn ghost" href="lab/">Enter the Lab</a>
+      </div>
+    </div>
+    <div class="hero-blade">
+      <div class="halo"></div><div class="ring"></div><div class="ring r2"></div>
+      <div class="blade-wrap"><img class="blade" id="blade" src="img/knife.webp" alt="The KULT knife" width="700" height="700"></div>
+      <div class="stabs"><span class="stab-n zero" id="stabN">0</span><span class="stab-cap" id="stabCap" hidden>stabs by the whole Kult</span><span class="stab-l" id="stabL" aria-live="polite">tap the knife</span></div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>ULT WITH KNIFE<i>✦</i>$KULT<i>✦</i>CRONOS<i>✦</i>HODL OR FALL ON THE KNIFE<i>✦</i>JOIN THE KULT<i>✦</i>ULT WITH KNIFE<i>✦</i>$KULT<i>✦</i>CRONOS<i>✦</i>HODL OR FALL ON THE KNIFE<i>✦</i>JOIN THE KULT<i>✦</i></span>
+      <span>ULT WITH KNIFE<i>✦</i>$KULT<i>✦</i>CRONOS<i>✦</i>HODL OR FALL ON THE KNIFE<i>✦</i>JOIN THE KULT<i>✦</i>ULT WITH KNIFE<i>✦</i>$KULT<i>✦</i>CRONOS<i>✦</i>HODL OR FALL ON THE KNIFE<i>✦</i>JOIN THE KULT<i>✦</i></span>
+    </div>
+  </div>
+
+  <section id="lore">
+    <div class="lore">
+      <div class="lore-art"><img src="img/flameknife.webp" alt="The KULT knife wrapped in a blue flame" width="1000" height="1000" loading="lazy"></div>
+      <div class="lore-copy">
+        <div class="eyebrow">The lore</div>
+        <h2>The <span class="k">ultimate</span> knife.</h2>
+        <p>On Cronos, all the OGs came with a knife: <strong>crow with knife</strong>, <strong>ryoshi with knife</strong>, <strong>crab with knife</strong> and <strong>croc with knife</strong>. Then <strong>Ult</strong> showed up empty-handed.</p>
+        <div class="equation" aria-label="ult plus knife equals KULT">
+          <span class="tile">ULT</span><span class="op">+</span><span class="tile">KNIFE</span><span class="op">=</span><span class="res">KULT</span>
+        </div>
+        <p>So ult picked up the knife and now all the OGs are under one knife. Born in the trenches, built for <strong>Ult</strong>, allergic to paper hands. Every knife on the chain answers to the K now.</p>
+        <ul class="creed">
+          <li>Every knife on Cronos has a home in the Kult.</li>
+          <li>HODL or fall on the knife. There is no third option.</li>
+          <li>Born for Ult. One chain, one ticker: $KULT on Cronos.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <figure class="scene">
+    <img src="img/office.webp" alt="Colt in a track suit and gold chain, feet up on his desk, spinning a knife in a skyline office" width="2000" height="667" loading="lazy">
+    <figcaption>
+      <span class="eyebrow">Meet the dev</span>
+      <b>Feet up. <span class="k">Knife out.</span></b>
+    </figcaption>
+  </figure>
+
+  <section id="colt">
+    <div class="colt">
+      <div class="colt-copy">
+        <h2>Meet <span class="k">Colt.</span></h2>
+        <p>Every kult needs a proper Dev. Ours showed up in an ice-blue track suit, an iced-out chain and shades he never takes off. Colt doesn't chase candles. He sits back, spins the knife, and waits for the paper hands to fold.</p>
+        <figure class="wisdom" aria-live="polite">
+          <figcaption><b>Colt's daily wisdom</b> · <span id="wisdomDate">today</span></figcaption>
+          <blockquote id="wisdom">Trust the process.</blockquote>
+          <figcaption>New one every day at midnight. <a class="wis-card" id="wisdomCard" href="lab/#colt-says">Make it a card →</a></figcaption>
+        </figure>
+        <dl class="dossier">
+          <div><dt>Rank</dt><dd>Head of the Kult</dd></div>
+          <div><dt>Weapon</dt><dd>The knife. Always.</dd></div>
+          <div><dt>Drip</dt><dd>Track suit, KULT chain, mirrored shades</dd></div>
+          <div><dt>Hair</dt><dd>Blue. Don't ask.</dd></div>
+          <div><dt>Office hours</dt><dd>Feet on the desk</dd></div>
+          <div><dt>Allergies</dt><dd>Paper hands</dd></div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="cg">
+      <div class="cg-head">
+        <div class="eyebrow">Colt on Cronos</div>
+        <div class="cg-nav">
+          <button class="cg-btn" id="cgPrev" type="button" aria-label="Previous photos">&larr;</button>
+          <button class="cg-btn" id="cgNext" type="button" aria-label="Next photos">&rarr;</button>
+        </div>
+      </div>
+      <ul class="cg-track" id="cgTrack" aria-label="Photos of Colt" tabindex="0">
+          <li><figure class="cg-card"><img src="img/colt1.webp" alt="Colt squatting in his track suit and KULT chain" width="800" height="800" loading="lazy" draggable="false"></figure></li>
+          <li><figure class="cg-card"><img src="img/colt2.webp" alt="Colt standing with arms crossed" width="800" height="800" loading="lazy" draggable="false"></figure></li>
+          <li><figure class="cg-card"><img src="img/colt3.webp" alt="Colt close-up, arms crossed, chain on display" width="800" height="800" loading="lazy" draggable="false"></figure></li>
+          <li><figure class="cg-card"><img src="img/colt4.webp" alt="Colt giving a call-me hand sign" width="800" height="800" loading="lazy" draggable="false"></figure></li>
+          <li><figure class="cg-card"><img src="img/colt5.webp" alt="Colt with hand on chin, thinking" width="800" height="800" loading="lazy" draggable="false"></figure></li>
+      </ul>
+      <div class="cg-bar" aria-hidden="true"><span id="cgBar"></span></div>
+    </div>
+  </section>
+
+  <section id="lab" class="lab-promo" aria-labelledby="labTitle">
+    <div class="sec-head">
+      <div class="eyebrow">The KULT Lab</div>
+      <h2 id="labTitle">Don't just hold it. <span class="k">Play with the knife.</span></h2>
+      <p class="lede">Two games, a PFP maker, a quote card maker and a vault of Colt GIFs and memes. Free, right in your browser. No wallet needed.</p>
+    </div>
+    <div class="lab-cards">
+      <a class="lab-card" href="lab/#knife-catch">
+        <img src="img/lab-card-catch.webp" alt="Colt catching falling knives and a blue flame" width="800" height="520" loading="lazy">
+        <div class="lab-card-body">
+          <span class="lab-tag">Game</span>
+          <h3>Knife Catch</h3>
+          <p>Everyone says don't catch a falling knife. Colt never listened. Set a high score and post it.</p>
+          <span class="btn">Play now</span>
+        </div>
+      </a>
+      <a class="lab-card" href="lab/#knife-throw">
+        <img src="img/lab-card-throw.webp" alt="Knives stuck in a spinning KULT shield as Colt watches" width="800" height="520" loading="lazy">
+        <div class="lab-card-body">
+          <span class="lab-tag">New game</span>
+          <h3>Knife Throw</h3>
+          <p>Stick every knife in the spinning shield. Don't hit the others. Every fifth level is a boss.</p>
+          <span class="btn">Play now</span>
+        </div>
+      </a>
+      <a class="lab-card" href="lab/#pfp">
+        <img src="img/lab-card-colt.webp" alt="Colt's track suit and chain with an empty head spot, plus his hair, shades and mustache" width="800" height="520" loading="lazy">
+        <div class="lab-card-body">
+          <span class="lab-tag">PFP maker</span>
+          <h3>Become Colt</h3>
+          <p>Upload a selfie, put your head on Colt's track suit, add his hair, shades and mustache. Instant PFP.</p>
+          <span class="btn">Make my PFP</span>
+        </div>
+      </a>
+      <a class="lab-card" href="lab/#colt-says">
+        <img src="img/lab-card-says.webp" alt="Colt in a speech bubble card saying It's a KULT, not a cult" width="800" height="520" loading="lazy">
+        <div class="lab-card-body">
+          <span class="lab-tag">Quote cards</span>
+          <h3>Colt Says</h3>
+          <p>Put any words in Colt's mouth. Pick a pose and a backdrop, then post it. Instant meme.</p>
+          <span class="btn">Make a card</span>
+        </div>
+      </a>
+    </div>
+    <p class="lab-more"><a href="lab/#memes">Plus the <b>Meme Vault</b>: 36 Colt GIFs and 44 memes, free to download →</a></p>
+  </section>
+
+  <section id="token">
+    <div class="sec-head">
+      <div class="eyebrow">Token</div>
+      <h2>Forged on <span class="k">Cronos</span></h2>
+    </div>
+    <dl class="facts">
+      <div class="fact"><dt>Name</dt><dd>ult with knife<small>The full, lowercase, official name</small></dd></div>
+      <div class="fact"><dt>Ticker</dt><dd>$KULT<small>K + ult</small></dd></div>
+      <div class="fact"><dt>Chain</dt><dd>Cronos<small>Launched on Cronos Launch · trades on VVS Finance · gas in CRO</small></dd></div>
+      <div class="fact"><dt>Contract</dt><dd><a id="explorerLink" href="https://explorer.cronos.org/token/0xd0186314cf470650da5c395346c8a657831d1fc6" target="_blank" rel="noopener">0xd018…1fc6</a><small>Verify on the Cronos explorer</small></dd></div>
+    </dl>
+    <ol class="stages" aria-label="Launch stages">
+      <li class="done"><b>Launched</b><span>Deployed on Cronos Launch</span></li>
+      <li class="done"><b>Bonding curve</b><span>Filled by the Kult</span></li>
+      <li class="done"><b>Graduation</b><span>Curve complete · liquidity moved to VVS</span></li>
+      <li class="now"><b>Open market</b><span>Live now · trading on VVS Finance</span></li>
+    </ol>
+  </section>
+
+  <section id="join">
+    <div class="sec-head">
+      <div class="eyebrow">How to buy</div>
+      <h2>Join the <span class="k">Kult</span> in four cuts</h2>
+      <p class="lede">$KULT graduated from the Cronos Launch bonding curve and now trades on VVS Finance, a DEX on Cronos. Takes a few minutes if you're new to Cronos.</p>
+    </div>
+    <div class="steps">
+      <article class="step"><span class="step-n">STEP 01</span><h3>Get a wallet</h3><p>Install the Crypto.com Onchain wallet, or MetaMask with the Cronos network added (chain ID 25).</p></article>
+      <article class="step"><span class="step-n">STEP 02</span><h3>Load up CRO</h3><p>Buy CRO on an exchange and withdraw it to your wallet on the Cronos chain. CRO pays for gas and the buy.</p></article>
+      <article class="step"><span class="step-n">STEP 03</span><h3>Open VVS Finance</h3><p>Go to the $KULT swap on vvs.finance and connect your wallet. Check the contract matches: <code>0xd0186314cf470650da5c395346c8a657831d1fc6</code></p></article>
+      <article class="step"><span class="step-n">STEP 04</span><h3>Pick up the knife</h3><p>Swap CRO for $KULT: enter how much CRO to spend, tap Swap, and confirm in your wallet. Welcome to the Kult.</p></article>
+    </div>
+    <div class="cta-row" style="margin-top:28px">
+      <a class="btn" id="buyBtn2" href="#" target="_blank" rel="noopener">Buy on VVS Finance</a>
+      <button class="btn ghost" id="copyCa2" type="button">Copy contract</button>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="final">
+      <img class="final-coin" src="img/floating.webp" alt="The KULT knife floating beside a blue crystal flame" width="1000" height="1000" loading="lazy">
+      <div class="final-copy">
+        <div class="eyebrow">Last call</div>
+        <h2>Pick up the <span class="k">knife.</span></h2>
+        <p>Ult was waiting for someone to hand it a blade. You're the someone. Grab $KULT, set the knife as your PFP, and bring one friend into the Kult. Then HODL, or fall on the knife.</p>
+        <div class="socials" id="socials">
+          <a class="btn" id="buyBtn3" href="#" target="_blank" rel="noopener">Buy $KULT</a>
+          <a class="btn ghost" href="lab/">Play Knife Catch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-row">
+    <a class="brand" href="#top"><img src="img/pendant-sm.webp" alt="" width="40" height="40">KULT</a>
+    <span style="font-family:var(--f-mono);font-size:12px;letter-spacing:.14em">ULT WITH KNIFE · CRONOS · <a href="https://x.com/ultwithknife" target="_blank" rel="noopener" style="color:var(--ice);text-decoration:none">@ultwithknife</a></span>
+  </div>
+  <p class="disclaimer">$KULT is a memecoin with no intrinsic value or expectation of financial return. It is not an investment, security or financial product, and there is no formal team, roadmap or promise of anything. Crypto is volatile and you can lose everything you put in. Only buy what you can afford to lose, and always verify the contract address yourself.</p>
+</footer>
+
+<div class="cameo" id="cameo" aria-hidden="true"><div class="cameo-say" id="cameoSay">Never fold.</div><img id="cameoImg" src="img/colt-cameo.webp" alt="" width="511" height="700"></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ===== Edit these links in one place ===== */
+const CA = "0xd0186314cf470650da5c395346c8a657831d1fc6";
+const CONFIG = {
+  // graduated: buy on VVS Finance (CRO -> KULT swap)
+  buy:   "https://vvs.finance/trade/swap?inputCurrency=cro&outputCurrency=0xd0186314CF470650Da5C395346c8A657831d1fc6&exactAmount=0&exactField=input",
+  socials: [
+    { label: "Follow on X", url: "https://x.com/ultwithknife" },
+    // { label: "Telegram",    url: "https://t.me/yourgroup" },
+  ]
+};
+
+["buyBtn","buyNav","buyBtn2","buyBtn3"].forEach(id => document.getElementById(id).href = CONFIG.buy);
+const socialsEl = document.getElementById("socials");
+CONFIG.socials.forEach(s => {
+  const a = document.createElement("a");
+  a.className = "btn ghost"; a.href = s.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = s.label;
+  socialsEl.appendChild(a);
+});
+
+/* ===== copy CA ===== */
+const toast = document.getElementById("toast");
+let tt;
+function say(msg){ toast.textContent = msg; toast.classList.add("on"); clearTimeout(tt); tt = setTimeout(()=>toast.classList.remove("on"), 1800); }
+function selectCa(){ const r = document.createRange(); r.selectNodeContents(document.getElementById("ca")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+function copyCa(btn){
+  const done = () => { say("Contract copied"); if(btn.id==="copyCa"){ btn.textContent="Copied"; setTimeout(()=>btn.textContent="Copy",1600);} };
+  try{
+    navigator.clipboard.writeText(CA).then(done).catch(()=>{ selectCa(); say("Selected · press Ctrl/⌘ + C"); });
+  }catch(e){ selectCa(); say("Selected · press Ctrl/⌘ + C"); }
+}
+document.getElementById("copyCa").addEventListener("click", e => copyCa(e.currentTarget));
+document.getElementById("copyCa2").addEventListener("click", e => copyCa(e.currentTarget));
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ===== embers canvas ===== */
+const cv = document.getElementById("embers"), cx = cv.getContext("2d");
+let W, H, DPR, parts = [], mouse = {x:-9999,y:-9999};
+function size(){ DPR = Math.min(devicePixelRatio||1, 2); W = innerWidth; H = innerHeight; cv.width = W*DPR; cv.height = H*DPR; cx.setTransform(DPR,0,0,DPR,0,0); }
+size(); addEventListener("resize", size);
+function spawn(x, y, burst){
+  const shard = Math.random() < .35;
+  return { x: x ?? Math.random()*W, y: y ?? H + 10,
+    vx: burst ? (Math.random()-.5)*7 : (Math.random()-.5)*.3,
+    vy: burst ? (Math.random()-.8)*7 : -(.25 + Math.random()*.9),
+    r: shard ? 2 + Math.random()*3 : .8 + Math.random()*1.8,
+    life: 1, decay: burst ? .012 + Math.random()*.012 : .0018 + Math.random()*.003,
+    shard, rot: Math.random()*6.28, vr: (Math.random()-.5)*.04,
+    hue: Math.random() < .7 ? "63,208,255" : (Math.random()<.5 ? "26,109,255" : "233,244,255") };
+}
+const COUNT = innerWidth < 700 ? 45 : 90;
+for(let i=0;i<COUNT;i++){ const p = spawn(); p.y = Math.random()*H; parts.push(p); }
+function tick(){
+  cx.clearRect(0,0,W,H);
+  for(let i=parts.length-1;i>=0;i--){
+    const p = parts[i];
+    const dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx*dx + dy*dy;
+    if(d2 < 14000){ const f = (14000-d2)/14000*.6; p.vx += dx/Math.sqrt(d2+1)*f; p.vy += dy/Math.sqrt(d2+1)*f; }
+    p.vx *= .96; p.x += p.vx + Math.sin((p.y+p.rot*40)/60)*.15; p.y += p.vy; p.rot += p.vr;
+    if(!p.burst) p.vy = p.vy*.98 + (-(.4))*.02;
+    p.life -= p.decay;
+    if(p.life <= 0 || p.y < -20){ parts.splice(i,1); if(parts.length < COUNT) parts.push(spawn()); continue; }
+    const a = Math.min(1, p.life*1.4) * .9;
+    cx.save(); cx.translate(p.x,p.y); cx.rotate(p.rot);
+    cx.shadowBlur = 12; cx.shadowColor = `rgba(${p.hue},${a})`; cx.fillStyle = `rgba(${p.hue},${a})`;
+    if(p.shard){ cx.beginPath(); cx.moveTo(0,-p.r*2.2); cx.lineTo(p.r*.7,0); cx.lineTo(0,p.r*2.2); cx.lineTo(-p.r*.7,0); cx.closePath(); cx.fill(); }
+    else { cx.beginPath(); cx.arc(0,0,p.r,0,6.283); cx.fill(); }
+    cx.restore();
+  }
+  requestAnimationFrame(tick);
+}
+if(!reduce) tick();
+
+/* cursor glow */
+const glow = document.querySelector(".glow-cursor");
+addEventListener("pointermove", e => {
+  mouse.x = e.clientX; mouse.y = e.clientY;
+  if(e.pointerType === "mouse"){ glow.style.left = e.clientX+"px"; glow.style.top = e.clientY+"px"; }
+});
+addEventListener("pointerleave", () => { mouse.x = mouse.y = -9999; });
+
+/* blade stab + burst */
+const blade = document.getElementById("blade");
+blade.addEventListener("click", e => {
+  blade.classList.remove("stab"); void blade.offsetWidth; blade.classList.add("stab");
+  const big = countStab();
+  if(++coltTaps % 5 === 0) colt();
+  if(reduce) return;
+  const r = blade.getBoundingClientRect();
+  const n = big ? 160 : 40;
+  for(let i=0;i<n;i++){ const p = spawn(r.left + r.width*.5, r.top + r.height*.75, true); p.burst = true; if(big){ p.vx*=1.8; p.vy*=1.8; } parts.push(p); }
+  if(big){ document.body.classList.remove("quake"); void document.body.offsetWidth; document.body.classList.add("quake"); }
+});
+
+/* Colt gallery: arrows, mouse drag, progress bar (touch and trackpads swipe natively) */
+(() => {
+  const track = document.getElementById("cgTrack"); if(!track) return;
+  const prev = document.getElementById("cgPrev"), next = document.getElementById("cgNext"), bar = document.getElementById("cgBar");
+  const step = () => (track.querySelector("li")?.offsetWidth || 300) + 16;
+  const update = () => {
+    const max = track.scrollWidth - track.clientWidth;
+    prev.disabled = track.scrollLeft <= 2; next.disabled = track.scrollLeft >= max - 2;
+    const vis = track.clientWidth / track.scrollWidth;
+    bar.style.width = (vis * 100) + "%";
+    bar.style.marginLeft = (max > 0 ? (track.scrollLeft / max) * (1 - vis) * 100 : 0) + "%";
+  };
+  const go = dir => track.scrollBy({ left: dir * step(), behavior: reduce ? "auto" : "smooth" });
+  prev.addEventListener("click", () => go(-1));
+  next.addEventListener("click", () => go(1));
+  track.addEventListener("keydown", e => { if(e.key === "ArrowRight"){ e.preventDefault(); go(1); } if(e.key === "ArrowLeft"){ e.preventDefault(); go(-1); } });
+  track.addEventListener("scroll", update, { passive: true });
+  addEventListener("resize", update);
+  let down = false, startX = 0, startLeft = 0, moved = 0;
+  track.addEventListener("pointerdown", e => { if(e.pointerType !== "mouse") return; down = true; moved = 0; startX = e.clientX; startLeft = track.scrollLeft; });
+  addEventListener("pointermove", e => {
+    if(!down) return;
+    const dx = e.clientX - startX; moved = Math.max(moved, Math.abs(dx));
+    if(moved > 4) track.classList.add("drag");
+    track.scrollLeft = startLeft - dx;
+  });
+  addEventListener("pointerup", () => {
+    if(!down) return; down = false;
+    if(track.classList.contains("drag")){
+      const i = Math.round(track.scrollLeft / step());
+      track.classList.remove("drag");
+      track.scrollTo({ left: i * step(), behavior: reduce ? "auto" : "smooth" });
+    }
+  });
+  update();
+})();
+
+/* ice trail behind the knife cursor */
+let lastTrail = 0;
+const fineMouse = matchMedia("(hover:hover) and (pointer:fine)").matches;
+addEventListener("pointermove", e => {
+  if(reduce || !fineMouse || e.pointerType !== "mouse") return;
+  const now = performance.now(); if(now - lastTrail < 22) return; lastTrail = now;
+  const p = spawn(e.clientX, e.clientY, true); p.burst = true;
+  p.vx *= .08; p.vy = .25 + Math.random()*.35; p.r *= .55; p.decay = .028 + Math.random()*.02;
+  parts.push(p);
+});
+
+/* Colt's daily wisdom: same line for everyone on a given day, changes at local midnight */
+const WISDOM = [
+  "Pressure makes diamonds.", "Real recognize real.", "Scared money don't make money.", "The streets made me.",
+  "Trust the process.", "Trust your gut.", "The vision is clear.", "The bottom is in.", "Built different.",
+  "Can you smell it?", "Cry harder.", "Do your own research.", "Don't hate the player, hate the game.",
+  "Grass is your best friend now.", "I don't chase. I attract.", "It's only temporary.", "Never fold.",
+  "The next cycle is now.", "No weak hands.", "HODL or fall on the knife.", "Feet up. Knife out.",
+  "Shades on. Doubts off.", "Red candles build character.", "Stay sharp.", "The chain stays on. Always.",
+  "Paper hands fold. Track suits don't.", "Sit back. Spin the knife.", "Every dip is a discount.",
+  "Diamonds aren't rushed.", "Loud chain, quiet wallet moves."
+];
+(() => {
+  const el = document.getElementById("wisdom"), dateEl = document.getElementById("wisdomDate");
+  if(!el) return;
+  let shownDay = null;
+  const paint = () => {
+    const d = new Date();
+    const day = Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 864e5);
+    if(day === shownDay) return;
+    const fresh = shownDay !== null; shownDay = day;
+    let h = Math.imul(day, 2654435761) >>> 0; h = (h ^ (h >>> 15)) >>> 0;
+    el.textContent = WISDOM[h % WISDOM.length];
+    const link = document.getElementById("wisdomCard"); if(link) link.href = "lab/?say=" + encodeURIComponent(el.textContent) + "#colt-says";
+    dateEl.textContent = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    if(fresh){ el.classList.remove("fresh"); void el.offsetWidth; el.classList.add("fresh"); }
+  };
+  paint(); setInterval(paint, 60000);
+})();
+
+/* every 5th knife tap: Colt slides in and says something, then leaves ~2.5s later */
+let coltTaps = 0;
+const colt = (() => {
+  const cameo = document.getElementById("cameo"), img = document.getElementById("cameoImg"), say = document.getElementById("cameoSay");
+  const LINES = [
+    "Never fold.", "HODL or fall on the knife.", "It's a KULT, not a cult.", "Pick up the knife.",
+    "Stay sharp.", "Shades on. Doubts off.", "Real recognize real.", "Trust the process.", "Become me in the Lab.", "Beat my Knife Catch score.", "Stick a knife in my shield. Lab. Now."
+  ];
+  let last = -1, hideT;
+  return () => {
+    let i; do { i = Math.floor(Math.random() * LINES.length); } while(i === last && LINES.length > 1);
+    last = i; say.textContent = LINES[i];
+    const wasOn = cameo.classList.contains("on");
+    cameo.classList.add("on");
+    if(wasOn){ say.classList.remove("pop"); void say.offsetWidth; say.classList.add("pop"); }
+    img.classList.remove("nod"); void img.offsetWidth; img.classList.add("nod");
+    clearTimeout(hideT); hideT = setTimeout(() => cameo.classList.remove("on"), 2600);
+  };
+})();
+
+/* stab counter: personal count saved in this browser, global count via the Abacus counter API */
+const STAB_KEY = "kult-stabs", PENDING_KEY = "kult-stabs-pending";
+const COUNTER = "https://abacus.jasoncameron.dev";
+const NS = "ultwithknife", KEY = "stabs";
+const MILESTONES = {
+  1: "first blood",
+  10: "the blade is warming up",
+  25: "you've done this before",
+  50: "the Kult is watching",
+  69: "nice",
+  100: "certified Kult member",
+  250: "paper hands could never",
+  420: "blaze it, blade it",
+  500: "the knife knows your name",
+  777: "jackpot energy",
+  1000: "the knife remembers",
+  2500: "touch grass. after one more.",
+  5000: "you are the knife now",
+  10000: "ult would be proud"
+};
+const store = {
+  get(k){ try { return parseInt(localStorage.getItem(k), 10) || 0; } catch(e){ return 0; } },
+  set(k, v){ try { localStorage.setItem(k, String(v)); } catch(e){} }
+};
+let stabs = store.get(STAB_KEY);
+let global = null;          // last total confirmed by the counter service
+let shown = 0;              // number currently on screen (for the count-up)
+const stabN = document.getElementById("stabN"), stabL = document.getElementById("stabL"), stabCap = document.getElementById("stabCap");
+const fmt = n => Math.round(n).toLocaleString("en-US");
+function lastMilestone(n){ let m = null; for(const k of Object.keys(MILESTONES).map(Number)) if(n >= k) m = k; return m; }
+function target(){ return global === null ? stabs : global + store.get(PENDING_KEY); }
+let tween;
+function paintNumber(animate){
+  const to = target();
+  cancelAnimationFrame(tween);
+  if(!animate || reduce || to - shown <= 1 || to < shown){ shown = to; stabN.textContent = fmt(shown); }
+  else {
+    const from = shown, t0 = performance.now(), dur = 700;
+    const step = t => { const k = Math.min(1, (t - t0) / dur); shown = from + (to - from) * (1 - Math.pow(1 - k, 3)); stabN.textContent = fmt(shown); if(k < 1) tween = requestAnimationFrame(step); };
+    tween = requestAnimationFrame(step);
+  }
+  stabN.classList.toggle("zero", to === 0);
+}
+function renderStabs(animate){
+  paintNumber(animate);
+  stabCap.hidden = global === null;
+  const m = lastMilestone(stabs);
+  if(stabs === 0) stabL.textContent = "tap the knife";
+  else if(global === null) stabL.textContent = m ? MILESTONES[m] : "stabs";
+  else stabL.textContent = "you: " + fmt(stabs) + (m ? " · " + MILESTONES[m] : "");
+}
+renderStabs(false);
+
+let bumpT;
+function countStab(){
+  stabs++; store.set(STAB_KEY, stabs);
+  store.set(PENDING_KEY, store.get(PENDING_KEY) + 1);
+  renderStabs(false);
+  stabN.classList.add("bump"); clearTimeout(bumpT); bumpT = setTimeout(()=>stabN.classList.remove("bump"), 140);
+  drain();
+  if(MILESTONES[stabs]){ stabL.classList.remove("hit"); void stabL.offsetWidth; stabL.classList.add("hit"); return stabs > 1; }
+  return false;
+}
+
+/* send queued taps at a pace the free counter allows (30 requests / 10s per visitor) */
+let busy = false, pauseUntil = 0, drainT;
+async function drain(){
+  if(busy || Date.now() < pauseUntil || store.get(PENDING_KEY) <= 0) return;
+  busy = true;
+  try {
+    const res = await fetch(`${COUNTER}/hit/${NS}/${KEY}`, { cache: "no-store" });
+    if(res.status === 429){ pauseUntil = Date.now() + 6000; }
+    else if(res.ok){
+      const d = await res.json();
+      if(typeof d.value === "number"){ store.set(PENDING_KEY, Math.max(0, store.get(PENDING_KEY) - 1)); global = d.value; renderStabs(false); }
+    } else { pauseUntil = Date.now() + 15000; }
+  } catch(e){ pauseUntil = Date.now() + 15000; }
+  busy = false;
+  clearTimeout(drainT);
+  drainT = setTimeout(drain, Math.max(400, pauseUntil - Date.now()));
+}
+/* fetch the running total, and refresh it while the page is open so other people's stabs show up */
+async function refreshGlobal(){
+  if(document.hidden || busy || store.get(PENDING_KEY) > 0) return;
+  try {
+    const res = await fetch(`${COUNTER}/get/${NS}/${KEY}`, { cache: "no-store" });
+    if(res.ok){ const d = await res.json(); if(typeof d.value === "number"){ global = d.value; renderStabs(true); } }
+    else if(res.status === 404 && global === null){ global = 0; renderStabs(false); }
+  } catch(e){}
+}
+refreshGlobal().then(drain);
+setInterval(refreshGlobal, 15000);
+document.addEventListener("visibilitychange", () => { if(!document.hidden){ refreshGlobal(); drain(); } });
+
+/* tilt cards */
+if(!reduce && matchMedia("(hover:hover)").matches){
+  document.querySelectorAll(".tilt").forEach(c => {
+    c.addEventListener("pointermove", e => {
+      const r = c.getBoundingClientRect(), x = (e.clientX - r.left)/r.width, y = (e.clientY - r.top)/r.height;
+      c.style.transform = `perspective(900px) rotateY(${(x-.5)*8}deg) rotateX(${(.5-y)*8}deg)`;
+      c.style.setProperty("--mx", x*100+"%"); c.style.setProperty("--my", y*100+"%");
+    });
+    c.addEventListener("pointerleave", () => { c.style.transform = ""; });
+  });
+}
+</script>
+
+</body>
+</html>
