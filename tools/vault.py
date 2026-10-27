@@ -20,6 +20,9 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SITE = os.path.join(ROOT, "site")
 GIFS = os.path.join(SITE, "memes", "gifs")
 IMGS = os.path.join(SITE, "memes", "images")
+VIDS = os.path.join(SITE, "memes", "videos")
+FOLDER = {"gif": GIFS, "img": IMGS, "vid": VIDS}
+MAIN_EXT = {"gif": "gif", "img": "jpg", "vid": "mp4"}
 VAULT = os.path.join(SITE, "memes", "vault.json")
 LAB = os.path.join(SITE, "lab", "index.html")
 HOME = os.path.join(SITE, "index.html")
@@ -30,6 +33,7 @@ TAG_ALIASES = {"bullish": "bullish", "bull": "bullish", "reaction": "reaction", 
 GIF_MAX = 10_000_000  # keep each download under ~10 MB
 GIFSICLE = os.environ.get("GIFSICLE", "gifsicle")
 FFMPEG = os.environ.get("FFMPEG", "ffmpeg")
+FFPROBE = os.environ.get("FFPROBE", "ffprobe")
 
 
 def log(*a):
@@ -104,6 +108,37 @@ def process_image(src, vid):
     os.replace(tmp, full)
 
 
+def process_video(src, vid):
+    out = os.path.join(VIDS, f"kult-{vid}.mp4")
+    tmp = out + ".tmp.mp4"
+    # phone-friendly: H.264 + AAC, longest side at most 1280 px, starts playing before it's fully downloaded
+    run([FFMPEG, "-v", "error", "-y", "-i", src, "-map", "0:v:0", "-map", "0:a:0?",
+         "-vf", "scale='if(gt(iw,ih),min(1280,iw),-2)':'if(gt(iw,ih),-2,min(1280,ih))',scale=trunc(iw/2)*2:trunc(ih/2)*2",
+         "-c:v", "libx264", "-crf", "26", "-preset", "slow", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
+         "-movflags", "+faststart", tmp])
+    if os.path.getsize(tmp) > os.path.getsize(src) and src.lower().endswith(".mp4"):
+        shutil.copyfile(src, tmp)  # already small: keep the original
+    poster = os.path.join(VIDS, f"kult-{vid}.webp")
+    try:
+        run([FFMPEG, "-v", "error", "-y", "-ss", "1", "-i", tmp, "-frames:v", "1", "-vf", "scale='min(960,iw)':-2", poster])
+    except subprocess.CalledProcessError:
+        run([FFMPEG, "-v", "error", "-y", "-i", tmp, "-frames:v", "1", "-vf", "scale='min(960,iw)':-2", poster])
+    if not os.path.exists(poster):  # very short clip: grab the first frame
+        run([FFMPEG, "-v", "error", "-y", "-i", tmp, "-frames:v", "1", "-vf", "scale='min(960,iw)':-2", poster])
+    if os.path.abspath(src) != os.path.abspath(out):
+        os.remove(src)
+    os.replace(tmp, out)
+
+
+def duration(path):
+    try:
+        out = subprocess.run([FFPROBE, "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path],
+                             check=True, capture_output=True, text=True).stdout.strip()
+        return round(float(out), 1)
+    except Exception:
+        return 0
+
+
 def main():
     vault = json.load(open(VAULT)) if os.path.exists(VAULT) else []
     known = {(e["kind"], e["id"]) for e in vault}
@@ -111,17 +146,21 @@ def main():
     changed = False
 
     # 1. new uploads
-    for folder, kind, exts in [(GIFS, "gif", (".gif",)), (IMGS, "img", (".png", ".jpg", ".jpeg", ".webp"))]:
+    os.makedirs(VIDS, exist_ok=True)
+    for folder, kind, exts in [(GIFS, "gif", (".gif",)), (IMGS, "img", (".png", ".jpg", ".jpeg", ".webp")),
+                               (VIDS, "vid", (".mp4", ".mov", ".m4v", ".webm"))]:
         for name in sorted(os.listdir(folder)):
             path = os.path.join(folder, name)
             if not os.path.isfile(path) or name.startswith("."):
+                continue
+            if ".tmp." in name or name == ".gitkeep":
                 continue
             m = re.fullmatch(r"kult-(.+)\.(gif|mp4|webp|jpg)", name)
             if m and (kind, m.group(1)) in known:
                 continue  # already in the vault (or one of its previews)
             ext = os.path.splitext(name)[1].lower()
             if ext not in exts:
-                if ext in (".mp4", ".webp") and m:
+                if ext in (".mp4", ".webp", ".jpg") and m:
                     continue  # leftover preview; cleaned up below
                 log("skipping unsupported file", name)
                 continue
@@ -129,7 +168,7 @@ def main():
             vid = unique_id(slugify(title), taken)
             log(f"adding {name} -> '{title}' ({kind}) {tags}")
             try:
-                (process_gif if kind == "gif" else process_image)(path, vid)
+                {"gif": process_gif, "img": process_image, "vid": process_video}[kind](path, vid)
             except Exception as e:  # a broken file shouldn't stop the rest
                 log("could not process", name, "-", e)
                 continue
@@ -139,8 +178,8 @@ def main():
     # 2. deleted files
     keep = []
     for e in vault:
-        folder = GIFS if e["kind"] == "gif" else IMGS
-        main_file = os.path.join(folder, f"kult-{e['id']}." + ("gif" if e["kind"] == "gif" else "jpg"))
+        folder = FOLDER[e["kind"]]
+        main_file = os.path.join(folder, f"kult-{e['id']}.{MAIN_EXT[e['kind']]}")
         if os.path.exists(main_file):
             keep.append(e); continue
         log("removing", e["title"])
@@ -154,14 +193,19 @@ def main():
     # 3. publish the list
     items = []
     for e in vault:
-        folder = GIFS if e["kind"] == "gif" else IMGS
-        main_file = os.path.join(folder, f"kult-{e['id']}." + ("gif" if e["kind"] == "gif" else "jpg"))
+        folder = FOLDER[e["kind"]]
+        main_file = os.path.join(folder, f"kult-{e['id']}.{MAIN_EXT[e['kind']]}")
         with Image.open(os.path.join(folder, f"kult-{e['id']}.webp")) as im:
             w, h = im.size
         it = {"id": e["id"], "t": e["title"], "tags": e.get("tags", []), "k": e["kind"], "w": w, "h": h,
               "kb": round(os.path.getsize(main_file) / 1024)}
         if e["kind"] == "img":
             it["ext"] = "jpg"
+        if e["kind"] == "vid":
+            it["ext"] = "mp4"
+            if not e.get("dur"):
+                e["dur"] = duration(main_file)
+            it["dur"] = e["dur"]
         items.append(it)
 
     with open(VAULT, "w") as f:
@@ -173,13 +217,14 @@ def main():
         sys.exit("vault data marker not found in lab/index.html")
     if s2 != s:
         open(LAB, "w").write(s2)
-    nG = sum(1 for i in items if i["k"] == "gif"); nI = len(items) - nG
+    nG = sum(1 for i in items if i["k"] == "gif"); nI = sum(1 for i in items if i["k"] == "img"); nV = len(items) - nG - nI
     h = open(HOME).read()
-    h2 = re.sub(r"\d+ Colt GIFs( and \d+ memes)?, free to download",
-                f"{nG} Colt GIFs" + (f" and {nI} memes" if nI else "") + ", free to download", h)
+    pl = lambda n, w: f"{n} {w}" + ("" if n == 1 else "s")
+    label = pl(nG, "Colt GIF") + (f", {pl(nI, 'meme')} and {pl(nV, 'video')}" if nV else f" and {pl(nI, 'meme')}" if nI else "")
+    h2 = re.sub(r"\d+ Colt GIFs?(?:,? (?:and )?\d+ memes?)?(?: and \d+ videos?)?, free to download", label + ", free to download", h)
     if h2 != h:
         open(HOME, "w").write(h2)
-    log(f"{nG} GIFs, {nI} memes" + (" (updated)" if changed else ""))
+    log(f"{nG} GIFs, {nI} memes, {nV} videos" + (" (updated)" if changed else ""))
 
 
 if __name__ == "__main__":

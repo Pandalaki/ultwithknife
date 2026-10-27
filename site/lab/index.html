@@ -181,7 +181,11 @@ label.btn{user-select:none}
 @keyframes tmWiggle{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-12deg)}90%{transform:rotate(10deg)}95%{transform:rotate(-6deg)}}
 @media (prefers-reduced-motion:reduce){.tab.tab-memes,.tm-pic{animation:none}}
 /* Meme vault */
-.mv-types{max-width:420px}
+.mv-types{max-width:560px;grid-template-columns:repeat(3,1fr)}
+.mv-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:54px;height:54px;display:grid;place-items:center;border-radius:50%;color:var(--void);background:rgba(233,244,255,.88);box-shadow:0 6px 24px rgba(0,0,0,.5);transition:transform .2s}
+.mv-play svg{margin-left:3px}
+.mv-tile:hover .mv-play{transform:translate(-50%,-50%) scale(1.1)}
+.mv-dur{position:absolute;top:8px;left:8px;padding:2px 7px;font:700 12px var(--f-mono);color:#fff;background:rgba(3,5,8,.75)}
 .mv-types button{display:flex;align-items:baseline;gap:8px;font-size:16px}
 .mv-types small{font-family:var(--f-mono);color:var(--ice)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
@@ -284,7 +288,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
   <div class="lab-head">
     <div class="eyebrow">The KULT Lab</div>
     <h1>Play with the <span class="k">knife.</span></h1>
-    <p class="lede">Two games, a PFP maker, a quote card maker and a vault of Colt GIFs and memes for the Kult. Everything runs right here on your device.</p>
+    <p class="lede">Two games, a PFP maker, a quote card maker and a vault of Colt GIFs, memes and videos for the Kult. Everything runs right here on your device.</p>
   </div>
 
   <div class="tabs" role="tablist" aria-label="Lab tools">
@@ -483,6 +487,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
             <button type="button" role="radio" aria-checked="false" data-pose="hand" aria-label="Scene: Colt holding out an empty hand, you choose what's in it"><img src="../img/pose-hand-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="phonelaugh" aria-label="Scene: Colt laughing on the phone"><img src="../img/pose-phone-laugh-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="phonepoint" aria-label="Scene: Colt on the phone, pointing at his pendant"><img src="../img/pose-phone-point-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="crowd" aria-label="Scene: Colt in blue standing out in a black-and-white crowd"><img src="../img/pose-crowd-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="climb" aria-label="Scene: Colt climbing a staircase of blue candles"><img src="../img/pose-climb-t.webp" alt="" width="160" height="160"></button>
           </div>
           <div class="seg" role="radiogroup" aria-label="Bubble">
@@ -545,6 +550,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
   <div class="seg mv-types" role="radiogroup" aria-label="GIFs or memes">
     <button type="button" role="radio" aria-checked="true" data-k="gif">GIFs <small id="mvNgif"></small></button>
     <button type="button" role="radio" aria-checked="false" data-k="img">Memes <small id="mvNimg"></small></button>
+    <button type="button" role="radio" aria-checked="false" data-k="vid">Videos <small id="mvNvid"></small></button>
   </div>
   <div class="chips" id="mvChips" role="radiogroup" aria-label="Filter"></div>
   <div class="vault" id="mvGrid"></div>
@@ -1407,14 +1413,16 @@ addEventListener("resize", () => { if(W) size(); });
 (() => {
 "use strict";
 const MEMES = /*MEMES*/[{"id":"kult-army","t":"Kult Army","tags":["kult"],"k":"gif","w":800,"h":600,"kb":9502},{"id":"very-nice","t":"Very Nice","tags":["reaction"],"k":"gif","w":400,"h":711,"kb":4880},{"id":"lambo-cash","t":"Lambo Cash","tags":["bullish","flex"],"k":"gif","w":400,"h":225,"kb":2484},{"id":"moon-landing","t":"Moon Landing","tags":["bullish"],"k":"gif","w":400,"h":225,"kb":2582},{"id":"nacho-bath","t":"Dip","tags":["flex","chill"],"k":"gif","w":800,"h":450,"kb":1919},{"id":"times-square","t":"Times Square","tags":["kult","flex"],"k":"gif","w":400,"h":225,"kb":3152},{"id":"poker-face","t":"All In","tags":["reaction"],"k":"gif","w":800,"h":450,"kb":3925},{"id":"bull-run","t":"Bull Shit","tags":["bullish"],"k":"gif","w":400,"h":400,"kb":1665},{"id":"kult-rally","t":"Kult Rally","tags":["kult","bullish"],"k":"gif","w":800,"h":450,"kb":9035},{"id":"big-entrance","t":"Big Entrance","tags":["party","flex"],"k":"gif","w":800,"h":800,"kb":6182},{"id":"popcorn","t":"Popcorn","tags":["reaction"],"k":"gif","w":400,"h":551,"kb":3270},{"id":"red-carpet","t":"Red Carpet","tags":["flex"],"k":"gif","w":400,"h":225,"kb":2326},{"id":"counting-coins","t":"Counting Coins","tags":["reaction"],"k":"gif","w":800,"h":434,"kb":2511},{"id":"going-up","t":"Going Up","tags":["bullish"],"k":"gif","w":400,"h":225,"kb":3624},{"id":"dj-colt","t":"DJ Colt","tags":["party"],"k":"gif","w":400,"h":225,"kb":919},{"id":"stadium","t":"Stadium Show","tags":["kult","flex"],"k":"gif","w":400,"h":225,"kb":3335},{"id":"rough-morning","t":"Rough Morning","tags":["reaction"],"k":"gif","w":400,"h":225,"kb":1471},{"id":"big-wave","t":"Riding the Whales","tags":["bullish"],"k":"gif","w":400,"h":225,"kb":4054},{"id":"party-king","t":"Proud","tags":["party","flex"],"k":"gif","w":800,"h":800,"kb":7963},{"id":"the-look","t":"Colt","tags":["reaction"],"k":"gif","w":400,"h":225,"kb":1622},{"id":"squad-ride","t":"Squad Ride","tags":["kult","party"],"k":"gif","w":400,"h":225,"kb":5796},{"id":"grill-master","t":"Grill Master","tags":["chill"],"k":"gif","w":800,"h":450,"kb":4382},{"id":"cliff-edge","t":"Whale Symphony","tags":["kult"],"k":"gif","w":400,"h":225,"kb":3039},{"id":"roll-the-dice","t":"Roll the Dice","tags":["reaction"],"k":"gif","w":800,"h":450,"kb":3912},{"id":"spotlight","t":"Spotlight","tags":["flex"],"k":"gif","w":800,"h":455,"kb":1975},{"id":"cafe-colt","t":"Good Morning","tags":["chill","gmgn"],"k":"gif","w":400,"h":225,"kb":1354},{"id":"knife-walk","t":"Knife Walk","tags":["kult","flex"],"k":"gif","w":400,"h":225,"kb":3410},{"id":"stare-down","t":"Stare Down","tags":["reaction"],"k":"gif","w":800,"h":600,"kb":3917},{"id":"keynote","t":"Keynote","tags":["kult"],"k":"gif","w":400,"h":225,"kb":3089},{"id":"fresh-shave","t":"Fresh Shave","tags":["chill"],"k":"gif","w":400,"h":225,"kb":1673},{"id":"flyers","t":"Spreading the Word","tags":["kult"],"k":"gif","w":400,"h":225,"kb":1091},{"id":"dance-moves","t":"KULT of Personality","tags":["party"],"k":"gif","w":400,"h":210,"kb":3463},{"id":"red-glow","t":"Red Glow","tags":["reaction"],"k":"gif","w":800,"h":590,"kb":9321},{"id":"plaza-pose","t":"Stand Out","tags":["flex"],"k":"gif","w":400,"h":225,"kb":5019},{"id":"beach-day","t":"One Last Drag","tags":["chill"],"k":"gif","w":400,"h":225,"kb":1492},{"id":"touch-grass","t":"Touch Grass","tags":["chill"],"k":"gif","w":800,"h":450,"kb":2875},{"id":"when-i-dip","t":"When I Dip","tags":["chill","reaction"],"k":"img","w":640,"h":616,"kb":269,"ext":"jpg"},{"id":"bottom-is-in","t":"The Bottom Is In","tags":["bullish"],"k":"img","w":640,"h":632,"kb":313,"ext":"jpg"},{"id":"built-different","t":"Built Different","tags":["flex"],"k":"img","w":640,"h":640,"kb":450,"ext":"jpg"},{"id":"cry-harder","t":"Cry Harder","tags":["reaction"],"k":"img","w":640,"h":640,"kb":404,"ext":"jpg"},{"id":"good-morning","t":"Good Morning","tags":["gmgn"],"k":"img","w":640,"h":640,"kb":320,"ext":"jpg"},{"id":"good-night","t":"Good Night","tags":["gmgn"],"k":"img","w":640,"h":640,"kb":221,"ext":"jpg"},{"id":"can-you-smell-it","t":"Can You Smell It","tags":["bullish"],"k":"img","w":640,"h":463,"kb":296,"ext":"jpg"},{"id":"dont-hate-the-player","t":"Don't Hate the Player","tags":["reaction"],"k":"img","w":640,"h":427,"kb":322,"ext":"jpg"},{"id":"do-your-own-research","t":"Do Your Own Research","tags":["kult"],"k":"img","w":640,"h":640,"kb":371,"ext":"jpg"},{"id":"grass-best-friend","t":"Grass Is Your Best Friend","tags":["reaction","chill"],"k":"img","w":640,"h":632,"kb":349,"ext":"jpg"},{"id":"burn","t":"Burn","tags":["reaction"],"k":"img","w":640,"h":640,"kb":331,"ext":"jpg"},{"id":"a-men","t":"A-Men","tags":["reaction"],"k":"img","w":640,"h":640,"kb":256,"ext":"jpg"},{"id":"be-safe-out-there","t":"Be Safe Out There","tags":["chill"],"k":"img","w":640,"h":640,"kb":404,"ext":"jpg"},{"id":"real-recognize-real","t":"Real Recognize Real","tags":["flex"],"k":"img","w":640,"h":631,"kb":248,"ext":"jpg"},{"id":"respect","t":"Respect","tags":["reaction"],"k":"img","w":640,"h":640,"kb":214,"ext":"jpg"},{"id":"rookie-numbers","t":"Rookie Numbers","tags":["reaction"],"k":"img","w":640,"h":640,"kb":307,"ext":"jpg"},{"id":"scared-money","t":"Scared Money Don’t Make Money","tags":["bullish"],"k":"img","w":640,"h":640,"kb":379,"ext":"jpg"},{"id":"nothing-but-green","t":"Nothing But Green","tags":["bullish"],"k":"img","w":640,"h":640,"kb":310,"ext":"jpg"},{"id":"holding-strong","t":"Holding Strong","tags":["kult"],"k":"img","w":640,"h":640,"kb":352,"ext":"jpg"},{"id":"i-dont-chase","t":"I Don’t Chase. I Attract.","tags":["flex"],"k":"img","w":640,"h":627,"kb":338,"ext":"jpg"},{"id":"i-got-this","t":"I Got This","tags":["reaction"],"k":"img","w":640,"h":640,"kb":195,"ext":"jpg"},{"id":"its-magic","t":"It’s Magic!","tags":["reaction"],"k":"img","w":640,"h":532,"kb":184,"ext":"jpg"},{"id":"only-temporary","t":"It’s Only Temporary","tags":["reaction"],"k":"img","w":640,"h":634,"kb":252,"ext":"jpg"},{"id":"my-man","t":"My Man...","tags":["reaction"],"k":"img","w":640,"h":352,"kb":238,"ext":"jpg"},{"id":"never-fold","t":"Never Fold","tags":["kult"],"k":"img","w":640,"h":640,"kb":323,"ext":"jpg"},{"id":"next-cycle","t":"The Next Cycle Is Now","tags":["bullish"],"k":"img","w":640,"h":427,"kb":335,"ext":"jpg"},{"id":"nice-rug","t":"This Is a Nice Rug","tags":["reaction"],"k":"img","w":640,"h":640,"kb":415,"ext":"jpg"},{"id":"no-weak-hands","t":"No Weak Hands","tags":["kult"],"k":"img","w":640,"h":640,"kb":316,"ext":"jpg"},{"id":"patience","t":"Patience","tags":["kult"],"k":"img","w":640,"h":640,"kb":272,"ext":"jpg"},{"id":"still-here","t":"Still Here","tags":["kult"],"k":"img","w":640,"h":626,"kb":280,"ext":"jpg"},{"id":"streets-made-me","t":"The Streets Made Me","tags":["kult","flex"],"k":"img","w":640,"h":640,"kb":377,"ext":"jpg"},{"id":"this-guy-gets-it","t":"This Guy Gets It","tags":["reaction"],"k":"img","w":640,"h":640,"kb":349,"ext":"jpg"},{"id":"trust-the-process","t":"Trust the Process","tags":["kult"],"k":"img","w":640,"h":632,"kb":259,"ext":"jpg"},{"id":"trust-your-gut","t":"Trust Your Gut","tags":["reaction"],"k":"img","w":640,"h":533,"kb":303,"ext":"jpg"},{"id":"vision-is-clear","t":"The Vision Is Clear","tags":["bullish"],"k":"img","w":640,"h":632,"kb":253,"ext":"jpg"},{"id":"whale-watching","t":"Whale Watching","tags":["chill","reaction"],"k":"img","w":640,"h":640,"kb":409,"ext":"jpg"},{"id":"wealth-takes-time","t":"Wealth Takes Time","tags":["kult"],"k":"img","w":640,"h":426,"kb":243,"ext":"jpg"},{"id":"excuse-me","t":"Excuse Me?","tags":["reaction"],"k":"img","w":640,"h":380,"kb":236,"ext":"jpg"},{"id":"pass","t":"Pass","tags":["reaction"],"k":"img","w":640,"h":640,"kb":319,"ext":"jpg"},{"id":"reach-for-the-stars","t":"Reach for the Stars","tags":["bullish"],"k":"img","w":640,"h":640,"kb":317,"ext":"jpg"},{"id":"still-early","t":"Still Early","tags":["bullish"],"k":"img","w":640,"h":640,"kb":376,"ext":"jpg"},{"id":"ult-rich","t":"Rich vs. Ult Rich","tags":["flex"],"k":"img","w":640,"h":640,"kb":269,"ext":"jpg"},{"id":"who-da-f-is-dat-guy","t":"Who Da F*** Is Dat Guy","tags":["reaction"],"k":"img","w":640,"h":640,"kb":210,"ext":"jpg"},{"id":"you-got-the-balls","t":"You Got the Balls?","tags":["flex"],"k":"img","w":640,"h":521,"kb":380,"ext":"jpg"}]/*END*/;
-const DIRS = { gif: "../memes/gifs/", img: "../memes/images/" }, SITE = "https://ultwithknife.com/lab/#memes/";
+const DIRS = { gif: "../memes/gifs/", img: "../memes/images/", vid: "../memes/videos/" }, SITE = "https://ultwithknife.com/lab/#memes/";
 const TAGS = [["all", "All"], ["bullish", "Bullish"], ["reaction", "Reactions"], ["flex", "Flex"], ["party", "Party"], ["chill", "Chill"], ["gmgn", "GM / GN"], ["kult", "Kult"]];
 const $ = id => document.getElementById(id);
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const toastEl = $("toast"); let tt;
 const say = m => { toastEl.textContent = m; toastEl.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove("on"), 1800); };
 const dirOf = m => DIRS[m.k] || DIRS.img;
-const fileOf = m => dirOf(m) + "kult-" + m.id + "." + (m.k === "gif" ? "gif" : m.ext);
+const extOf = m => m.k === "gif" ? "gif" : m.ext;
+const fileOf = m => dirOf(m) + "kult-" + m.id + "." + extOf(m);
+const clock = s => Math.floor(s/60) + ":" + String(Math.round(s % 60)).padStart(2, "0");
 const sizeOf = kb => kb >= 1024 ? (kb/1024).toFixed(1) + " MB" : kb + " KB";
 let built = false, filter = "all", kind = "gif", shown = [], cur = -1;
 // the light video previews need H.264; the rare browser without it gets still posters in the grid and the GIF itself in the viewer
@@ -1429,18 +1437,20 @@ const io = "IntersectionObserver" in window ? new IntersectionObserver(es => es.
 
 function build(){
   built = true;
-  const nG = MEMES.filter(m => m.k === "gif").length, nI = MEMES.length - nG;
-  $("mvNgif").textContent = nG; $("mvNimg").textContent = nI;
-  $("mvCounts").textContent = `${nG} Colt GIFs` + (nI ? ` and ${nI} memes` : "");
+  const nG = MEMES.filter(m => m.k === "gif").length, nI = MEMES.filter(m => m.k === "img").length, nV = MEMES.filter(m => m.k === "vid").length;
+  $("mvNgif").textContent = nG; $("mvNimg").textContent = nI; $("mvNvid").textContent = nV;
+  const pl = (n, w) => n + " " + w + (n === 1 ? "" : "s");
+  $("mvCounts").textContent = pl(nG, "Colt GIF") + (nV ? `, ${pl(nI, "meme")} and ${pl(nV, "video")}` : nI ? ` and ${pl(nI, "meme")}` : "");
   document.querySelectorAll(".mv-types button").forEach(b => b.addEventListener("click", () => setKind(b.dataset.k)));
   const grid = $("mvGrid");
   grid.innerHTML = MEMES.map((m, i) => `<div class="mv-tile" data-i="${i}">
     <button class="mv-open" type="button" aria-label="Open ${m.t}">
       <img src="${dirOf(m)}kult-${m.id}.webp" alt="${m.t}" width="${m.w}" height="${m.h}" loading="lazy" decoding="async">
       ${m.k === "gif" && canMP4 ? `<video muted loop playsinline preload="none" data-src="${dirOf(m)}kult-${m.id}.mp4" aria-hidden="true"></video>` : ""}
+      ${m.k === "vid" ? `<span class="mv-play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>${m.dur ? `<span class="mv-dur">${clock(m.dur)}</span>` : ""}` : ""}
       <span class="mv-cap">${m.t}</span>
     </button>
-    <a class="mv-dl" href="${fileOf(m)}" download="kult-${m.id}.${m.k === "gif" ? "gif" : m.ext}" aria-label="Download ${m.t}" title="Download">
+    <a class="mv-dl" href="${fileOf(m)}" download="kult-${m.id}.${extOf(m)}" aria-label="Download ${m.t}" title="Download">
       <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 4v11m0 0l-5-5m5 5l5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/></svg>
     </a>
   </div>`).join("");
@@ -1467,12 +1477,13 @@ function setFilter(f){
   shown = MEMES.map((m, i) => i).filter(i => MEMES[i].k === kind && (f === "all" || MEMES[i].tags.includes(f)));
   document.querySelectorAll("#mvGrid .mv-tile").forEach(t => t.hidden = !shown.includes(+t.dataset.i));
   $("mvEmpty").hidden = shown.length > 0;
+  $("mvEmpty").textContent = kind === "vid" ? "No videos yet. The first ones drop soon." : "Nothing here yet.";
 }
 
 /* phones: the share sheet's "Save Image" puts the GIF straight into the photo library */
 function saveViaShare(m){
   if(!kultIsPhone || !navigator.canShare) return false;
-  const name = `kult-${m.id}.${m.k === "gif" ? "gif" : m.ext}`, type = m.k === "gif" ? "image/gif" : (m.ext === "png" ? "image/png" : "image/jpeg");
+  const name = `kult-${m.id}.${extOf(m)}`, type = m.k === "gif" ? "image/gif" : m.k === "vid" ? "video/mp4" : (m.ext === "png" ? "image/png" : "image/jpeg");
   say("Getting it ready…");
   fetch(fileOf(m)).then(r => r.blob()).then(b => {
     const f = new File([b], name, { type });
@@ -1487,12 +1498,14 @@ let lastFocus = null;
 function open(i, fromHash){
   cur = i; const m = MEMES[i];
   const stage = $("mvStage");
-  stage.innerHTML = m.k === "gif" && canMP4
+  stage.innerHTML = m.k === "vid"
+    ? `<video src="${fileOf(m)}" poster="${dirOf(m)}kult-${m.id}.webp" controls playsinline autoplay preload="auto" width="${m.w}" height="${m.h}" aria-label="${m.t}"></video>`
+    : m.k === "gif" && canMP4
     ? `<video src="${dirOf(m)}kult-${m.id}.mp4" poster="${dirOf(m)}kult-${m.id}.webp" muted loop playsinline autoplay width="${m.w}" height="${m.h}" aria-label="${m.t}"></video>`
     : `<img src="${fileOf(m)}" alt="${m.t}" width="${m.w}" height="${m.h}">`;
   $("mvTitle").textContent = m.t;
-  $("mvMeta").textContent = (m.k === "gif" ? "GIF" : m.ext.toUpperCase()) + " · " + sizeOf(m.kb);
-  const dl = $("mvDl"); dl.href = fileOf(m); dl.download = `kult-${m.id}.${m.k === "gif" ? "gif" : m.ext}`; dl.textContent = kultIsPhone ? "Save" : (m.k === "gif" ? "Download GIF" : "Download");
+  $("mvMeta").textContent = (m.k === "gif" ? "GIF" : m.k === "vid" ? "Video" + (m.dur ? " · " + clock(m.dur) : "") : m.ext.toUpperCase()) + " · " + sizeOf(m.kb);
+  const dl = $("mvDl"); dl.href = fileOf(m); dl.download = `kult-${m.id}.${extOf(m)}`; dl.textContent = kultIsPhone ? "Save" : (m.k === "gif" ? "Download GIF" : m.k === "vid" ? "Download video" : "Download");
   const pos = shown.indexOf(i); $("mvPrev").hidden = $("mvNext").hidden = shown.length < 2 || pos < 0;
   if($("mvLb").hidden){ lastFocus = document.activeElement; $("mvLb").hidden = false; document.body.classList.add("mv-lock"); $("mvClose").focus({ preventScroll: true }); }
   if(!fromHash) history.replaceState(null, "", "#memes/" + m.id);
@@ -2076,6 +2089,9 @@ Object.assign(POSES, {
   phonepoint: { src: "../img/scene-phone-point.webp", scene: true, bubble: "says", mouth: [.39, .37], head: [.37, .05],
            square: { fit: "contain", f: [.5, 1], area: [36, 36, 1044, 470], hug: "l", tag: "br" },
            wide:   { fit: "cover", f: [.5, .5], area: [800, 30, 1170, 360], hug: "l", tag: "br" } },
+  crowd: { src: "../img/scene-crowd.webp", scene: true, bubble: "says", mouth: [.51, .495], head: [.51, .4],
+           square: { fit: "cover", f: [.5, .5], area: [40, 40, 1040, 370], hug: "c", tag: "br" },
+           wide:   { fit: "cover", f: [.5, .25], area: [40, 22, 1160, 292], hug: "c", tag: "br" } },
   climb: { src: "../img/scene-climb.webp", scene: true, bubble: "says", mouth: [.47, .12], head: [.46, .04],
            square: { fit: "cover", f: [.5, .5], area: [600, 40, 1040, 360], hug: "l", tag: "br" },
            wide:   { fit: "contain", f: [0, 0], area: [515, 30, 1170, 330], hug: "l", tag: "br" } }
@@ -2325,7 +2341,7 @@ function render(){
   const f = fit(text, maxW, maxH, Math.min(1.1, scale * 1.05));
   const bw = Math.max(f.w, 240*scale) + pad*2, bh = f.h + labelH + pad*2;
   // place the bubble: hug the side nearest Colt, sit high
-  const bx = hugRight ? ax1 - bw : ax0;
+  const bx = pose.scene && P.hug === "c" ? (ax0 + ax1 - bw) / 2 : hugRight ? ax1 - bw : ax0;
   const by = Math.max(ay0, Math.min(ay1 - bh, ay0 + (ay1 - ay0 - bh) * .2));
   const b = { x: bx, y: by, w: bw, h: bh }, lw = 5 * scale;
   // tip stops a little short of the mouth / head
