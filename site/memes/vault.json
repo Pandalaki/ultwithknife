@@ -784,5 +784,21 @@
   ],
   "kind": "vid",
   "dur": 10.0
+ },
+ {
+  "id": "stir-the-pot",
+  "title": "Stir the Pot",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "this-is-huge-news",
+  "title": "This Is HUGE News",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "img"
  }
 ]
