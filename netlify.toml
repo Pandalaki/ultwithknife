@@ -1,4 +1,4 @@
-# The site is plain files: no build step, publish the folder as-is.
+# The site is plain files in site/ - no build step. (This file overrides the Netlify UI settings.)
 [build]
-  publish = "."
+  publish = "site"
   command = ""
