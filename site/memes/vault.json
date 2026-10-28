@@ -812,5 +812,104 @@
    "reaction"
   ],
   "kind": "img"
+ },
+ {
+  "id": "every-day-i-m-hustling",
+  "title": "Every Day I'm Hustling",
+  "tags": [
+   "flex"
+  ],
+  "kind": "vid",
+  "dur": 84.4
+ },
+ {
+  "id": "get-up",
+  "title": "Get Up",
+  "tags": [
+   "kult"
+  ],
+  "kind": "vid",
+  "dur": 55.9
+ },
+ {
+  "id": "grind",
+  "title": "Grind",
+  "tags": [
+   "flex"
+  ],
+  "kind": "vid",
+  "dur": 10.0
+ },
+ {
+  "id": "have-you-heard-of-the-kult",
+  "title": "Have You Heard of the KULT",
+  "tags": [
+   "kult"
+  ],
+  "kind": "vid",
+  "dur": 55.3
+ },
+ {
+  "id": "i-quit",
+  "title": "I Quit",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "vid",
+  "dur": 13.2
+ },
+ {
+  "id": "joining-the-kult",
+  "title": "Joining the KULT",
+  "tags": [
+   "kult"
+  ],
+  "kind": "vid",
+  "dur": 95.6
+ },
+ {
+  "id": "joker-dance",
+  "title": "Joker Dance",
+  "tags": [
+   "party"
+  ],
+  "kind": "vid",
+  "dur": 12.0
+ },
+ {
+  "id": "kult-ending",
+  "title": "KULT Ending",
+  "tags": [
+   "kult"
+  ],
+  "kind": "vid",
+  "dur": 10.0
+ },
+ {
+  "id": "kult-moon",
+  "title": "KULT Moon",
+  "tags": [
+   "bullish"
+  ],
+  "kind": "vid",
+  "dur": 124.9
+ },
+ {
+  "id": "knife-drawer",
+  "title": "Knife Drawer",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "vid",
+  "dur": 8.3
+ },
+ {
+  "id": "name-is-colt",
+  "title": "Name Is Colt",
+  "tags": [
+   "kult"
+  ],
+  "kind": "vid",
+  "dur": 10.0
  }
 ]
