@@ -732,24 +732,6 @@
   "dur": 5.7
  },
  {
-  "id": "celebrating",
-  "title": "Celebrating",
-  "tags": [
-   "party"
-  ],
-  "kind": "vid",
-  "dur": 8.0
- },
- {
-  "id": "cereal",
-  "title": "Cereal",
-  "tags": [
-   "chill"
-  ],
-  "kind": "vid",
-  "dur": 6.3
- },
- {
   "id": "cooking",
   "title": "Cooking",
   "tags": [
@@ -759,15 +741,6 @@
   "dur": 10.0
  },
  {
-  "id": "counting",
-  "title": "Counting",
-  "tags": [
-   "flex"
-  ],
-  "kind": "vid",
-  "dur": 7.1
- },
- {
   "id": "cry-harder-2",
   "title": "Cry Harder",
   "tags": [
@@ -775,15 +748,6 @@
   ],
   "kind": "vid",
   "dur": 8.6
- },
- {
-  "id": "dip",
-  "title": "Dip",
-  "tags": [
-   "bullish"
-  ],
-  "kind": "vid",
-  "dur": 10.0
  },
  {
   "id": "stir-the-pot",
