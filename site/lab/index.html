@@ -487,6 +487,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
             <button type="button" role="radio" aria-checked="false" data-pose="hand" aria-label="Scene: Colt holding out an empty hand, you choose what's in it"><img src="../img/pose-hand-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="phonelaugh" aria-label="Scene: Colt laughing on the phone"><img src="../img/pose-phone-laugh-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="phonepoint" aria-label="Scene: Colt on the phone, pointing at his pendant"><img src="../img/pose-phone-point-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="phonesmile" aria-label="Scene: Colt smiling on the phone"><img src="../img/pose-phone-smile-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="crowd" aria-label="Scene: Colt in blue standing out in a black-and-white crowd"><img src="../img/pose-crowd-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="climb" aria-label="Scene: Colt climbing a staircase of blue candles"><img src="../img/pose-climb-t.webp" alt="" width="160" height="160"></button>
           </div>
@@ -2089,6 +2090,9 @@ Object.assign(POSES, {
   phonepoint: { src: "../img/scene-phone-point.webp", scene: true, bubble: "says", mouth: [.39, .37], head: [.37, .05],
            square: { fit: "contain", f: [.5, 1], area: [36, 36, 1044, 470], hug: "l", tag: "br" },
            wide:   { fit: "cover", f: [.5, .5], area: [800, 30, 1170, 360], hug: "l", tag: "br" } },
+  phonesmile: { src: "../img/scene-phone-smile.webp", scene: true, bubble: "says", mouth: [.43, .41], head: [.41, .06],
+           square: { fit: "contain", f: [.5, 1], area: [36, 36, 1044, 420], hug: "c", tag: "br" },
+           wide:   { fit: "cover", f: [.5, .45], area: [780, 30, 1170, 330], hug: "l", tag: "br" } },
   crowd: { src: "../img/scene-crowd.webp", scene: true, bubble: "says", mouth: [.51, .495], head: [.51, .4],
            square: { fit: "cover", f: [.5, .5], area: [40, 40, 1040, 370], hug: "c", tag: "br" },
            wide:   { fit: "cover", f: [.5, .25], area: [40, 22, 1160, 292], hug: "c", tag: "br" } },
