@@ -956,5 +956,14 @@
   ],
   "kind": "vid",
   "dur": 13.0
+ },
+ {
+  "id": "gold",
+  "title": "Gold",
+  "tags": [
+   "flex"
+  ],
+  "kind": "vid",
+  "dur": 9.2
  }
 ]
