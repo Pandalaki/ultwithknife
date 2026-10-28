@@ -37,8 +37,8 @@ jobs:
         run: |
           git add -A site
           if git diff --cached --quiet; then echo "Nothing to update"; exit 0; fi
-          git config user.name "KULT vault bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "Pandalaki"
+          git config user.email "153791120+Pandalaki@users.noreply.github.com"
           git commit -m "Meme Vault: process uploads"
           for i in 1 2 3; do git pull --rebase -q origin main && git push && exit 0; sleep 5; done
           exit 1
