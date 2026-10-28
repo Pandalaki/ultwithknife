@@ -2088,14 +2088,14 @@ Object.assign(POSES, {
            square: { fit: "cover", f: [.6, .5], area: [36, 36, 540, 330], hug: "r", tag: "bl" },
            wide:   { fit: "cover", f: [.5, .3], area: [36, 30, 480, 330], hug: "r", tag: "bl" } },
   phonepoint: { src: "../img/scene-phone-point.webp", scene: true, bubble: "says", mouth: [.39, .37], head: [.37, .05],
-           square: { fit: "contain", f: [.5, 1], area: [36, 36, 1044, 470], hug: "l", tag: "br" },
-           wide:   { fit: "cover", f: [.5, .5], area: [800, 30, 1170, 360], hug: "l", tag: "br" } },
+           square: { fit: "contain", f: [.5, 1], area: [36, 36, 600, 450], hug: "l", tag: "br", tip: [.25, .42] },
+           wide:   { fit: "cover", f: [.5, .5], area: [800, 30, 1170, 360], hug: "l", tag: "br", tip: [.555, .37] } },
   phonesmile: { src: "../img/scene-phone-smile.webp", scene: true, bubble: "says", mouth: [.43, .41], head: [.41, .06],
-           square: { fit: "contain", f: [.5, 1], area: [36, 36, 1044, 420], hug: "c", tag: "br" },
-           wide:   { fit: "cover", f: [.5, .45], area: [780, 30, 1170, 330], hug: "l", tag: "br" } },
+           square: { fit: "contain", f: [.5, 1], area: [36, 36, 600, 300], hug: "l", tag: "br", tip: [.255, .43] },
+           wide:   { fit: "cover", f: [.5, .45], area: [780, 30, 1170, 330], hug: "l", tag: "br", tip: [.575, .37] } },
   crowd: { src: "../img/scene-crowd.webp", scene: true, bubble: "says", mouth: [.51, .495], head: [.51, .4],
-           square: { fit: "cover", f: [.5, .5], area: [40, 40, 1040, 370], hug: "c", tag: "br" },
-           wide:   { fit: "cover", f: [.5, .25], area: [40, 22, 1160, 292], hug: "c", tag: "br" } },
+           square: { fit: "cover", f: [.5, .5], area: [40, 40, 560, 330], hug: "l", tag: "br", tip: [.425, .45] },
+           wide:   { fit: "cover", f: [.5, .25], area: [40, 22, 470, 300], hug: "l", tag: "br", tip: [.425, .45] } },
   climb: { src: "../img/scene-climb.webp", scene: true, bubble: "says", mouth: [.47, .12], head: [.46, .04],
            square: { fit: "cover", f: [.5, .5], area: [600, 40, 1040, 360], hug: "l", tag: "br" },
            wide:   { fit: "contain", f: [0, 0], area: [515, 30, 1170, 330], hug: "l", tag: "br" } }
@@ -2311,7 +2311,7 @@ function render(){
   if(cv.width !== W || cv.height !== H){ cv.width = W; cv.height = H; }
   g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, H);
   const img = poseImg(state.pose), scale = W / 1080, pt = think ? pose.head : pose.mouth;
-  let aim, area, hugRight, tagRight;
+  let aim, area, hugRight, tagRight, tipAt = null;
   if(pose.scene){
     // the scene image fills the card as-is (no cutout); in "contain" the leftover strip gets a dark, blurred copy
     const iw = img ? img.width : 1402, ih = img ? img.height : 1122;
@@ -2325,7 +2325,9 @@ function render(){
       g.drawImage(img, ox, oy, dw, dh);
     }
     if(pose.hand) drawHeld(ox, oy, dw, dh);
-    aim = [ox + dw*pt[0], oy + dh*pt[1]]; area = P.area; hugRight = P.hug === "r"; tagRight = P.tag === "br";
+    aim = [ox + dw*pt[0], oy + dh*pt[1]]; area = P.area;
+    // speech tails stop beside his face instead of running across it
+    tipAt = P.tip && !think ? [ox + dw*P.tip[0], oy + dh*P.tip[1]] : null; hugRight = P.hug === "r"; tagRight = P.tag === "br";
   } else {
     drawBg(W, H);
     // Colt's box (also used before his image has loaded, so the bubble doesn't jump)
@@ -2350,7 +2352,7 @@ function render(){
   const b = { x: bx, y: by, w: bw, h: bh }, lw = 5 * scale;
   // tip stops a little short of the mouth / head
   const dx = aim[0] - (b.x + b.w/2), dy = aim[1] - (b.y + b.h/2), dd = Math.hypot(dx, dy) || 1, gap = (think ? 40 : 26) * scale;
-  const tip = [aim[0] - dx/dd*gap, aim[1] - dy/dd*gap];
+  const tip = tipAt || [aim[0] - dx/dd*gap, aim[1] - dy/dd*gap];
   if(think) cloud(b, aim, lw, scale); else speech(b, tip, lw);
   // label + words
   g.textBaseline = "alphabetic"; g.textAlign = "left";
