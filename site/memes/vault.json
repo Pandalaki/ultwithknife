@@ -1092,5 +1092,13 @@
   ],
   "kind": "vid",
   "dur": 11.8
+ },
+ {
+  "id": "clearance-sale",
+  "title": "Clearance Sale",
+  "tags": [
+   "bullish"
+  ],
+  "kind": "gif"
  }
 ]
