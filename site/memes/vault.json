@@ -1047,5 +1047,50 @@
    "kult"
   ],
   "kind": "gif"
+ },
+ {
+  "id": "cats-locked-in",
+  "title": "Cats Locked In",
+  "tags": [
+   "kult"
+  ],
+  "kind": "vid",
+  "dur": 27.9
+ },
+ {
+  "id": "how-to-be-a-millionaire",
+  "title": "How to Be a Millionaire",
+  "tags": [
+   "flex"
+  ],
+  "kind": "vid",
+  "dur": 12.0
+ },
+ {
+  "id": "kult-promo-1",
+  "title": "KULT Promo 1",
+  "tags": [
+   "kult"
+  ],
+  "kind": "vid",
+  "dur": 30.4
+ },
+ {
+  "id": "let-s-ride",
+  "title": "Let's Ride",
+  "tags": [
+   "party"
+  ],
+  "kind": "vid",
+  "dur": 42.9
+ },
+ {
+  "id": "wet",
+  "title": "Wet",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "vid",
+  "dur": 11.8
  }
 ]
