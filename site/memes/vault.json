@@ -965,5 +965,23 @@
   ],
   "kind": "vid",
   "dur": 9.2
+ },
+ {
+  "id": "block-party",
+  "title": "Block Party",
+  "tags": [
+   "party"
+  ],
+  "kind": "vid",
+  "dur": 9.4
+ },
+ {
+  "id": "dance-battle",
+  "title": "Dance Battle",
+  "tags": [
+   "party"
+  ],
+  "kind": "vid",
+  "dur": 15.0
  }
 ]
