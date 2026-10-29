@@ -487,6 +487,10 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
             <button type="button" role="radio" aria-checked="false" data-pose="hand" aria-label="Scene: Colt holding out an empty hand, you choose what's in it"><img src="../img/pose-hand-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="phonelaugh" aria-label="Scene: Colt laughing on the phone"><img src="../img/pose-phone-laugh-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="phonesmile" aria-label="Scene: Colt smiling on the phone"><img src="../img/pose-phone-smile-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="cruise" aria-label="Scene: Colt grinning in a convertible by the beach"><img src="../img/pose-cruise-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="presser" aria-label="Scene: Colt at a press conference podium"><img src="../img/pose-presser-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="shout" aria-label="Scene: Colt shouting into his phone"><img src="../img/pose-shout-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="bull" aria-label="Scene: Colt riding a bull"><img src="../img/pose-bull-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="crowd" aria-label="Scene: Colt in blue standing out in a black-and-white crowd"><img src="../img/pose-crowd-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="climb" aria-label="Scene: Colt climbing a staircase of blue candles"><img src="../img/pose-climb-t.webp" alt="" width="160" height="160"></button>
           </div>
@@ -2089,6 +2093,18 @@ Object.assign(POSES, {
   phonesmile: { src: "../img/scene-phone-smile.webp", scene: true, bubble: "says", mouth: [.43, .41], head: [.41, .06],
            square: { fit: "contain", f: [.5, 1], area: [36, 36, 1044, 320], hug: "l", tag: "br", tip: [.255, .43] },
            wide:   { fit: "cover", f: [.5, .45], area: [740, 20, 1180, 400], hug: "l", tag: "br", tip: [.575, .37] } },
+  cruise: { src: "../img/scene-cruise.webp", scene: true, bubble: "says", mouth: [.63, .52], head: [.63, .05],
+           square: { fit: "contain", f: [.5, 1], area: [36, 36, 1044, 340], hug: "l", tag: "bl", tip: [.5, .3] },
+           wide:   { fit: "cover", f: [.5, .3], area: [30, 24, 580, 330], hug: "r", tag: "bl", tip: [.5, .42] } },
+  presser: { src: "../img/scene-presser.webp", scene: true, bubble: "says", mouth: [.33, .47], head: [.33, .17],
+           square: { fit: "cover", f: [.5, .5], area: [500, 40, 1040, 560], hug: "l", tag: "br", tip: [.45, .38] },
+           wide:   { fit: "cover", f: [.5, .25], area: [520, 24, 1170, 420], hug: "l", tag: "br", tip: [.45, .38] } },
+  shout: { src: "../img/scene-shout.webp", scene: true, bubble: "says", mouth: [.66, .53], head: [.7, .2],
+           square: { fit: "cover", f: [.5, .5], area: [36, 36, 640, 470], hug: "r", tag: "bl", tip: [.57, .47] },
+           wide:   { fit: "cover", f: [.5, .35], area: [30, 24, 700, 340], hug: "r", tag: "bl", tip: [.57, .47] } },
+  bull:  { src: "../img/scene-bull.webp", scene: true, bubble: "says", mouth: [.37, .27], head: [.37, .17],
+           square: { fit: "cover", f: [.5, .5], area: [540, 40, 1044, 400], hug: "l", tag: "br", tip: [.44, .22] },
+           wide:   { fit: "contain", f: [.5, .5], area: [620, 24, 1170, 330], hug: "l", tag: "br", tip: [.44, .22] } },
   crowd: { src: "../img/scene-crowd.webp", scene: true, bubble: "says", mouth: [.51, .495], head: [.51, .4],
            square: { fit: "cover", f: [.5, .5], area: [36, 36, 1044, 320], hug: "l", tag: "br", tip: [.425, .45] },
            wide:   { fit: "cover", f: [.5, .2], area: [24, 20, 760, 268], hug: "l", tag: "br", tip: [.425, .45] } },
