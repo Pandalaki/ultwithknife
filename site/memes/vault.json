@@ -999,5 +999,37 @@
    "reaction"
   ],
   "kind": "gif"
+ },
+ {
+  "id": "laugh",
+  "title": "Laugh",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "smile",
+  "title": "Smile",
+  "tags": [
+   "chill"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "super-saiyan",
+  "title": "Super Saiyan",
+  "tags": [
+   "bullish"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "to-the-beat",
+  "title": "To the Beat",
+  "tags": [
+   "party"
+  ],
+  "kind": "gif"
  }
 ]
