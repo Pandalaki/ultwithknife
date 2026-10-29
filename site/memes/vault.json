@@ -983,5 +983,21 @@
   ],
   "kind": "vid",
   "dur": 15.0
+ },
+ {
+  "id": "waiting",
+  "title": "Waiting",
+  "tags": [
+   "chill"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "you-serious",
+  "title": "You Serious?",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "gif"
  }
 ]
