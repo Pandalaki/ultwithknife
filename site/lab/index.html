@@ -238,6 +238,10 @@ body.mv-lock{overflow:hidden}
 .legend.pu canvas{width:24px;height:24px}
 .panel p.pu-note{font-size:14px;margin-top:-6px}
 .pu-note .g{color:#4dff9a}.pu-note .r{color:#ff5a6e}
+.pu-note b{color:var(--frost)}.pu-note b.g{color:#4dff9a}
+.kt-skin{font-family:var(--f-mono);font-size:12px!important;letter-spacing:.08em;text-transform:uppercase}
+.kt-skin b{color:#f2c14e}
+@media (max-height:760px),(max-width:520px){#ktStart .panel{gap:10px}#ktStart .panel h2{font-size:clamp(26px,7vw,40px)}#ktStart .legend{font-size:13px;gap:6px 12px}#ktStart .legend canvas{width:24px;height:24px}#ktStart .panel p{font-size:13px}}
 @media (max-height:760px),(max-width:520px){#startScreen .panel{gap:10px}#startScreen .panel h2{font-size:clamp(26px,7vw,40px)}#startScreen .legend{font-size:13px;gap:6px 12px}#startScreen .legend canvas{width:24px;height:24px}#startScreen .panel p{font-size:13px}}
 .big-score{font-family:var(--f-display);font-size:clamp(56px,10vw,96px);line-height:1;color:var(--ice);text-shadow:0 0 30px rgba(63,208,255,.55);font-variant-numeric:tabular-nums}
 .best{font-family:var(--f-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mist)}
@@ -420,6 +424,14 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
           <li><canvas data-kt-icon="clash" width="60" height="60"></canvas><span><b>Hit a knife</b> game over</span></li>
         </ul>
         <p>Clear the shield to level up. It spins faster, flips direction, and fights back.</p>
+        <ul class="legend pu" aria-label="Pickups: slice them off the rim">
+          <li><canvas data-kt-icon="diamond" width="48" height="48"></canvas><span><b>Diamond hands</b></span></li>
+          <li><canvas data-kt-icon="flame" width="48" height="48"></canvas><span><b>Flame knife</b></span></li>
+          <li><canvas data-kt-icon="slow" width="48" height="48"></canvas><span><b>Slow-mo</b></span></li>
+          <li><canvas data-kt-icon="spare" width="48" height="48"></canvas><span><b>Spare knife</b></span></li>
+        </ul>
+        <p class="pu-note">Throw fast for a <b>rapid-fire combo</b>. Beat a boss for a <b class="g">green candle bonus</b>.</p>
+        <p class="pu-note kt-skin" id="ktSkin"></p>
         <button class="btn" id="ktStartBtn" type="button">Start</button>
         <span class="hint">Tap, click or press Space to throw</span>
       </div>
@@ -1258,7 +1270,7 @@ document.querySelectorAll("canvas[data-icon]").forEach(c => {
   ready.then(() => { const n = c.width; g.clearRect(0, 0, n, n); g.save(); g.translate(n/2, n/2); if(c.dataset.icon === "knife") g.rotate(.5); drawItem(g, c.dataset.icon, n*.77); g.restore(); });
 });
 
-window.KultArt = { drawPaper };
+window.KultArt = { drawPaper, drawDiamond, drawSlow };
 /* boot */
 window.KC = { show(){ size(); if(!player.x || player.x > W) player.x = player.tx = W/2; }, hide(){ pause(); } };
 ready.then(() => { size(); player.x = player.tx = W/2; last = performance.now(); requestAnimationFrame(loop); });
@@ -1288,25 +1300,51 @@ const ready = Promise.all([
   load("../img/token.webp").then(i => ART.token = i),
   load("../img/pendant.webp").then(i => ART.pendant = i),
   load("../img/colt-cameo.webp").then(i => ART.colt = i),
+  load("../img/game-flame.png").then(i => ART.flame = i),
   load("../img/wordmark.webp").then(i => ART.wordmark = i),
   document.fonts ? document.fonts.load('40px "Dela Gothic One"').catch(() => {}) : null
 ]);
 const drawPaper = (g, s) => window.KultArt && window.KultArt.drawPaper(g, s);
+const drawDiamond = (g, s) => window.KultArt && window.KultArt.drawDiamond(g, s);
+const drawSlow = (g, s) => window.KultArt && window.KultArt.drawSlow(g, s);
+
+/* knife skins: earned by reaching levels, kept on this device */
+const SKINS = [{ id: "classic", name: "Classic", lvl: 0 }, { id: "gold", name: "Gold", lvl: 10 }, { id: "flame", name: "Flame", lvl: 20 }, { id: "diamond", name: "Diamond", lvl: 30 }];
+const SKIN_TINT = { gold: ["#fff3b0", "#f2c14e", "#a86b12"], flame: ["#ffd36b", "#ff7a1a", "#1a6dff"], diamond: ["#ffffff", "#9fe8ff", "#3fd0ff"] };
+const SKIN_GLOW = { gold: "rgba(242,193,78,.7)", flame: "rgba(255,122,26,.85)", diamond: "rgba(159,232,255,.9)" };
+const skinCache = {};
+function knifeImg(skin){
+  if(!ART.knife || !skin || skin === "classic") return ART.knife;
+  if(skinCache[skin]) return skinCache[skin];
+  const k = ART.knife, c = document.createElement("canvas"); c.width = k.width; c.height = k.height;
+  const g = c.getContext("2d"); g.drawImage(k, 0, 0);
+  g.globalCompositeOperation = "source-atop"; g.globalAlpha = .62;
+  const gr = g.createLinearGradient(0, 0, 0, k.height), st = SKIN_TINT[skin];
+  gr.addColorStop(0, st[0]); gr.addColorStop(.5, st[1]); gr.addColorStop(1, st[2]); g.fillStyle = gr; g.fillRect(0, 0, k.width, k.height);
+  return (skinCache[skin] = c);
+}
+const skinFor = lvl => [...SKINS].reverse().find(s => lvl >= s.lvl);
 
 // the knife art points down (handle up). rot = which way the blade points, in radians (screen space, y down)
-function drawKnife(g, x, y, len, pointAngle, alpha = 1){
-  if(!ART.knife) return;
-  const w = len * ART.knife.width / ART.knife.height;
+function drawKnife(g, x, y, len, pointAngle, alpha = 1, skin){
+  const img = knifeImg(skin); if(!img) return;
+  const w = len * img.width / img.height;
   g.save(); g.globalAlpha = alpha; g.translate(x, y); g.rotate(pointAngle - Math.PI/2);
-  g.drawImage(ART.knife, -w/2, -len/2, w, len);
+  if(SKIN_GLOW[skin]){ g.shadowColor = SKIN_GLOW[skin]; g.shadowBlur = len*.12; }
+  g.drawImage(img, -w/2, -len/2, w, len);
   g.restore();
 }
+// shield colours per boss
+const THEMES = { pendant: ["#f2c14e", "242,193,78", "#2a2212", "#0d0904"], bear: ["#ff5a6e", "255,90,110", "#3a1218", "#100406"],
+                 rug: ["#b78cff", "183,140,255", "#24183a", "#0a0612"], whale: ["#2f7bff", "47,123,255", "#0f2550", "#030a18"],
+                 bonus: ["#4dff9a", "77,255,154", "#0f3a24", "#03100a"] };
 function drawShield(g, r, rot, boss, flash = 0){
-  const rim = boss ? "#f2c14e" : "#3fd0ff", rimA = boss ? "242,193,78" : "63,208,255";
+  const th = THEMES[boss === true ? "pendant" : boss] || null;
+  const rim = th ? th[0] : "#3fd0ff", rimA = th ? th[1] : "63,208,255";
   g.save();
   g.shadowColor = `rgba(${rimA},.5)`; g.shadowBlur = r*.4;
   const grad = g.createRadialGradient(-r*.3, -r*.35, r*.08, 0, 0, r);
-  grad.addColorStop(0, boss ? "#2a2212" : "#17304a"); grad.addColorStop(1, boss ? "#0d0904" : "#050c14");
+  grad.addColorStop(0, th ? th[2] : "#17304a"); grad.addColorStop(1, th ? th[3] : "#050c14");
   g.fillStyle = grad; g.beginPath(); g.arc(0, 0, r, 0, TAU); g.fill(); g.shadowBlur = 0;
   g.rotate(rot);
   g.lineWidth = Math.max(1.5, r*.012); g.strokeStyle = `rgba(${rimA},.2)`;
@@ -1314,8 +1352,8 @@ function drawShield(g, r, rot, boss, flash = 0){
   // rim notches so the spin reads clearly
   g.strokeStyle = `rgba(${rimA},.45)`; g.lineWidth = Math.max(2, r*.02);
   for(let i = 0; i < 24; i++){ const a = i/24*TAU, k = i % 3 === 0 ? .84 : .9; g.beginPath(); g.moveTo(Math.cos(a)*r*k, Math.sin(a)*r*k); g.lineTo(Math.cos(a)*r*.96, Math.sin(a)*r*.96); g.stroke(); }
-  const img = boss ? ART.pendant : ART.token;
-  if(img){ const s = r * (boss ? 1.22 : 1.18), k = s / Math.max(img.width, img.height); g.drawImage(img, -img.width*k/2, -img.height*k/2 + (boss ? r*.05 : 0), img.width*k, img.height*k); }
+  const pend = boss === true || boss === "pendant", img = pend ? ART.pendant : ART.token;
+  if(img){ const s = r * (pend ? 1.22 : 1.18), k = s / Math.max(img.width, img.height); g.drawImage(img, -img.width*k/2, -img.height*k/2 + (pend ? r*.05 : 0), img.width*k, img.height*k); }
   g.rotate(-rot);
   g.lineWidth = Math.max(3, r*.05); g.strokeStyle = rim; g.shadowColor = rim; g.shadowBlur = 16;
   g.beginPath(); g.arc(0, 0, r, 0, TAU); g.stroke();
@@ -1355,6 +1393,11 @@ function sfx(name){
     if(name === "shatter"){ noise(.5, .4, 2600, .5, "bandpass"); tone(240, .35, "sawtooth", .08, 70); }
     if(name === "level"){ [523, 659, 784, 1047].forEach((f, i) => tone(f, .18, "triangle", .14, 0, i*.07)); }
     if(name === "boss"){ [196, 185, 175].forEach((f, i) => tone(f, .32, "sawtooth", .1, f*.9, i*.2)); }
+    if(name === "pickup"){ [880, 1175, 1568].forEach((f, i) => tone(f, .12, "triangle", .12, 0, i*.05)); }
+    if(name === "coin"){ tone(1318, .08, "square", .06, 0); tone(1760, .14, "square", .05, 0, .06); }
+    if(name === "bounce"){ tone(1400, .2, "triangle", .1, 700); noise(.08, .2, 5000, 1, "highpass"); }
+    if(name === "bonus"){ [523, 659, 784, 1047, 1319].forEach((f, i) => tone(f, .2, "square", .07, 0, i*.06)); }
+    if(name === "perfect"){ [784, 988, 1175, 1568].forEach((f, i) => tone(f, .16, "triangle", .13, 0, i*.06)); }
   } catch(e){}
 }
 function syncSound(){
@@ -1381,6 +1424,11 @@ function size(){
 const BEST = "kult-throw-best", LVL = "kult-throw-level", TOTAL = "kult-throw-total";
 let state = "ready", level = 1, spec = null, score = 0, left = 0, lt = 0, stuck = [], papers = [], flying = null, loadT = 1;
 let debris = [], sparks = [], texts = [], shake = 0, hurt = 0, thrown = 0, sliced = 0, banner = null, cameo = null, timer = 0, next = null, last = 0, board = [];
+// pickups, combo, events, bonus round
+let bannerNext = null;
+let saves = 0, flameN = 0, slowT = 0, combo = 0, lastHit = -9, gt = 0, rs = 1, evMul = 1, evNext = 0, bonusT = 0, coins = [], ghosts = [], rugDone = 0, skin = "classic", boardSkin = "classic";
+const BONUS_SECS = 10;
+const multNow = () => Math.min(3, 1 + Math.floor(combo/3));
 function stats(){
   $("ktBestStat").textContent = store.get(BEST, 0).toLocaleString("en-US");
   $("ktLevelStat").textContent = store.get(LVL, 0).toLocaleString("en-US");
@@ -1394,15 +1442,30 @@ function freeAngle(taken, gap){
   return null;
 }
 // each level: how many knives, what's already stuck, and how the shield moves
+const BOSSES = ["pendant", "bear", "rug", "whale"];
+const BOSS_INFO = { pendant: ["BOSS · THE PENDANT", "It spins back"], bear: ["BOSS · THE BEAR", "Watch it grow and shrink"], rug: ["BOSS · THE RUG", "Knives will fall off"], whale: ["BOSS · THE WHALE", "Big and packed"] };
+const EVENTS = { volatility: "Volatility", crash: "Flash crash", pump: "Pump and dump" };
 function levelSpec(n){
-  const boss = n % 5 === 0;
-  const knives = boss ? 8 : Math.min(10, 5 + Math.floor((n - 1)*.6));
-  const pre = n === 1 ? 0 : Math.min(6, 1 + Math.floor(n/2.5) + (boss ? 1 : 0));
+  const boss = n % 5 === 0 ? BOSSES[(n/5 - 1) % BOSSES.length] : false;
+  let knives = boss ? 8 : Math.min(10, 5 + Math.floor((n - 1)*.6));
+  let pre = n === 1 ? 0 : Math.min(6, 1 + Math.floor(n/2.5) + (boss ? 1 : 0));
+  if(boss === "whale"){ knives = 10; pre = 9; }
   const paperN = boss ? 1 : n < 3 ? 1 : 2;
-  const speed = Math.min(3.3, 1.5 + n*.09) * (n % 2 ? 1 : -1);
+  const speed = Math.min(3.3, 1.5 + n*.09) * (n % 2 ? 1 : -1) * (boss === "whale" ? .8 : 1);
   const mix = ["wobble", "reverse", "surge", "stopgo"];
-  const pat = boss ? "boss" : n === 1 ? "steady" : n === 2 ? "wobble" : n === 3 ? "steady" : n === 4 ? "reverse" : mix[Math.floor(Math.random()*mix.length)];
-  return { boss, knives, pre, paperN, speed, pat };
+  let pat = boss ? "boss" : n === 1 ? "steady" : n === 2 ? "wobble" : n === 3 ? "steady" : n === 4 ? "reverse" : mix[Math.floor(Math.random()*mix.length)];
+  let event = null;
+  if(!boss && n >= 6 && Math.random() < .4){ event = Object.keys(EVENTS)[Math.floor(Math.random()*3)]; pat = event; }
+  // pickups on the rim: one on most levels from level 2
+  const pick = n >= 2 && Math.random() < (boss ? .5 : .6) ? pickKind() : null;
+  return { boss, knives, pre, paperN, speed, pat, event, pick };
+}
+function pickKind(){
+  const opts = [["flame", 30], ["slow", 25], ["spare", 20]];
+  if(!saves) opts.push(["diamond", 28]);
+  let r = Math.random()*opts.reduce((a, o) => a + o[1], 0);
+  for(const [k, w] of opts){ if((r -= w) < 0) return k; }
+  return "flame";
 }
 function spinTarget(t){
   const s = spec.speed;
@@ -1412,21 +1475,45 @@ function spinTarget(t){
     case "reverse": return s*1.35*Math.sin(t*.9);
     case "surge": return s*(.25 + 1.7*Math.pow(Math.max(0, Math.sin(t*2)), 2));
     case "stopgo": return (t % 2.4) < 1.5 ? s*1.35 : s*.08;
-    case "boss": return s*(1.15 + .75*Math.sin(t*2.7)) * (Math.sin(t*.6) > -.35 ? 1 : -1.25);
+    case "boss":
+      if(spec.boss === "pendant") return s*(1.15 + .75*Math.sin(t*2.7)) * (Math.sin(t*.6) > -.35 ? 1 : -1.25);
+      if(spec.boss === "bear") return s*(1 + .4*Math.sin(t*1.3));
+      if(spec.boss === "rug") return s*1.1*(Math.sin(t*.8) > -.5 ? 1 : -1);
+      return s*(.9 + .3*Math.sin(t*1.1));
+    case "volatility": return s*evMul;
+    case "crash": return (t % 2.2) < .45 ? s*2.6 : s*.5;
+    case "pump": { const f = (t % 3)/3; return s*(.3 + 2.3*f*f); }
   }
   return s;
 }
 function startLevel(n){
-  level = n; spec = levelSpec(n); left = spec.knives; lt = 0; stuck = []; papers = []; flying = null; loadT = 0;
+  level = n; spec = levelSpec(n); left = spec.knives; lt = 0; stuck = []; papers = []; ghosts = []; flying = null; loadT = 0; rugDone = 0; evMul = 1; evNext = 0;
+  combo = 0; lastHit = -9;
   T.w = spinTarget(0); T.grow = 0; T.flash = 0;
-  const gap = .55;
+  rs = spec.boss === "whale" ? 1.2 : 1;
+  const gap = spec.boss === "whale" ? .42 : .55;
   for(let i = 0; i < spec.pre; i++){ const a = freeAngle(stuck.map(k => k.a), gap); if(a !== null) stuck.push({ a, pre: true, hit: 0 }); }
-  for(let i = 0; i < spec.paperN; i++){ const a = freeAngle([...stuck.map(k => k.a), ...papers.map(p => p.a)], .6); if(a !== null) papers.push({ a, alive: true, wob: Math.random()*TAU }); }
-  banner = { big: spec.boss ? "BOSS LEVEL" : "LEVEL " + n, small: spec.boss ? "The Pendant spins back" : (n === 1 ? "Stick " + left + " knives" : left + " knives · don't touch the others"), life: 1.6, boss: spec.boss };
+  const taken = () => [...stuck.map(k => k.a), ...papers.map(p => p.a)];
+  for(let i = 0; i < spec.paperN; i++){ const a = freeAngle(taken(), .6); if(a !== null) papers.push({ a, alive: true, wob: Math.random()*TAU, kind: "paper" }); }
+  if(spec.pick){ const a = freeAngle(taken(), .6); if(a !== null) papers.push({ a, alive: true, wob: Math.random()*TAU, kind: spec.pick }); }
+  const B = spec.boss && BOSS_INFO[spec.boss];
+  banner = { big: B ? B[0] : "LEVEL " + n, small: B ? B[1] : spec.event ? "Market event: " + EVENTS[spec.event] : (n === 1 ? "Stick " + left + " knives" : left + " knives · don't touch the others"), life: 1.6, boss: !!spec.boss };
   if(spec.boss) sfx("boss");
+  // knife skin unlocks
+  const was = skinFor(store.get(LVL, 0)).id, now = skinFor(Math.max(store.get(LVL, 0), n));
+  if(now.id !== was && now.id !== skin){ bannerNext = { big: now.name.toUpperCase() + " KNIFE", small: "Unlocked · level " + now.lvl, life: 1.9, boss: true, sound: "perfect" }; }
+  skin = skinFor(Math.max(store.get(LVL, 0), n)).id;
   state = "play";
 }
-function reset(){ stuck = []; papers = []; board = []; score = 0; thrown = 0; sliced = 0; debris = []; sparks = []; texts = []; shake = 0; hurt = 0; cameo = null; T.rot = 0; }
+function startBonus(){
+  state = "bonus"; bonusT = BONUS_SECS; lt = 0; stuck = []; papers = []; ghosts = []; flying = null; loadT = 1; rs = 1; combo = 0;
+  T.grow = 0; T.w = 2.2;
+  coins = Array.from({ length: 12 }, (_, i) => ({ a: i/12*TAU, alive: true }));
+  banner = { big: "GREEN CANDLE BONUS", small: BONUS_SECS + " seconds · throw fast · nothing can stop you", life: 1.9, bonus: true };
+  sfx("bonus");
+}
+function reset(){ stuck = []; papers = []; board = []; score = 0; thrown = 0; sliced = 0; debris = []; sparks = []; texts = []; shake = 0; hurt = 0; cameo = null; T.rot = 0;
+  saves = 0; flameN = 0; slowT = 0; combo = 0; ghosts = []; coins = []; bannerNext = null; skin = skinFor(store.get(LVL, 0)).id; }
 function start(){
   ac();
   reset(); startLevel(1); window.KultLB && KultLB.start("throw");
@@ -1446,15 +1533,22 @@ function burst(x, y, color, n, spread = 1){
 const pop = (x, y, str, color, big = false) => texts.push({ x, y, str, color, life: 1, big });
 
 function throwKnife(){
+  if(state === "bonus"){ if(flying || loadT < .6) return; flying = { y: START_Y, vy: -Math.max(2000, H*3.6) }; thrown++; loadT = 0; sfx("throw"); return; }
   if(state !== "play" || flying || left <= 0 || loadT < .6) return;
-  flying = { y: START_Y, vy: -Math.max(2000, H*3.6) }; left--; thrown++; loadT = 0;
+  flying = { y: START_Y, vy: -Math.max(2000, H*3.6), fire: flameN > 0 }; left--; thrown++; loadT = 0;
+  if(flameN > 0) flameN--;
   sfx("throw");
 }
 const HIT_LINES = ["Clean.", "Sharp.", "The knife chose you.", "Never fold.", "Pressure makes diamonds.", "Ice cold.", "Built different.", "That's the Kult."];
 const BOSS_LINES = ["Boss down. Respect.", "You took my pendant?!", "OK, you're him."];
+const BOSS_DOWN = { pendant: ["Boss down. Respect.", "You took my pendant?!", "OK, you're him."], bear: ["Bear market? Never heard of it.", "The Bear got sliced."],
+                    rug: ["Can't rug a Kult.", "Pulled the rug back."], whale: ["Whale harpooned.", "You out-sized the whale."] };
+const PERFECT_LINES = ["Perfect. Zero paper hands.", "Not one paper hand left.", "Clean sweep."];
 function clearLevel(){
   state = "clear"; timer = 0;
   const bonus = level*2; score += bonus;
+  const paperAll = papers.filter(p => p.kind === "paper"), perfect = paperAll.length > 0 && paperAll.every(p => !p.alive);
+  if(perfect){ score += 5; setTimeout(() => sfx("perfect"), 420); }
   sfx("shatter"); setTimeout(() => sfx("level"), 260);
   shake = reduce ? 0 : .25;
   // shield breaks into wedges, knives and paper fly off
@@ -1464,11 +1558,21 @@ function clearLevel(){
     debris.push({ kind: "shard", x: T.x, y: ty, vx: Math.cos(m)*v, vy: Math.sin(m)*v - 220, rot: 0, vr: (Math.random() - .5)*6, a0, a1, r: R, boss: spec.boss, life: 1.6 });
   }
   stuck.forEach(k => { const a = k.a + T.rot, v = 380 + Math.random()*260; debris.push({ kind: "knife", x: T.x + Math.cos(a)*(R + LEN*.3), y: ty + Math.sin(a)*(R + LEN*.3), vx: Math.cos(a)*v, vy: Math.sin(a)*v - 260, rot: a + Math.PI, vr: (Math.random() - .5)*14, life: 1.6 }); });
-  papers.filter(p => p.alive).forEach(p => { const a = p.a + T.rot; debris.push({ kind: "paper", x: T.x + Math.cos(a)*R, y: ty + Math.sin(a)*R, vx: Math.cos(a)*300, vy: -300, rot: a + Math.PI/2, vr: 6, life: 1.6 }); });
-  burst(T.x, ty, spec.boss ? "242,193,78" : "63,208,255", 46, 1.6);
-  pop(T.x, ty - R*.2, "+" + bonus + " CLEAR", spec.boss ? "#f2c14e" : "#3fd0ff", true);
-  cameo = { line: spec.boss ? BOSS_LINES[Math.floor(Math.random()*BOSS_LINES.length)] : HIT_LINES[Math.floor(Math.random()*HIT_LINES.length)], t: 0 };
-  stuck = []; papers = [];
+  papers.filter(p => p.alive).forEach(p => { const a = p.a + T.rot; debris.push({ kind: p.kind === "paper" ? "paper" : "pick", pick: p.kind, x: T.x + Math.cos(a)*R, y: ty + Math.sin(a)*R, vx: Math.cos(a)*300, vy: -300, rot: a + Math.PI/2, vr: 6, life: 1.6 }); });
+  const th = spec.boss ? THEMES[spec.boss] : null;
+  burst(T.x, ty, th ? th[1] : "63,208,255", 46, 1.6);
+  pop(T.x, ty - R*.2, "+" + bonus + " CLEAR", th ? th[0] : "#3fd0ff", true);
+  if(perfect) pop(T.x, ty + R*.35, "+5 PERFECT", "#4dff9a", true);
+  const pickLine = arr => arr[Math.floor(Math.random()*arr.length)];
+  cameo = { line: spec.boss ? pickLine(BOSS_DOWN[spec.boss]) : perfect ? pickLine(PERFECT_LINES) : pickLine(HIT_LINES), t: 0 };
+  stuck = []; papers = []; ghosts = [];
+  next = spec.boss ? startBonus : () => startLevel(level + 1);
+}
+function endBonus(){
+  state = "clear"; timer = 0; flying = null;
+  burst(T.x, T.y, "77,255,154", 46, 1.6); sfx("level");
+  cameo = { line: ["Up only.", "That's a pump.", "Green candles, baby."][Math.floor(Math.random()*3)], t: 0 };
+  ghosts = []; coins = [];
   next = () => startLevel(level + 1);
 }
 function fail(){
@@ -1479,7 +1583,7 @@ function fail(){
   burst(T.x, tipY, "255,255,255", 18); burst(T.x, tipY, "255,90,110", 14);
   debris.push({ kind: "knife", x: T.x, y: tipY + LEN*.4, vx: (Math.random() < .5 ? -1 : 1)*(240 + Math.random()*160), vy: 420, rot: -Math.PI/2, vr: (Math.random() < .5 ? -1 : 1)*16, life: 2.2 });
   pop(T.x, tipY + 40, "CLANG", "#ff5a6e", true);
-  board = stuck.map(k => k.a + T.rot);
+  board = stuck.map(k => k.a + T.rot); boardSkin = skin;
   next = gameOver;
 }
 
@@ -1490,7 +1594,7 @@ function gameOver(){
   if(isBest) store.set(BEST, score);
   store.set(LVL, Math.max(store.get(LVL, 0), level));
   store.set(TOTAL, store.get(TOTAL, 0) + thrown);
-  stats();
+  stats(); skinNote();
   $("ktFinal").textContent = score.toLocaleString("en-US");
   $("ktReached").textContent = "Reached level " + level;
   $("ktBestOver").textContent = Math.max(best, score).toLocaleString("en-US");
@@ -1510,33 +1614,97 @@ function gameOver(){
 }
 
 function update(dt){
-  lt += dt;
+  lt += dt; gt += dt;
+  if(state === "bonus"){ updateBonus(dt); return; }
+  if(spec.pat === "volatility" && lt >= evNext){ const opts = [-1.5, -.7, .25, 1, 1.8, 2.4]; evMul = opts[Math.floor(Math.random()*opts.length)]; evNext = lt + .45 + Math.random()*.8; }
+  if(spec.boss === "bear") rs = 1 + .22*Math.sin(lt*2.1);
+  if(slowT > 0) slowT = Math.max(0, slowT - dt);
+  if(combo && gt - lastHit > 1.1){ if(combo >= 3) pop(T.x - 60, T.y + R + 40, "combo over", "#8ba3b8"); combo = 0; }
   T.w += (spinTarget(lt) - T.w) * Math.min(1, dt*5);
-  T.rot += T.w*dt;
+  T.rot += T.w*dt*(slowT > 0 ? .45 : 1);
   T.bump = Math.max(0, T.bump - dt*7); T.flash = Math.max(0, T.flash - dt*4); T.grow = Math.min(1, T.grow + dt*3.2);
   loadT = Math.min(1, loadT + dt*7);
   papers.forEach(p => p.wob += dt*5);
   stuck.forEach(k => k.hit = Math.max(0, k.hit - dt*5));
   if(flying){
     flying.y += flying.vy*dt;
-    const tip = flying.y - LEN/2, contact = T.y + R - LEN*.2;
+    if(flying.fire && !reduce) sparks.push({ x: T.x + (Math.random() - .5)*KW*.5, y: flying.y + LEN*.45, vx: (Math.random() - .5)*60, vy: 120 + Math.random()*120, life: .7, r: 2 + Math.random()*3, color: Math.random() < .5 ? "255,140,40" : "26,109,255" });
+    const Rn = R*rs, tip = flying.y - LEN/2, contact = T.y + Rn - LEN*.2;
     if(tip <= contact){
-      flying = null;
-      const a = Math.PI/2 - T.rot, gap = KW*.74/R;
-      if(stuck.some(k => adiff(a, k.a) < gap)){ fail(); return; }
-      stuck.push({ a, hit: 1 }); score++; T.bump = 1; T.flash = .6;
-      sfx("thunk"); burst(T.x, T.y + R, "200,240,255", 10, .7);
+      const f = flying; flying = null;
+      const a = Math.PI/2 - T.rot, gap = KW*.74/Rn;
+      if(stuck.some(k => adiff(a, k.a) < gap)){
+        if(saves > 0){ // diamond hands: the knife bounces off and comes back to the rack
+          saves--; left++; combo = 0;
+          sfx("bounce"); burst(T.x, T.y + Rn, "159,232,255", 22); T.flash = 1;
+          debris.push({ kind: "knife", skin, x: T.x, y: T.y + Rn + LEN*.4, vx: (Math.random() < .5 ? -1 : 1)*260, vy: 380, rot: -Math.PI/2, vr: 14, life: 1.2 });
+          pop(T.x, T.y + Rn + 40, "DIAMOND HANDS", "#9fe8ff", true);
+          return;
+        }
+        fail(); return;
+      }
+      // rapid-fire combo: clean sticks close together
+      combo = gt - lastHit <= 1.1 ? combo + 1 : 1; lastHit = gt;
+      const m = multNow(), pts = (f.fire ? 3 : 1)*m;
+      stuck.push({ a, hit: 1, skin }); score += pts; T.bump = 1; T.flash = .6;
+      sfx("thunk"); burst(T.x, T.y + Rn, f.fire ? "255,140,40" : "200,240,255", f.fire ? 18 : 10, .7);
       const p = papers.find(p => p.alive && adiff(a, p.a) < .3);
-      if(p){
-        p.alive = false; score += 3; sliced++; sfx("slice");
-        const pa = p.a + T.rot;
-        debris.push({ kind: "paper", x: T.x + Math.cos(pa)*(R + R*.18), y: T.y + Math.sin(pa)*(R + R*.18), vx: (Math.random() - .5)*300, vy: -380, rot: pa + Math.PI/2, vr: (Math.random() - .5)*12, life: 1.5 });
-        burst(T.x, T.y + R + 10, "255,90,110", 16);
-        pop(T.x + 50, T.y + R + 20, "+3 SLICED", "#ff8a9a");
-      } else pop(T.x + 36, T.y + R + 24, "+1", "#e9f4ff");
+      if(p) collect(p, Rn);
+      else pop(T.x + 36, T.y + Rn + 24, "+" + pts + (m > 1 ? " x" + m : ""), f.fire ? "#ffb35c" : m > 1 ? "#4dd7ff" : "#e9f4ff");
+      if(spec.boss === "rug" && rugDone < 2 && left <= Math.floor(spec.knives*(rugDone ? 1 : 2)/3)) rugPull();
       if(left === 0) clearLevel();
     }
   }
+}
+// slicing something on the rim
+function collect(p, Rn){
+  p.alive = false;
+  const pa = p.a + T.rot, px = T.x + Math.cos(pa)*(Rn + R*.18), py = T.y + Math.sin(pa)*(Rn + R*.18);
+  if(p.kind === "paper"){
+    score += 3; sliced++; sfx("slice");
+    debris.push({ kind: "paper", x: px, y: py, vx: (Math.random() - .5)*300, vy: -380, rot: pa + Math.PI/2, vr: (Math.random() - .5)*12, life: 1.5 });
+    burst(T.x, T.y + Rn + 10, "255,90,110", 16);
+    pop(T.x + 50, T.y + Rn + 20, "+3 SLICED", "#ff8a9a");
+    return;
+  }
+  sfx("pickup"); burst(px, py, PICK[p.kind].color, 26);
+  if(p.kind === "diamond") saves = 1;
+  if(p.kind === "flame") flameN = 3;
+  if(p.kind === "slow") slowT = 4;
+  if(p.kind === "spare"){ left = Math.max(0, left - 1); }
+  pop(T.x, T.y + Rn + 44, PICK[p.kind].say, `rgb(${PICK[p.kind].color})`, true);
+}
+const PICK = { diamond: { color: "159,232,255", say: "DIAMOND HANDS" }, flame: { color: "255,140,40", say: "FLAME KNIVES x3" },
+               slow: { color: "255,200,90", say: "SLOW-MO" }, spare: { color: "77,255,154", say: "ONE LESS TO THROW" } };
+// the Rug boss: half the stuck knives fall off
+function rugPull(){
+  rugDone++;
+  const keep = [], drop = [];
+  stuck.forEach(k => (Math.random() < .5 ? drop : keep).push(k));
+  if(!drop.length && keep.length) drop.push(keep.pop());
+  drop.forEach(k => { const a = k.a + T.rot, d = R*rs - LEN*.2 + LEN/2; debris.push({ kind: "knife", skin: k.skin, x: T.x + Math.cos(a)*d, y: T.y + Math.sin(a)*d, vx: (Math.random() - .5)*200, vy: -100, rot: a + Math.PI, vr: (Math.random() - .5)*8, life: 1.6 }); });
+  stuck = keep; shake = reduce ? 0 : .3; sfx("clang");
+  banner = { big: "RUG PULL", small: "the gaps just changed", life: 1.2, boss: true };
+}
+function updateBonus(dt){
+  bonusT -= dt;
+  T.w += (2.2 + Math.sin(lt*1.5)*.8 - T.w)*Math.min(1, dt*4); T.rot += T.w*dt;
+  T.bump = Math.max(0, T.bump - dt*7); T.flash = Math.max(0, T.flash - dt*4); T.grow = Math.min(1, T.grow + dt*3.2);
+  loadT = Math.min(1, loadT + dt*7);
+  ghosts.forEach(k => k.life -= dt); ghosts = ghosts.filter(k => k.life > 0);
+  if(flying){
+    flying.y += flying.vy*dt;
+    if(flying.y - LEN/2 <= T.y + R - LEN*.2){
+      flying = null;
+      const a = Math.PI/2 - T.rot;
+      ghosts.push({ a, life: .7 }); T.bump = 1; T.flash = .5;
+      const c = coins.find(c => c.alive && adiff(a, c.a) < .28);
+      if(c){ c.alive = false; score += 5; sfx("coin"); burst(T.x, T.y + R + 6, "242,193,78", 14); pop(T.x + 40, T.y + R + 26, "+5", "#f2c14e"); }
+      else { score += 1; sfx("thunk"); pop(T.x + 36, T.y + R + 24, "+1", "#4dff9a"); }
+      if(coins.every(c => !c.alive)) coins = Array.from({ length: 12 }, (_, i) => ({ a: i/12*TAU + .13, alive: true }));
+    }
+  }
+  if(bonusT <= 0){ bonusT = 0; endBonus(); }
 }
 function updateFx(dt){
   for(let i = debris.length - 1; i >= 0; i--){
@@ -1549,6 +1717,7 @@ function updateFx(dt){
   }
   for(let i = texts.length - 1; i >= 0; i--){ const p = texts[i]; p.life -= dt*1.2; p.y -= 46*dt; if(p.life <= 0) texts.splice(i, 1); }
   if(banner){ banner.life -= dt; if(banner.life <= 0) banner = null; }
+  if(!banner && bannerNext && state === "play"){ banner = bannerNext; bannerNext = null; if(banner.sound) sfx(banner.sound); }
   if(cameo){ cameo.t += dt; if(cameo.t > 1.45) cameo = null; }
   if(shake > 0) shake -= dt;
   if(hurt > 0) hurt -= dt*2.2;
@@ -1559,15 +1728,41 @@ function updateFx(dt){
 }
 
 /* ---------- drawing ---------- */
+function drawPick(g, kind, s){
+  if(kind === "diamond") drawDiamond(g, s);
+  else if(kind === "slow") drawSlow(g, s);
+  else if(kind === "flame" && ART.flame){ const h = s*1.15, w = h*ART.flame.width/ART.flame.height; g.drawImage(ART.flame, -w/2, -h/2, w, h); }
+  else if(kind === "spare"){
+    drawKnife(g, 0, 0, s*1.2, -Math.PI/2 + .5);
+    g.fillStyle = "#4dff9a"; g.font = Math.round(s*.55) + "px " + DISPLAY; g.textAlign = "center"; g.fillText("-1", s*.45, -s*.15);
+  }
+}
+function drawCoin(g, x, y, r){
+  g.save(); g.translate(x, y);
+  g.shadowColor = "rgba(242,193,78,.8)"; g.shadowBlur = r*.9;
+  const gr = g.createRadialGradient(-r*.3, -r*.3, r*.1, 0, 0, r); gr.addColorStop(0, "#fff3b0"); gr.addColorStop(1, "#c98a1a");
+  g.fillStyle = gr; g.beginPath(); g.arc(0, 0, r, 0, TAU); g.fill(); g.shadowBlur = 0;
+  g.strokeStyle = "#8a5a0c"; g.lineWidth = Math.max(1, r*.12); g.beginPath(); g.arc(0, 0, r*.72, 0, TAU); g.stroke();
+  g.fillStyle = "#8a5a0c"; g.font = Math.round(r*1.05) + "px " + DISPLAY; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("K", 0, r*.05);
+  g.restore();
+}
 function rr(g, x, y, w, h, r){ g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
 function render(){
   cx.save();
   cx.clearRect(0, 0, W, H);
   if(shake > 0){ const m = shake*20; cx.translate((Math.random() - .5)*m, (Math.random() - .5)*m); }
   const g = cx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#02060b"); g.addColorStop(1, "#06121c"); cx.fillStyle = g; cx.fillRect(-20, -20, W + 40, H + 40);
-  const boss = spec && spec.boss && state !== "ready";
+  const inBonus = state === "bonus" || (state === "paused" && pausedFrom === "bonus");
+  const boss = inBonus ? "bonus" : spec && spec.boss && state !== "ready" ? spec.boss : false;
+  const th = boss ? THEMES[boss] : null;
+  if(inBonus){ // green candle bonus: the screen goes green
+    const rg = cx.createLinearGradient(0, 0, 0, H); rg.addColorStop(0, "rgba(30,255,130,.16)"); rg.addColorStop(1, "rgba(30,255,130,.04)");
+    cx.fillStyle = rg; cx.fillRect(-20, -20, W + 40, H + 40);
+    cx.fillStyle = "rgba(77,255,154,.09)";
+    for(let i = 0; i < 8; i++){ const x = ((i*163 + gt*50) % (W + 60)) - 30, h = 60 + (i*53 % 120), y = H*.1 + (i*97 % (H*.6)); cx.fillRect(x, y, 14, h); cx.fillRect(x + 6, y - 22, 2, h + 44); }
+  }
   const halo = cx.createRadialGradient(T.x, T.y, R*.5, T.x, T.y, R*2.6);
-  halo.addColorStop(0, boss ? "rgba(242,193,78,.16)" : "rgba(63,208,255,.14)"); halo.addColorStop(1, "rgba(63,208,255,0)");
+  halo.addColorStop(0, th ? `rgba(${th[1]},.16)` : "rgba(63,208,255,.14)"); halo.addColorStop(1, "rgba(63,208,255,0)");
   cx.fillStyle = halo; cx.fillRect(0, 0, W, H);
   cx.strokeStyle = "rgba(63,208,255,.045)"; cx.lineWidth = 1;
   for(let x = (W % 48)/2; x < W; x += 48){ cx.beginPath(); cx.moveTo(x, 0); cx.lineTo(x, H); cx.stroke(); }
@@ -1576,31 +1771,51 @@ function render(){
   const lane = cx.createLinearGradient(0, T.y + R, 0, H); lane.addColorStop(0, "rgba(63,208,255,0)"); lane.addColorStop(1, "rgba(63,208,255,.1)");
   cx.fillStyle = lane; cx.fillRect(T.x - KW*.7, T.y + R, KW*1.4, H - T.y - R);
 
-  const showShield = state === "play" || state === "dying" || state === "paused" || state === "ready" || (state === "over");
+  const showShield = state === "play" || state === "bonus" || state === "dying" || state === "paused" || state === "ready" || (state === "over");
   if(showShield && (state !== "clear")){
-    const ty = T.y - T.bump*7, sc = (.4 + .6*easeOut(T.grow));
+    const ty = T.y - T.bump*7, sc = (.4 + .6*easeOut(T.grow)), Rn = R*(inBonus ? 1 : rs);
     cx.save(); cx.translate(T.x, ty); cx.scale(sc, sc);
     // stuck knives sit behind the shield face so they look embedded
-    stuck.forEach(k => { const a = k.a + T.rot, d = R - LEN*.2 + LEN/2 + k.hit*6; drawKnife(cx, Math.cos(a)*d, Math.sin(a)*d, LEN, a + Math.PI, 1); });
-    papers.forEach(p => { if(!p.alive) return; const a = p.a + T.rot, d = R + R*.17, s = R*.36; cx.save(); cx.translate(Math.cos(a)*d, Math.sin(a)*d); cx.rotate(a + Math.PI/2 + Math.sin(p.wob)*.12); drawPaper(cx, s); cx.restore(); });
-    drawShield(cx, R, T.rot, boss, T.flash);
+    stuck.forEach(k => { const a = k.a + T.rot, d = Rn - LEN*.2 + LEN/2 + k.hit*6; drawKnife(cx, Math.cos(a)*d, Math.sin(a)*d, LEN, a + Math.PI, 1, k.skin); });
+    ghosts.forEach(k => { const a = k.a + T.rot, d = Rn - LEN*.2 + LEN/2; drawKnife(cx, Math.cos(a)*d, Math.sin(a)*d, LEN, a + Math.PI, Math.min(1, k.life*2), skin); });
+    papers.forEach(p => {
+      if(!p.alive) return;
+      const a = p.a + T.rot, d = Rn + R*.17, s = R*.36;
+      cx.save(); cx.translate(Math.cos(a)*d, Math.sin(a)*d);
+      if(!PICK[p.kind]){ cx.rotate(a + Math.PI/2 + Math.sin(p.wob)*.12); drawPaper(cx, s); }
+      else { // pickups: upright, with a pulsing ring
+        cx.strokeStyle = `rgba(${PICK[p.kind].color},.6)`; cx.lineWidth = 2; cx.beginPath(); cx.arc(0, 0, s*(.62 + Math.sin(p.wob*1.2)*.06), 0, TAU); cx.stroke();
+        drawPick(cx, p.kind, s*.85);
+      }
+      cx.restore();
+    });
+    if(inBonus) coins.forEach(c => { if(!c.alive) return; const a = c.a + T.rot, d = Rn + R*.13; drawCoin(cx, Math.cos(a)*d, Math.sin(a)*d, R*.13); });
+    drawShield(cx, Rn, T.rot, boss, T.flash);
     cx.restore();
   }
   // knife in flight + the next knife waiting
-  if(flying) drawKnife(cx, T.x, flying.y, LEN, -Math.PI/2);
-  else if((state === "play" || state === "ready" || state === "paused") && left > 0 || state === "ready"){
-    const k = easeOut(loadT); drawKnife(cx, T.x, START_Y + (1 - k)*LEN*.8, LEN, -Math.PI/2, k);
+  if(flying){
+    if(flying.fire){ cx.save(); cx.shadowColor = "rgba(255,140,40,.9)"; cx.shadowBlur = 26; drawKnife(cx, T.x, flying.y, LEN, -Math.PI/2, 1, skin); cx.restore(); }
+    else drawKnife(cx, T.x, flying.y, LEN, -Math.PI/2, 1, skin);
+  }
+  else if((state === "play" || state === "bonus" || state === "ready" || state === "paused") && (left > 0 || inBonus) || state === "ready"){
+    const k = easeOut(loadT), fire = flameN > 0 && !inBonus && state !== "ready";
+    if(fire){ cx.save(); cx.shadowColor = "rgba(255,140,40,.9)"; cx.shadowBlur = 22; }
+    drawKnife(cx, T.x, START_Y + (1 - k)*LEN*.8, LEN, -Math.PI/2, k, state === "ready" ? skinFor(store.get(LVL, 0)).id : skin);
+    if(fire) cx.restore();
   }
   // debris
   debris.forEach(d => {
     cx.save(); cx.globalAlpha = Math.min(1, d.life*1.5);
-    if(d.kind === "knife") drawKnife(cx, d.x, d.y, LEN, d.rot);
+    if(d.kind === "knife") drawKnife(cx, d.x, d.y, LEN, d.rot, 1, d.skin);
     else if(d.kind === "paper"){ cx.translate(d.x, d.y); cx.rotate(d.rot); drawPaper(cx, R*.36); }
+    else if(d.kind === "pick"){ cx.translate(d.x, d.y); cx.rotate(d.rot); drawPick(cx, d.pick, R*.3); }
     else {
       cx.translate(d.x, d.y); cx.rotate(d.rot);
       cx.beginPath(); cx.moveTo(0, 0); cx.arc(0, 0, d.r, d.a0, d.a1); cx.closePath();
-      cx.fillStyle = d.boss ? "#2a2212" : "#10243a"; cx.fill();
-      cx.lineWidth = 3; cx.strokeStyle = d.boss ? "#f2c14e" : "#3fd0ff"; cx.stroke();
+      const dt2 = d.boss ? THEMES[d.boss === true ? "pendant" : d.boss] : null;
+      cx.fillStyle = dt2 ? dt2[2] : "#10243a"; cx.fill();
+      cx.lineWidth = 3; cx.strokeStyle = dt2 ? dt2[0] : "#3fd0ff"; cx.stroke();
     }
     cx.restore();
   });
@@ -1611,20 +1826,36 @@ function render(){
   // HUD
   if(state !== "ready"){
     cx.textAlign = "left"; cx.fillStyle = "#e9f4ff"; cx.font = "34px " + DISPLAY; cx.fillText(score.toLocaleString("en-US"), 18, 46);
-    cx.font = "700 14px " + MONO; cx.fillStyle = boss ? "#f2c14e" : "#3fd0ff"; cx.fillText((boss ? "BOSS · " : "") + "LEVEL " + level, 20, 70);
+    cx.font = "700 14px " + MONO; cx.fillStyle = th ? th[0] : "#3fd0ff";
+    cx.fillText(inBonus ? "GREEN CANDLE BONUS" : (boss ? "BOSS · " : "") + "LEVEL " + level + (spec && spec.event ? " · " + EVENTS[spec.event].toUpperCase() : ""), 20, 70);
     cx.fillStyle = "#8ba3b8"; cx.fillText("BEST " + Math.max(store.get(BEST, 0), score).toLocaleString("en-US"), 20, 90);
+    let hy = 112;
+    const m = multNow();
+    if(m > 1 && !inBonus){ cx.fillStyle = "#4dd7ff"; cx.font = "700 15px " + MONO; cx.fillText("x" + m + " RAPID FIRE", 20, hy); hy += 24; }
+    // pickups in hand
+    cx.font = "700 13px " + MONO;
+    if(saves > 0){ cx.save(); cx.translate(30, hy - 4); drawDiamond(cx, 20); cx.restore(); cx.fillStyle = "#9fe8ff"; cx.fillText("SAVE READY", 46, hy); hy += 24; }
+    if(flameN > 0){ if(ART.flame){ const h = 22, w = h*ART.flame.width/ART.flame.height; cx.drawImage(ART.flame, 30 - w/2, hy - 4 - h/2, w, h); } cx.fillStyle = "#ffb35c"; cx.fillText("x3 POINTS · " + flameN + " LEFT", 46, hy); hy += 24; }
+    if(slowT > 0){ cx.save(); cx.translate(30, hy - 4); drawSlow(cx, 20); cx.restore(); cx.fillStyle = "rgba(233,244,255,.15)"; cx.fillRect(46, hy - 9, 70, 6); cx.fillStyle = "#ffc85a"; cx.fillRect(46, hy - 9, 70*slowT/4, 6); hy += 24; }
+    if(inBonus){
+      cx.fillStyle = "rgba(233,244,255,.12)"; cx.fillRect(0, 0, W, 5);
+      cx.fillStyle = "#4dff9a"; cx.fillRect(0, 0, W*bonusT/BONUS_SECS, 5);
+      cx.textAlign = "center"; cx.font = "28px " + DISPLAY; cx.fillStyle = "#4dff9a"; cx.fillText(Math.ceil(bonusT) + "s", W/2, H - 28); cx.textAlign = "left";
+    }
     // knives left
-    if(spec){
+    if(spec && !inBonus){
       const n = spec.knives, step = Math.min(18, (W*.3)/n), kl = Math.min(44, LEN*.5);
-      for(let i = 0; i < n; i++) drawKnife(cx, 22 + i*step, H - kl*.5 - 14, kl, -Math.PI/2, i < left + (flying ? 0 : 0) ? 1 : .16);
+      for(let i = 0; i < n; i++) drawKnife(cx, 22 + i*step, H - kl*.5 - 14, kl, -Math.PI/2, i < left + (flying ? 0 : 0) ? 1 : .16, skin);
     }
   }
   // level banner
   if(banner && state !== "over"){
-    const a = Math.min(1, banner.life*2.2, (1.6 - banner.life)*3.5), y = T.y + R + (H - T.y - R)*.42;
+    if(!banner.max) banner.max = banner.life;
+    const a = Math.min(1, banner.life*2.2, (banner.max - banner.life)*3.5), y = T.y + R + (H - T.y - R)*.42;
     cx.globalAlpha = Math.max(0, a); cx.textAlign = "center";
-    cx.font = Math.round(Math.min(46, W*.1)) + "px " + DISPLAY; cx.fillStyle = banner.boss ? "#f2c14e" : "#e9f4ff";
-    cx.shadowColor = banner.boss ? "rgba(242,193,78,.7)" : "rgba(63,208,255,.7)"; cx.shadowBlur = 24;
+    const bt = banner.bonus ? THEMES.bonus : banner.boss ? (th && !inBonus ? th : THEMES.pendant) : null;
+    cx.font = Math.round(Math.min(46, W*.1, W*1.6/Math.max(8, banner.big.length))) + "px " + DISPLAY; cx.fillStyle = bt ? bt[0] : "#e9f4ff";
+    cx.shadowColor = bt ? `rgba(${bt[1]},.7)` : "rgba(63,208,255,.7)"; cx.shadowBlur = 24;
     cx.fillText(banner.big, W/2, y); cx.shadowBlur = 0;
     cx.font = "700 14px " + MONO; cx.fillStyle = "#8ba3b8"; cx.fillText(banner.small.toUpperCase(), W/2, y + 28);
     cx.globalAlpha = 1;
@@ -1649,7 +1880,7 @@ const easeOut = x => 1 - Math.pow(1 - Math.max(0, Math.min(1, x)), 3);
 
 function loop(now){
   const dt = Math.min(.05, (now - last)/1000 || 0); last = now;
-  if(state === "play") update(dt);
+  if(state === "play" || state === "bonus") update(dt);
   if(state === "ready"){ T.rot += 1.1*dt; T.grow = 1; }
   if(state !== "paused") updateFx(dt);
   if(!$("panel-kt").hidden) render();
@@ -1657,11 +1888,11 @@ function loop(now){
 }
 
 /* ---------- controls ---------- */
-cv.addEventListener("pointerdown", e => { e.preventDefault(); if(state === "play") throwKnife(); });
+cv.addEventListener("pointerdown", e => { e.preventDefault(); if(state === "play" || state === "bonus") throwKnife(); });
 addEventListener("keydown", e => {
-  if($("panel-kt").hidden || e.repeat && state !== "play") return;
+  if($("panel-kt").hidden || e.repeat && state !== "play" && state !== "bonus") return;
   const tag = document.activeElement?.tagName;
-  if((e.key === " " || e.key === "Enter" || e.key === "ArrowUp" || e.key === "w" || e.key === "W") && state === "play"){ e.preventDefault(); throwKnife(); return; }
+  if((e.key === " " || e.key === "Enter" || e.key === "ArrowUp" || e.key === "w" || e.key === "W") && (state === "play" || state === "bonus")){ e.preventDefault(); throwKnife(); return; }
   if((e.key === " " || e.key === "Enter") && (state === "ready" || state === "over") && tag !== "A" && tag !== "BUTTON"){ e.preventDefault(); start(); return; }
   if(e.key === "Escape" || e.key === "p" || e.key === "P"){ state === "paused" ? resume() : pause(); }
 });
@@ -1674,14 +1905,14 @@ $("ktResume").addEventListener("click", resume);
 function scoreCard(){
   const S = 1080, c = document.createElement("canvas"); c.width = c.height = S; const g = c.getContext("2d");
   const bg = g.createLinearGradient(0, 0, 0, S); bg.addColorStop(0, "#030508"); bg.addColorStop(1, "#071a28"); g.fillStyle = bg; g.fillRect(0, 0, S, S);
-  const cxx = 780, cyy = 360, r = 175, boss = level % 5 === 0;
+  const cxx = 780, cyy = 360, r = 175, boss = level % 5 === 0 ? BOSSES[(level/5 - 1) % BOSSES.length] : false;
   const glow = g.createRadialGradient(cxx, cyy, 0, cxx, cyy, 560); glow.addColorStop(0, boss ? "rgba(242,193,78,.3)" : "rgba(63,208,255,.32)"); glow.addColorStop(1, "rgba(63,208,255,0)"); g.fillStyle = glow; g.fillRect(0, 0, S, S);
   g.strokeStyle = "rgba(63,208,255,.06)"; for(let i = 0; i < S; i += 60){ g.beginPath(); g.moveTo(i, 0); g.lineTo(i, S); g.stroke(); g.beginPath(); g.moveTo(0, i); g.lineTo(S, i); g.stroke(); }
   // the shield as it was, with the knives that were in it
   const ang = board.length ? board : [0, 1.3, 2.4, 3.6, 4.7].map(a => a + .3);
   const len = r*.92;
   g.save(); g.translate(cxx, cyy);
-  ang.forEach(a => { const d = r - len*.2 + len/2; drawKnife(g, Math.cos(a)*d, Math.sin(a)*d, len, a + Math.PI); });
+  ang.forEach(a => { const d = r - len*.2 + len/2; drawKnife(g, Math.cos(a)*d, Math.sin(a)*d, len, a + Math.PI, 1, board.length ? boardSkin : skinFor(store.get(LVL, 0)).id); });
   drawShield(g, r, .4, boss);
   g.restore();
   if(ART.wordmark){ const w = 360, h = w*ART.wordmark.height/ART.wordmark.width; g.drawImage(ART.wordmark, 60, 60, w, h); }
@@ -1689,6 +1920,8 @@ function scoreCard(){
   g.fillStyle = "#3fd0ff"; g.shadowColor = "rgba(63,208,255,.6)"; g.shadowBlur = 40; g.font = "200px " + DISPLAY; g.fillText(score.toLocaleString("en-US"), 60, 800); g.shadowBlur = 0;
   g.fillStyle = "#e9f4ff"; g.font = "56px " + DISPLAY; g.fillText("Level " + level + ".", 70, 885);
   g.fillStyle = "#8ba3b8"; g.font = "700 30px " + MONO; g.fillText("BEST: " + store.get(BEST, 0).toLocaleString("en-US"), 470, 885);
+  const sk = SKINS.find(x => x.id === (board.length ? boardSkin : skinFor(store.get(LVL, 0)).id));
+  if(sk && sk.id !== "classic"){ g.fillStyle = THEMES.pendant[0]; g.fillText(sk.name.toUpperCase() + " KNIFE", 70, 940); }
   g.fillStyle = "#e9f4ff"; g.font = "700 30px " + MONO; g.fillText("ultwithknife.com/lab  ·  $KULT", 70, 1010);
   return c;
 }
@@ -1716,16 +1949,23 @@ $("ktCard").addEventListener("click", async () => {
 if(!kultIsPhone){ $("ktShare").textContent = "Copy image + Post on X"; $("ktShare").title = "Copies your image, then shows you how to paste it into X"; }
 
 /* legend icons */
+function skinNote(){
+  const best = store.get(LVL, 0), cur = skinFor(best), nxt = SKINS.find(x => x.lvl > best);
+  $("ktSkin").innerHTML = `Your knife: <b>${cur.name}</b>` + (nxt ? ` · ${nxt.name} unlocks at level ${nxt.lvl}` : " · all knives unlocked");
+}
+skinNote();
 ready.then(() => document.querySelectorAll("canvas[data-kt-icon]").forEach(c => {
-  const g = c.getContext("2d"), k = c.dataset.ktIcon; g.clearRect(0, 0, 60, 60);
+  const g = c.getContext("2d"), k = c.dataset.ktIcon; g.clearRect(0, 0, c.width, c.height);
+  if(PICK[k]){ g.save(); g.translate(c.width/2, c.height/2); drawPick(g, k, c.width*.72); g.restore(); return; }
   if(k === "stick"){ g.save(); g.translate(30, 30); g.beginPath(); g.arc(0, -40, 34, 0, TAU); g.fillStyle = "#10243a"; g.fill(); g.lineWidth = 4; g.strokeStyle = "#3fd0ff"; g.stroke(); g.restore(); drawKnife(g, 30, 36, 44, -Math.PI/2); }
   if(k === "paper"){ g.save(); g.translate(30, 30); drawPaper(g, 40); g.restore(); }
   if(k === "clash"){ drawKnife(g, 24, 30, 46, -Math.PI/2 - .45); drawKnife(g, 36, 30, 46, -Math.PI/2 + .45); g.fillStyle = "#ff5a6e"; g.beginPath(); g.arc(30, 14, 4, 0, TAU); g.fill(); }
 }));
 
 /* boot */
-window.KT = { show(){ size(); last = performance.now(); }, hide(){ pause(); } };
-ready.then(() => { size(); spec = null; stuck = [.3, 1.5, 2.6, 3.9, 5.1].map(a => ({ a, hit: 0 })); papers = [{ a: 4.5, alive: true, wob: 0 }]; last = performance.now(); requestAnimationFrame(loop); });
+window.KT = {
+  show(){ size(); last = performance.now(); }, hide(){ pause(); } };
+ready.then(() => { size(); spec = null; stuck = [.3, 1.5, 2.6, 3.9, 5.1].map(a => ({ a, hit: 0 })); papers = [{ a: 4.5, alive: true, wob: 0, kind: "paper" }]; last = performance.now(); requestAnimationFrame(loop); });
 addEventListener("resize", () => { if(W) size(); });
 })();
 </script>

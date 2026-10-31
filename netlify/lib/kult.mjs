@@ -66,8 +66,9 @@ export function plausible(game, score, level, ms) {
     if (!Number.isInteger(level) || level < 1 || level > 999) return "bad level";
     // each level needs at least ~2s (5+ throws plus the clear animation)
     if (s < (level - 1) * 2) return "impossible level";
-    // per level: ≤10 knives, ≤2 slices (+3), clear bonus 2×level
-    let max = 0; for (let n = 1; n <= level; n++) max += 10 + 6 + 2 * n;
+    // per level: ≤10 knives at up to x3 rapid-fire (+ flame knives x3), ≤2 slices (+3), perfect clear (+5),
+    // clear bonus 2×level; after each boss a 10s bonus round (coins +5, at most ~45 throws)
+    let max = 0; for (let n = 1; n <= level; n++) max += 30 + 18 + 6 + 5 + 2 * n + (n % 5 === 0 ? 260 : 0);
     if (score > max) return "impossible score";
   }
   return null;
