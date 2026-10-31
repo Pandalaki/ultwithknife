@@ -1446,6 +1446,7 @@ let debris = [], sparks = [], texts = [], shake = 0, hurt = 0, thrown = 0, slice
 let bannerNext = null;
 let saves = 0, flameN = 0, slowT = 0, combo = 0, lastHit = -9, gt = 0, rs = 1, evMul = 1, evNext = 0, bonusT = 0, coins = [], ghosts = [], rugDone = 0, skin = "classic", boardSkin = "classic";
 const BONUS_SECS = 8, COINS = 8;
+let bonusLeft = 0;
 const multNow = () => Math.min(3, 1 + Math.floor(combo/3));
 function stats(){
   $("ktBestStat").textContent = store.get(BEST, 0).toLocaleString("en-US");
@@ -1517,7 +1518,7 @@ function startLevel(n){
   for(let i = 0; i < spec.paperN; i++){ const a = freeAngle(taken(), .6); if(a !== null) papers.push({ a, alive: true, wob: Math.random()*TAU, kind: "paper" }); }
   if(spec.pick){ const a = freeAngle(taken(), .6); if(a !== null) papers.push({ a, alive: true, wob: Math.random()*TAU, kind: spec.pick }); }
   const B = spec.boss && BOSS_INFO[spec.boss];
-  banner = { big: B ? B[0] : "LEVEL " + n, small: B ? B[1] : spec.event ? "Market event: " + EVENTS[spec.event] : (n === 1 ? "Stick " + left + " knives" : left + " knives · don't touch the others"), life: 1.6, boss: !!spec.boss };
+  banner = { big: B ? B[0] : "LEVEL " + n, small: B ? B[1] : spec.event ? "Market event: " + EVENTS[spec.event] : (n === 1 ? "Stick " + left + " knives · slice the paper hand for +3" : left + " knives · don't touch the others"), life: 1.6, boss: !!spec.boss };
   if(spec.boss) sfx("boss");
   // knife skin unlocks
   const was = skinFor(store.get(LVL, 0)).id, now = skinFor(Math.max(store.get(LVL, 0), n));
@@ -1526,10 +1527,10 @@ function startLevel(n){
   state = "play";
 }
 function startBonus(){
-  state = "bonus"; bonusT = BONUS_SECS; lt = 0; stuck = []; papers = []; ghosts = []; flying = null; loadT = 1; rs = 1; combo = 0;
+  state = "bonus"; bonusT = BONUS_SECS; bonusLeft = COINS; lt = 0; stuck = []; papers = []; ghosts = []; flying = null; loadT = 1; rs = 1; combo = 0;
   T.grow = 0; T.w = 2.2;
   coins = Array.from({ length: COINS }, (_, i) => ({ a: i/COINS*TAU, alive: true }));
-  banner = { big: "GREEN CANDLE BONUS", small: "hit all " + COINS + " coins in " + BONUS_SECS + " seconds", life: 1.9, bonus: true };
+  banner = { big: "GREEN CANDLE BONUS", small: COINS + " knives · " + COINS + " coins · " + BONUS_SECS + " seconds", life: 1.9, bonus: true };
   sfx("bonus");
 }
 function reset(){ stuck = []; papers = []; board = []; score = 0; thrown = 0; sliced = 0; debris = []; sparks = []; texts = []; shake = 0; hurt = 0; cameo = null; T.rot = 0;
@@ -1553,7 +1554,7 @@ function burst(x, y, color, n, spread = 1){
 const pop = (x, y, str, color, big = false) => texts.push({ x, y, str, color, life: 1, big });
 
 function throwKnife(){
-  if(state === "bonus"){ if(flying || loadT < .6) return; flying = { y: START_Y, vy: -Math.max(2000, H*3.6) }; thrown++; loadT = 0; sfx("throw"); return; }
+  if(state === "bonus"){ if(flying || loadT < .6 || bonusLeft <= 0) return; flying = { y: START_Y, vy: -Math.max(2000, H*3.6) }; bonusLeft--; thrown++; loadT = 0; sfx("throw"); return; }
   if(state !== "play" || flying || left <= 0 || loadT < .6) return;
   flying = { y: START_Y, vy: -Math.max(2000, H*3.6), fire: flameN > 0 }; left--; thrown++; loadT = 0;
   if(flameN > 0) flameN--;
@@ -1683,8 +1684,8 @@ function collect(p, Rn){
   if(p.kind === "paper"){
     score += 3; sliced++; sfx("slice");
     debris.push({ kind: "paper", x: px, y: py, vx: (Math.random() - .5)*300, vy: -380, rot: pa + Math.PI/2, vr: (Math.random() - .5)*12, life: 1.5 });
-    burst(T.x, T.y + Rn + 10, "255,90,110", 16);
-    pop(T.x + 50, T.y + Rn + 20, "+3 SLICED", "#ff8a9a");
+    burst(px, py, "242,193,78", 18); burst(px, py, "77,255,154", 10);
+    pop(T.x + 50, T.y + Rn + 20, "+3 SLICED", "#4dff9a");
     return;
   }
   sfx("pickup"); burst(px, py, PICK[p.kind].color, 26);
@@ -1722,6 +1723,7 @@ function updateBonus(dt){
       if(c){ c.alive = false; score += 2; sfx("coin"); burst(T.x, T.y + R + 6, "242,193,78", 14); pop(T.x + 40, T.y + R + 26, "+2", "#f2c14e"); }
       else { sfx("thunk"); pop(T.x + 36, T.y + R + 24, "miss", "#8ba3b8"); }
       if(coins.every(c => !c.alive)){ score += 5; pop(T.x, T.y - R*.2, "+5 ALL COINS", "#4dff9a", true); sfx("perfect"); bonusT = 0; }
+      else if(bonusLeft <= 0) bonusT = Math.min(bonusT, .35); // out of knives: wrap up
     }
   }
   if(bonusT <= 0){ bonusT = 0; endBonus(); }
@@ -1802,7 +1804,10 @@ function render(){
       if(!p.alive) return;
       const a = p.a + T.rot, d = Rn + R*.17, s = R*.36;
       cx.save(); cx.translate(Math.cos(a)*d, Math.sin(a)*d);
-      if(!PICK[p.kind]){ cx.rotate(a + Math.PI/2 + Math.sin(p.wob)*.12); drawPaper(cx, s); }
+      if(!PICK[p.kind]){ // paper hands are targets: green ring says "hit this"
+        cx.strokeStyle = "rgba(77,255,154,.55)"; cx.lineWidth = 2; cx.beginPath(); cx.arc(0, 0, s*(.66 + Math.sin(p.wob*1.2)*.06), 0, TAU); cx.stroke();
+        cx.rotate(a + Math.PI/2 + Math.sin(p.wob)*.12); drawPaper(cx, s);
+      }
       else { // pickups: upright, with a pulsing ring
         cx.strokeStyle = `rgba(${PICK[p.kind].color},.6)`; cx.lineWidth = 2; cx.beginPath(); cx.arc(0, 0, s*(.62 + Math.sin(p.wob*1.2)*.06), 0, TAU); cx.stroke();
         drawPick(cx, p.kind, s*.85);
@@ -1818,7 +1823,7 @@ function render(){
     if(flying.fire){ cx.save(); cx.shadowColor = "rgba(255,140,40,.9)"; cx.shadowBlur = 26; drawKnife(cx, T.x, flying.y, LEN, -Math.PI/2, 1, skin); cx.restore(); }
     else drawKnife(cx, T.x, flying.y, LEN, -Math.PI/2, 1, skin);
   }
-  else if((state === "play" || state === "bonus" || state === "ready" || state === "paused") && (left > 0 || inBonus) || state === "ready"){
+  else if((state === "play" || state === "bonus" || state === "ready" || state === "paused") && (inBonus ? bonusLeft > 0 : left > 0) || state === "ready"){
     const k = easeOut(loadT), fire = flameN > 0 && !inBonus && state !== "ready";
     if(fire){ cx.save(); cx.shadowColor = "rgba(255,140,40,.9)"; cx.shadowBlur = 22; }
     drawKnife(cx, T.x, START_Y + (1 - k)*LEN*.8, LEN, -Math.PI/2, k, state === "ready" ? skinFor(store.get(LVL, 0)).id : skin);
@@ -1860,9 +1865,13 @@ function render(){
     if(inBonus){
       cx.fillStyle = "rgba(233,244,255,.12)"; cx.fillRect(0, 0, W, 5);
       cx.fillStyle = "#4dff9a"; cx.fillRect(0, 0, W*bonusT/BONUS_SECS, 5);
-      cx.textAlign = "center"; cx.font = "28px " + DISPLAY; cx.fillStyle = "#4dff9a"; cx.fillText(Math.ceil(bonusT) + "s", W/2, H - 28); cx.textAlign = "left";
+      cx.textAlign = "right"; cx.font = "28px " + DISPLAY; cx.fillStyle = "#4dff9a"; cx.fillText(Math.ceil(bonusT) + "s", W - 20, H - 24); cx.textAlign = "left";
     }
     // knives left
+    if(inBonus){
+      const n = COINS, step = Math.min(18, (W*.3)/n), kl = Math.min(44, LEN*.5);
+      for(let i = 0; i < n; i++) drawKnife(cx, 22 + i*step, H - kl*.5 - 14, kl, -Math.PI/2, i < bonusLeft ? 1 : .16, skin);
+    }
     if(spec && !inBonus){
       const n = spec.knives, step = Math.min(18, (W*.3)/n), kl = Math.min(44, LEN*.5);
       for(let i = 0; i < n; i++) drawKnife(cx, 22 + i*step, H - kl*.5 - 14, kl, -Math.PI/2, i < left + (flying ? 0 : 0) ? 1 : .16, skin);
