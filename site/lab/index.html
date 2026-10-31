@@ -1445,7 +1445,7 @@ let debris = [], sparks = [], texts = [], shake = 0, hurt = 0, thrown = 0, slice
 // pickups, combo, events, bonus round
 let bannerNext = null;
 let saves = 0, flameN = 0, slowT = 0, combo = 0, lastHit = -9, gt = 0, rs = 1, evMul = 1, evNext = 0, bonusT = 0, coins = [], ghosts = [], rugDone = 0, skin = "classic", boardSkin = "classic";
-const BONUS_SECS = 10;
+const BONUS_SECS = 8, COINS = 8;
 const multNow = () => Math.min(3, 1 + Math.floor(combo/3));
 function stats(){
   $("ktBestStat").textContent = store.get(BEST, 0).toLocaleString("en-US");
@@ -1528,8 +1528,8 @@ function startLevel(n){
 function startBonus(){
   state = "bonus"; bonusT = BONUS_SECS; lt = 0; stuck = []; papers = []; ghosts = []; flying = null; loadT = 1; rs = 1; combo = 0;
   T.grow = 0; T.w = 2.2;
-  coins = Array.from({ length: 12 }, (_, i) => ({ a: i/12*TAU, alive: true }));
-  banner = { big: "GREEN CANDLE BONUS", small: BONUS_SECS + " seconds · throw fast · nothing can stop you", life: 1.9, bonus: true };
+  coins = Array.from({ length: COINS }, (_, i) => ({ a: i/COINS*TAU, alive: true }));
+  banner = { big: "GREEN CANDLE BONUS", small: "hit all " + COINS + " coins in " + BONUS_SECS + " seconds", life: 1.9, bonus: true };
   sfx("bonus");
 }
 function reset(){ stuck = []; papers = []; board = []; score = 0; thrown = 0; sliced = 0; debris = []; sparks = []; texts = []; shake = 0; hurt = 0; cameo = null; T.rot = 0;
@@ -1719,9 +1719,9 @@ function updateBonus(dt){
       const a = Math.PI/2 - T.rot;
       ghosts.push({ a, life: .7 }); T.bump = 1; T.flash = .5;
       const c = coins.find(c => c.alive && adiff(a, c.a) < .28);
-      if(c){ c.alive = false; score += 5; sfx("coin"); burst(T.x, T.y + R + 6, "242,193,78", 14); pop(T.x + 40, T.y + R + 26, "+5", "#f2c14e"); }
-      else { score += 1; sfx("thunk"); pop(T.x + 36, T.y + R + 24, "+1", "#4dff9a"); }
-      if(coins.every(c => !c.alive)) coins = Array.from({ length: 12 }, (_, i) => ({ a: i/12*TAU + .13, alive: true }));
+      if(c){ c.alive = false; score += 2; sfx("coin"); burst(T.x, T.y + R + 6, "242,193,78", 14); pop(T.x + 40, T.y + R + 26, "+2", "#f2c14e"); }
+      else { sfx("thunk"); pop(T.x + 36, T.y + R + 24, "miss", "#8ba3b8"); }
+      if(coins.every(c => !c.alive)){ score += 5; pop(T.x, T.y - R*.2, "+5 ALL COINS", "#4dff9a", true); sfx("perfect"); bonusT = 0; }
     }
   }
   if(bonusT <= 0){ bonusT = 0; endBonus(); }
