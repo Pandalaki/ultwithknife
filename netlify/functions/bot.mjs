@@ -2,7 +2,7 @@
 // Auth: header "Authorization: Bearer <BOT_API_KEY>" (set the same value in Netlify and in the bot's secrets).
 import { getStore } from "@netlify/blobs";
 import crypto from "node:crypto";
-import { json, weekId, weekStart, weekEnd, boardKey, top, rankOf, avatarUrl, GAMES } from "../lib/kult.mjs";
+import { json, weekId, weekStart, weekEnd, boardKey, top, rankOf, avatarUrl, GAMES, allTime } from "../lib/kult.mjs";
 
 const ok = req => {
   const key = process.env.BOT_API_KEY || "";
@@ -20,27 +20,30 @@ export default async (req) => {
   // /api/bot?rank=<discordId>  →  one player's position this week (for /rank)
   const who = url.searchParams.get("rank");
   if (who) {
-    const out = {};
+    const out = {}, all = {};
+    const spot = (data) => { const e = data && data.entries[who]; return e ? { rank: rankOf(data, who), score: e.score, level: e.level, players: Object.keys(data.entries).length } : null; };
     for (const g of Object.keys(GAMES)) {
-      const data = await store.get(boardKey(g, week), { type: "json" });
-      const e = data && data.entries[who];
-      out[g] = e ? { rank: rankOf(data, who), score: e.score, level: e.level, players: Object.keys(data.entries).length } : null;
+      out[g] = spot(await store.get(boardKey(g, week), { type: "json" }));
+      all[g] = spot(await allTime(store, g));
     }
-    return json({ week, discordId: who, games: out });
+    return json({ week, discordId: who, games: out, alltime: all });
   }
 
   // default: both games' top 10 for this week and last week
-  const games = {}, previous = {};
+  const games = {}, previous = {}, alltime = {};
   for (const g of Object.keys(GAMES)) {
     const cur = await store.get(boardKey(g, week), { type: "json" });
     const prev = await store.get(boardKey(g, week - 1), { type: "json" });
     games[g] = { title: GAMES[g], players: cur ? Object.keys(cur.entries).length : 0, top: rows(cur) };
     previous[g] = { title: GAMES[g], players: prev ? Object.keys(prev.entries).length : 0, top: rows(prev) };
+    const all = await allTime(store, g);
+    alltime[g] = { title: GAMES[g], players: Object.keys(all.entries).length, top: rows(all) };
   }
   return json({
     week, weekStart: weekStart(week).toISOString(), resetsAt: weekEnd(week).toISOString(),
-    play: { catch: "https://ultwithknife.com/lab/#knife-catch", throw: "https://ultwithknife.com/lab/#knife-throw" },
-    games, previous
+    play: { catch: "https://ultwithknife.com/lab/#knife-catch", throw: "https://ultwithknife.com/lab/throw/" },
+    images: { catch: "https://ultwithknife.com/img/og-lab.jpg", throw: "https://ultwithknife.com/img/og-throw.jpg" },
+    games, previous, alltime
   });
 };
 export const config = { path: "/api/bot" };

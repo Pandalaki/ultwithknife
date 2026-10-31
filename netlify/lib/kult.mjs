@@ -98,6 +98,24 @@ export async function recordScore(store, game, week, user, score, level) {
   }
   throw new Error("board busy");
 }
+// all-time board: every player's best ever. Seeded from recent weeks the first time it's read.
+export const ALL = "all";
+export async function allTime(store, game) {
+  const key = boardKey(game, ALL);
+  let data = await store.get(key, { type: "json" });
+  if (data) return data;
+  data = { entries: {} };
+  const w = weekId();
+  for (const wk of [w - 2, w - 1, w]) {
+    const b = await store.get(boardKey(game, wk), { type: "json" });
+    for (const [id, e] of Object.entries((b && b.entries) || {})) {
+      const cur = data.entries[id];
+      if (!cur || e.score > cur.score) data.entries[id] = e;
+    }
+  }
+  await store.setJSON(key, data, { onlyIfNew: true });
+  return (await store.get(key, { type: "json" })) || data;
+}
 export const rankOf = (data, id) => {
   const all = top(data, 1e9);
   const i = all.findIndex(r => r.id === id);

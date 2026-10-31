@@ -29,7 +29,7 @@ Images can be PNG, JPG or WebP. Videos can be MP4, MOV, M4V or WebM (they're con
 
 ## Weekly leaderboard (Knife Catch + Knife Throw)
 
-Players sign in with Discord in the Lab; their best score each week goes on a top-10 board on the site. The KULT Discord bot (repo `kult-ticker-bot`) reads the scores from `/api/bot` and does all the Discord posting. Code: `netlify/functions/` (sign-in, scores, leaderboard, bot feed, Monday reset) and `netlify/lib/kult.mjs`. Scores are stored in Netlify Blobs.
+Players sign in with Discord in the Lab; their best score each week goes on a top-10 board on the site, and their best ever goes on an all-time board (This week / All time tabs). The KULT Discord bot (repo `kult-ticker-bot`) reads the scores from `/api/bot` and does all the Discord posting. Code: `netlify/functions/` (sign-in, scores, leaderboard, bot feed, Monday reset) and `netlify/lib/kult.mjs`. Scores are stored in Netlify Blobs.
 
 Set these in Netlify → Project configuration → Environment variables (never in the repo):
 

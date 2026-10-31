@@ -1,6 +1,6 @@
 // A finished run: check it, save the player's weekly best, update Discord
 import { getStore } from "@netlify/blobs";
-import { sessionUser, verify, json, isGame, plausible, weekId, recordScore, rankOf, syncBoard, announceTop, avatarUrl } from "../lib/kult.mjs";
+import { sessionUser, verify, json, isGame, plausible, weekId, recordScore, rankOf, syncBoard, announceTop, avatarUrl, allTime, ALL } from "../lib/kult.mjs";
 
 export default async (req) => {
   if (req.method !== "POST") return json({ error: "method" }, 405);
@@ -43,6 +43,13 @@ export default async (req) => {
   const week = weekId();
   const res = await recordScore(store, game, week, user, Math.floor(score), game === "throw" && level != null ? Math.floor(level) : null);
   const rank = rankOf(res.data, user.id);
+  // all-time best (seed it first so this week's earlier scores are in there)
+  let allRank = null;
+  try {
+    await allTime(store, game);
+    const all = await recordScore(store, game, ALL, user, Math.floor(score), game === "throw" && level != null ? Math.floor(level) : null);
+    allRank = rankOf(all.data, user.id);
+  } catch (e) { console.error("all-time update failed", e); }
 
   if (res.improved) {
     const inTop = res.after.some(r => r.id === user.id);
@@ -53,6 +60,6 @@ export default async (req) => {
       if (newKing) await announceTop(game, user, res.mine.score, res.mine.level);
     } catch (e) { console.error("discord update failed", e); }
   }
-  return json({ ok: true, improved: res.improved, rank, best: res.mine.score, bestLevel: res.mine.level, top: res.after.map(r => ({ ...r, avatar: avatarUrl(r) })) });
+  return json({ ok: true, improved: res.improved, rank, allRank, best: res.mine.score, bestLevel: res.mine.level, top: res.after.map(r => ({ ...r, avatar: avatarUrl(r) })) });
 };
 export const config = { path: "/api/score" };

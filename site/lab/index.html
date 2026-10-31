@@ -264,6 +264,10 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
 .lb{border:1px solid var(--edge);background:var(--steel);padding:16px 18px;display:grid;gap:12px}
 .lb-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 14px}
 .lb-head h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px}
+.lb-tabs{display:flex;gap:6px}
+.lb-tabs button{font:700 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;cursor:pointer;color:var(--mist);background:#060c13;border:1px solid var(--edge)}
+.lb-tabs button[aria-selected="true"]{color:#030508;background:var(--ice);border-color:var(--ice)}
+.lb-tabs button:hover{border-color:var(--ice)}
 .lb-reset{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mist)}
 .lb-auth{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:15px;color:var(--mist)}
 .lb-auth:empty{display:none}
@@ -399,6 +403,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
   </div>
   <div class="lb" data-lb="catch" aria-live="polite">
     <div class="lb-head"><h3>This week's top 10</h3><span class="lb-reset"></span></div>
+    <div class="lb-tabs" role="tablist" aria-label="Leaderboard"><button type="button" role="tab" data-when="week" aria-selected="true">This week</button><button type="button" role="tab" data-when="all" aria-selected="false">All time</button></div>
     <div class="lb-auth"></div>
     <ol class="lb-list"><li class="lb-empty">Loading the leaderboard…</li></ol>
   </div>
@@ -470,6 +475,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
   </div>
   <div class="lb" data-lb="throw" aria-live="polite">
     <div class="lb-head"><h3>This week's top 10</h3><span class="lb-reset"></span></div>
+    <div class="lb-tabs" role="tablist" aria-label="Leaderboard"><button type="button" role="tab" data-when="week" aria-selected="true">This week</button><button type="button" role="tab" data-when="all" aria-selected="false">All time</button></div>
     <div class="lb-auth"></div>
     <ol class="lb-list"><li class="lb-empty">Loading the leaderboard…</li></ol>
   </div>
@@ -711,18 +717,29 @@ window.KultLB = (() => {
     const ms = Math.max(0, new Date(iso) - Date.now()), d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5);
     return d > 0 ? `${d}d ${h}h` : `${h}h ${Math.max(1, Math.floor(ms % 36e5 / 6e4))}m`;
   }
+  // "This week" or "All time" per board (remembered on this device)
+  const when = {};
+  try { Object.assign(when, JSON.parse(localStorage.getItem("kult-lb-view") || "{}")); } catch(e){}
+  document.querySelectorAll("[data-lb]").forEach(el => el.querySelectorAll(".lb-tabs button").forEach(b => b.addEventListener("click", () => {
+    when[el.dataset.lb] = b.dataset.when;
+    try { localStorage.setItem("kult-lb-view", JSON.stringify(when)); } catch(e){}
+    render();
+  })));
   function render(){
     document.querySelectorAll("[data-lb]").forEach(el => {
       const g = el.dataset.lb, list = el.querySelector(".lb-list"), auth = el.querySelector(".lb-auth"), reset = el.querySelector(".lb-reset");
+      const all = when[g] === "all";
+      el.querySelectorAll(".lb-tabs button").forEach(b => b.setAttribute("aria-selected", String((b.dataset.when === "all") === all)));
+      el.querySelector(".lb-head h3").textContent = all ? "All-time top 10" : "This week's top 10";
       if(!online){ list.innerHTML = '<li class="lb-empty">The weekly leaderboard runs on ultwithknife.com.</li>'; auth.innerHTML = ""; reset.textContent = ""; return; }
-      const b = data.games[g];
-      reset.textContent = "Resets in " + until(data.resetsAt);
+      const b = all ? (data.games[g].all || { top: [], me: null }) : data.games[g];
+      reset.textContent = all ? "Best ever" : "Resets in " + until(data.resetsAt);
       auth.innerHTML = !enabled ? "" : me
-        ? `<span class="lb-me"><img src="${esc(me.avatar)}" alt="" width="24" height="24">Signed in as <b>${esc(me.name)}</b>${b.me ? ` · you're #${b.me.rank}` : ""}</span><a class="lb-out" href="${API}/auth/logout">Sign out</a>`
+        ? `<span class="lb-me"><img src="${esc(me.avatar)}" alt="" width="24" height="24">Signed in as <b>${esc(me.name)}</b>${b.me ? ` · you're #${b.me.rank}${all ? " all time" : ""}` : ""}</span><a class="lb-out" href="${API}/auth/logout">Sign out</a>`
         : `<a class="btn sm lb-in" href="${loginUrl(g)}">${DC}Sign in with Discord</a><span>to put your scores on the board and in our Discord</span>`;
       list.innerHTML = b.top.length
         ? b.top.map((r, i) => `<li class="${r.me ? "me" : ""}"><span class="lb-rank">${i < 3 ? ["🥇", "🥈", "🥉"][i] : "#" + (i + 1)}</span><img src="${esc(r.avatar)}" alt="" width="28" height="28" loading="lazy"><span class="lb-name">${esc(r.name)}</span><span class="lb-score">${fmt(r.score)}${g === "throw" && r.level ? `<small>lvl ${r.level}</small>` : ""}</span></li>`).join("")
-        : '<li class="lb-empty">No scores yet this week. Be the first to take #1.</li>';
+        : `<li class="lb-empty">${all ? "No scores yet." : "No scores yet this week."} Be the first to take #1.</li>`;
     });
   }
   async function refresh(){
@@ -800,6 +817,7 @@ window.KultLB = (() => {
         note.innerHTML = j.improved
           ? (j.rank === 1 ? "👑 <b>#1 this week!</b> Colt is announcing it in the Discord." : `New weekly best! You're <b>#${j.rank}</b> this week.`)
           : `You're <b>#${j.rank}</b> this week. Your best: ${fmt(j.best)}${game === "throw" && j.bestLevel ? ` (level ${j.bestLevel})` : ""}.`;
+        if(j.improved && j.allRank && j.allRank <= 10) note.innerHTML += j.allRank === 1 ? " 🏆 <b>New all-time record!</b>" : ` That's <b>#${j.allRank}</b> all time.`;
         refresh();
       } else if(r.status === 401){ me = null; render(); note.innerHTML = `<a href="${loginUrl(game)}">Sign in with Discord</a> again to post scores.`; }
       else note.textContent = j.error === "rejected" ? "That score didn't pass our checks, so it wasn't posted." : r.status === 429 ? "Easy there. Wait a few seconds between runs." : "Couldn't post that score.";
