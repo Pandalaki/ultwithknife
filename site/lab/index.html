@@ -1324,7 +1324,7 @@ const drawDiamond = (g, s) => window.KultArt && window.KultArt.drawDiamond(g, s)
 const drawSlow = (g, s) => window.KultArt && window.KultArt.drawSlow(g, s);
 
 /* knife skins: earned by reaching levels, kept on this device */
-const SKINS = [{ id: "classic", name: "Classic", lvl: 0 }, { id: "gold", name: "Gold", lvl: 10 }, { id: "flame", name: "Flame", lvl: 20 }, { id: "diamond", name: "Diamond", lvl: 30 }];
+const SKINS = [{ id: "classic", name: "Classic", lvl: 0 }, { id: "gold", name: "Gold", lvl: 5 }, { id: "flame", name: "Flame", lvl: 10 }, { id: "diamond", name: "Diamond", lvl: 15 }];
 const SKIN_TINT = { gold: ["#fff3b0", "#f2c14e", "#a86b12"], flame: ["#ffd36b", "#ff7a1a", "#1a6dff"], diamond: ["#ffffff", "#9fe8ff", "#3fd0ff"] };
 const SKIN_GLOW = { gold: "rgba(242,193,78,.7)", flame: "rgba(255,122,26,.85)", diamond: "rgba(159,232,255,.9)" };
 const skinCache = {};
@@ -1461,18 +1461,20 @@ const BOSSES = ["pendant", "bear", "rug", "whale"];
 const BOSS_INFO = { pendant: ["BOSS · THE PENDANT", "It spins back"], bear: ["BOSS · THE BEAR", "Watch it grow and shrink"], rug: ["BOSS · THE RUG", "Knives will fall off"], whale: ["BOSS · THE WHALE", "Big and packed"] };
 const EVENTS = { volatility: "Volatility", crash: "Flash crash", pump: "Pump and dump" };
 function levelSpec(n){
-  const boss = n % 5 === 0 ? BOSSES[(n/5 - 1) % BOSSES.length] : false;
-  let knives = boss ? 8 : Math.min(10, 5 + Math.floor((n - 1)*.6));
-  let pre = n === 1 ? 0 : Math.min(6, 1 + Math.floor(n/2.5) + (boss ? 1 : 0));
-  if(boss === "whale"){ knives = 10; pre = 9; }
+  const boss = n % 5 === 0 ? BOSSES[(n/5 - 1) % BOSSES.length] : false, bi = n/5;
+  // a gentle climb: knives, pre-stuck knives and speed grow slowly; the real squeeze starts in the teens
+  let knives = boss ? Math.min(10, 5 + bi) : Math.min(10, 5 + Math.floor((n - 1)*.3));
+  let pre = boss ? Math.min(6, bi) : n === 1 ? 0 : Math.min(6, Math.floor(n/3.5));
+  if(boss === "whale"){ knives = 8; pre = 8; }
   const paperN = boss ? 1 : n < 3 ? 1 : 2;
-  const speed = Math.min(3.3, 1.5 + n*.09) * (n % 2 ? 1 : -1) * (boss === "whale" ? .8 : 1);
-  const mix = ["wobble", "reverse", "surge", "stopgo"];
-  let pat = boss ? "boss" : n === 1 ? "steady" : n === 2 ? "wobble" : n === 3 ? "steady" : n === 4 ? "reverse" : mix[Math.floor(Math.random()*mix.length)];
+  const speed = Math.min(3.3, 1.4 + n*.06) * (n % 2 ? 1 : -1) * (boss === "whale" ? .8 : 1);
+  const easy = ["steady", "wobble", "reverse"], mix = ["wobble", "reverse", "surge", "stopgo"];
+  let pat = boss ? "boss" : n === 1 ? "steady" : n === 2 ? "wobble" : n === 3 ? "steady" : n === 4 ? "reverse"
+          : (n < 8 ? easy : mix)[Math.floor(Math.random()*(n < 8 ? easy : mix).length)];
   let event = null;
-  if(!boss && n >= 6 && Math.random() < .4){ event = Object.keys(EVENTS)[Math.floor(Math.random()*3)]; pat = event; }
-  // pickups on the rim: one on most levels from level 2
-  const pick = n >= 2 && Math.random() < (boss ? .5 : .6) ? pickKind() : null;
+  if(!boss && n >= 8 && Math.random() < .4){ event = Object.keys(EVENTS)[Math.floor(Math.random()*3)]; pat = event; }
+  // pickups on the rim: one on most levels from level 2, and always diamond hands just before a boss
+  const pick = (n + 1) % 5 === 0 && !saves ? "diamond" : n >= 2 && Math.random() < (boss ? .5 : .6) ? pickKind() : null;
   return { boss, knives, pre, paperN, speed, pat, event, pick };
 }
 function pickKind(){
