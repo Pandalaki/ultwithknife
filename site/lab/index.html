@@ -1015,13 +1015,24 @@ function pickPower(){
   for(const [k, w] of opts){ if((r -= w) < 0) return k; }
   return "magnet";
 }
-// a line of red candles with one gap wide enough for Colt
+// three lines of red candles, one after another, each with one gap wide enough for Colt
+const RUG_ROWS = 3, RUG_SPACING = 1.05; // seconds between rows
+let rugRowId = 0;
 function rugWave(){
-  const s = itemSize(), gapW = player.w*1.15 + s*.9, sp = s*1.1;
-  const gx = gapW/2 + Math.random()*Math.max(1, W - gapW);
-  for(let x = s/2; x < W; x += sp){
-    if(Math.abs(x - gx) < gapW/2) continue;
-    items.push({ type: "candle", s, x, y: -s, vy: fallSpeed()*.78, rot: 0, vr: 0, rug: true });
+  const s = itemSize(), gapW = player.w*1.15 + s*.9, sp = s*1.1, vy = fallSpeed()*.78;
+  const lo = gapW/2, hi = Math.max(lo + 1, W - gapW/2);
+  let gx = lo + Math.random()*(hi - lo);
+  for(let r = 0; r < RUG_ROWS; r++){
+    if(r){ // move the gap somewhere clearly different from the last one
+      let n, tries = 0;
+      do { n = lo + Math.random()*(hi - lo); } while(Math.abs(n - gx) < Math.min(W*.3, (hi - lo)*.5) && ++tries < 30);
+      gx = n;
+    }
+    const y = -s - r*vy*RUG_SPACING, rowId = ++rugRowId;
+    for(let x = s/2; x < W; x += sp){
+      if(Math.abs(x - gx) < gapW/2) continue;
+      items.push({ type: "candle", s, x, y, vy, rot: 0, vr: 0, rug: true, row: rowId });
+    }
   }
   shake = reduce ? 0 : .5;
 }
@@ -1041,8 +1052,8 @@ function update(dt){
   if(rush > 0){ rush -= dt; if(rush <= 0){ rush = 0; nextRush = t + 34 + Math.random()*20; } }
   else if(!rugWarn && t >= nextRush){ rush = 5; spawnT = 0; showBanner("Green candle rush", "x2 points", "#4dff9a"); }
   // rug pull: warning, then the wave
-  if(rugWarn > 0){ rugWarn -= dt; spawnT = Math.max(spawnT, .2); if(rugWarn <= 0){ rugWarn = 0; rugWave(); spawnT = 1.5; nextRug = t + 50 + Math.random()*30; } }
-  else if(!rush && t >= nextRug){ rugWarn = 1.6; nextRush = Math.max(nextRush, t + 8); showBanner("Rug pull", "find the gap", "#ff5a6e"); }
+  if(rugWarn > 0){ rugWarn -= dt; spawnT = Math.max(spawnT, .2); if(rugWarn <= 0){ rugWarn = 0; rugWave(); spawnT = 1.5 + (RUG_ROWS - 1)*RUG_SPACING; nextRug = t + 50 + Math.random()*30; } }
+  else if(!rush && t >= nextRug){ rugWarn = 1.6; nextRush = Math.max(nextRush, t + 8); showBanner("Rug pull", "find the gap · 3 in a row", "#ff5a6e"); }
   const idt = power.slow > 0 ? dt*.45 : dt; // slow-mo: everything falls slower
   // player eases toward target
   const prev = player.x;
@@ -1079,6 +1090,10 @@ function update(dt){
         burst(it.x, it.y, "120,220,255", 18);
         popText(it.x, it.y - 10, "diamond hands", "#9fe8ff");
       } else {
+        if(it.row){ // a rug row costs one life at most: the rest of that row shatters
+          for(let j = items.length - 1; j >= 0; j--) if(items[j].row === it.row){ burst(items[j].x, items[j].y, "255,90,110", 6); items.splice(j, 1); }
+          i = Math.min(i, items.length);
+        }
         lives--; combo = 0; mult = 1; shake = reduce ? 0 : .35; hurtFlash = 1;
         burst(it.x, it.y, "255,90,110", 22);
         popText(it.x, it.y - 10, it.type === "paper" ? "paper hands!" : "rekt", "#ff5a6e");
