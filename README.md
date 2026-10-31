@@ -29,7 +29,7 @@ Images can be PNG, JPG or WebP. Videos can be MP4, MOV, M4V or WebM (they're con
 
 ## Weekly leaderboard (Knife Catch + Knife Throw)
 
-Players sign in with Discord in the Lab; their best score each week goes on a top-10 board on the site and a live board in the Discord channel. Code: `netlify/functions/` (sign-in, scores, leaderboard, Monday reset) and `netlify/lib/kult.mjs`. Scores are stored in Netlify Blobs.
+Players sign in with Discord in the Lab; their best score each week goes on a top-10 board on the site. The KULT Discord bot (repo `kult-ticker-bot`) reads the scores from `/api/bot` and does all the Discord posting. Code: `netlify/functions/` (sign-in, scores, leaderboard, bot feed, Monday reset) and `netlify/lib/kult.mjs`. Scores are stored in Netlify Blobs.
 
 Set these in Netlify → Project configuration → Environment variables (never in the repo):
 
@@ -37,6 +37,7 @@ Set these in Netlify → Project configuration → Environment variables (never 
 |---|---|
 | `DISCORD_CLIENT_ID` | Discord Developer Portal → your app → OAuth2 |
 | `DISCORD_CLIENT_SECRET` | same page → Reset Secret |
-| `DISCORD_WEBHOOK_URL` | Discord channel → Edit Channel → Integrations → Webhooks |
+| `BOT_API_KEY` | A long random password; the **same** value goes in the bot's Railway variables |
+| `DISCORD_WEBHOOK_URL` | Leave unset. (Only if you ever want the site itself to post to Discord instead of the bot.) |
 
 In the Developer Portal, add `https://ultwithknife.com/api/auth/callback` under OAuth2 → Redirects.

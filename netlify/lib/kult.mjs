@@ -1,6 +1,6 @@
 // Shared helpers for the KULT leaderboard functions.
 // Secrets come from Netlify environment variables (never from the repo):
-//   DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_WEBHOOK_URL
+//   DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, BOT_API_KEY (bot feed), DISCORD_WEBHOOK_URL (optional; normally the bot posts)
 import crypto from "node:crypto";
 
 export const GAMES = { catch: "Knife Catch", throw: "Knife Throw" };
