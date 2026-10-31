@@ -709,10 +709,37 @@ window.KultLB = (() => {
       data = j; me = j.user; enabled = j.enabled; online = true;
     } catch(e){ online = false; }
     render();
+    if(me && !claiming && (getClaim("catch") || getClaim("throw"))){ claiming = true; postClaims().finally(() => claiming = false); }
+  }
+  let claiming = false;
+  // runs played before signing in: kept on this device for up to an hour, posted after sign-in
+  const CK = g => "kult_claim_" + g;
+  const getClaim = g => { try { const c = JSON.parse(localStorage.getItem(CK(g)) || "null"); return c && c.exp > Date.now() ? c : null; } catch(e){ return null; } };
+  const setClaim = (g, c) => { try { c ? localStorage.setItem(CK(g), JSON.stringify(c)) : localStorage.removeItem(CK(g)); } catch(e){} };
+  function flash(msg){ const t = document.getElementById("toast"); if(!t) return; t.innerHTML = msg; t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 4200); }
+  async function postClaims(){
+    for(const g of ["catch", "throw"]){
+      const c = getClaim(g); if(!c) { setClaim(g, null); continue; }
+      try {
+        const r = await fetch(API + "/score", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ claim: c.claim }) });
+        const j = await r.json().catch(() => ({}));
+        if(r.status === 429){ setTimeout(postClaims, 4500); return; }
+        setClaim(g, null);
+        if(r.ok){
+          const name = g === "throw" ? "Knife Throw" : "Knife Catch";
+          flash(j.improved
+            ? (j.rank === 1 ? `👑 Your ${name} run is <b>#1 this week!</b>` : `Your ${name} run is on the board: <b>#${j.rank}</b> this week.`)
+            : `${name}: you're <b>#${j.rank}</b> this week (your best is still ${fmt(j.best)}).`);
+          refresh();
+          if(getClaim(g === "catch" ? "throw" : "catch")) await new Promise(z => setTimeout(z, 4200)); // let the cooldown pass before the next one
+        }
+      } catch(e){ return; }
+    }
+    refresh();
   }
   async function start(game){
     runs[game] = null;
-    if(!me) return;
+    if(!online || !enabled) return;
     try {
       const r = await fetch(API + "/run/start", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ game }) });
       if(r.ok) runs[game] = (await r.json()).run;
@@ -722,8 +749,24 @@ window.KultLB = (() => {
     if(!note) return;
     note.hidden = true;
     if(!online || !enabled) return;
-    if(!me){ note.innerHTML = `<a href="${loginUrl(game)}">Sign in with Discord</a> to put your next run on the weekly leaderboard.`; note.hidden = false; return; }
     const run = runs[game]; runs[game] = null;
+    if(!me){
+      if(run && score > 0){
+        // check the run now and keep it, so signing in afterwards still counts it
+        try {
+          const r = await fetch(API + "/run/finish", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ game, run, score, level }) });
+          const j = await r.json().catch(() => ({}));
+          if(r.ok && j.claim){
+            const old = getClaim(game);
+            if(!old || score >= old.score) setClaim(game, { claim: j.claim, score, exp: Date.now() + 3540e3 });
+            const best = Math.max(score, old ? old.score : 0);
+            note.innerHTML = `<a href="${loginUrl(game)}">Sign in with Discord</a> to put ${best > score ? "your best run of " : "this "}<b>${fmt(best)}</b> on the weekly leaderboard.`;
+            note.hidden = false; return;
+          }
+        } catch(e){}
+      }
+      note.innerHTML = `<a href="${loginUrl(game)}">Sign in with Discord</a> to put your runs on the weekly leaderboard.`; note.hidden = false; return;
+    }
     if(!run || !(score > 0)) return;
     note.textContent = "Posting your score…"; note.hidden = false;
     try {
