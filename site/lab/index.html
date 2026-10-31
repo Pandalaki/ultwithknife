@@ -1324,9 +1324,12 @@ const drawDiamond = (g, s) => window.KultArt && window.KultArt.drawDiamond(g, s)
 const drawSlow = (g, s) => window.KultArt && window.KultArt.drawSlow(g, s);
 
 /* knife skins: earned by reaching levels, kept on this device */
-const SKINS = [{ id: "classic", name: "Classic", lvl: 0 }, { id: "gold", name: "Gold", lvl: 5 }, { id: "flame", name: "Flame", lvl: 10 }, { id: "diamond", name: "Diamond", lvl: 15 }];
-const SKIN_TINT = { gold: ["#fff3b0", "#f2c14e", "#a86b12"], flame: ["#ffd36b", "#ff7a1a", "#1a6dff"], diamond: ["#ffffff", "#9fe8ff", "#3fd0ff"] };
-const SKIN_GLOW = { gold: "rgba(242,193,78,.7)", flame: "rgba(255,122,26,.85)", diamond: "rgba(159,232,255,.9)" };
+const SKINS = [{ id: "classic", name: "Classic", lvl: 0 }, { id: "silver", name: "Silver", lvl: 5 }, { id: "gold", name: "Gold", lvl: 10 }, { id: "flame", name: "Flame", lvl: 15 },
+               { id: "diamond", name: "Diamond", lvl: 20 }, { id: "green", name: "Green Candle", lvl: 25 }, { id: "holo", name: "Holo", lvl: 30 }];
+const SKIN_TINT = { silver: ["#ffffff", "#dfe6ee", "#8f9aa6"], gold: ["#fff3b0", "#f2c14e", "#a86b12"], flame: ["#ffd36b", "#ff7a1a", "#1a6dff"],
+                    diamond: ["#ffffff", "#9fe8ff", "#3fd0ff"], green: ["#d6ffe6", "#4dff9a", "#0f8a4a"], holo: ["#ff9ce6", "#9ce8ff", "#fff59c"] };
+const SKIN_GLOW = { silver: "rgba(225,235,245,.55)", gold: "rgba(242,193,78,.7)", flame: "rgba(255,122,26,.85)", diamond: "rgba(159,232,255,.9)",
+                    green: "rgba(77,255,154,.8)", holo: "rgba(255,180,240,.8)" };
 const skinCache = {};
 function knifeImg(skin){
   if(!ART.knife || !skin || skin === "classic") return ART.knife;
