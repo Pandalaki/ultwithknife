@@ -26,3 +26,17 @@ Images can be PNG, JPG or WebP. Videos can be MP4, MOV, M4V or WebM (they're con
 
 - `site/` – the website (`index.html`, `lab/` for the KULT Lab, `img/`, `vendor/`, `memes/`)
 - `tools/vault.py` + `.github/workflows/vault.yml` – the Meme Vault helper
+
+## Weekly leaderboard (Knife Catch + Knife Throw)
+
+Players sign in with Discord in the Lab; their best score each week goes on a top-10 board on the site and a live board in the Discord channel. Code: `netlify/functions/` (sign-in, scores, leaderboard, Monday reset) and `netlify/lib/kult.mjs`. Scores are stored in Netlify Blobs.
+
+Set these in Netlify → Project configuration → Environment variables (never in the repo):
+
+| Variable | Where it comes from |
+|---|---|
+| `DISCORD_CLIENT_ID` | Discord Developer Portal → your app → OAuth2 |
+| `DISCORD_CLIENT_SECRET` | same page → Reset Secret |
+| `DISCORD_WEBHOOK_URL` | Discord channel → Edit Channel → Integrations → Webhooks |
+
+In the Developer Portal, add `https://ultwithknife.com/api/auth/callback` under OAuth2 → Redirects.

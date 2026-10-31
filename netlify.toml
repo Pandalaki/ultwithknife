@@ -1,4 +1,8 @@
-# The site is plain files in site/ - no build step. (This file overrides the Netlify UI settings.)
+# The site is plain files in site/ - no build step. Functions in netlify/functions power the leaderboard.
 [build]
   publish = "site"
   command = ""
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

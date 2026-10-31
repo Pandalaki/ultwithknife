@@ -251,6 +251,31 @@ body.mv-lock{overflow:hidden}
 
 footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;gap:14px;border-top:1px solid var(--edge);color:var(--mist);font-size:14px}
 .disclaimer{max-width:90ch;font-size:13px;line-height:1.6;opacity:.85;margin:0}
+/* weekly leaderboard */
+.lb{border:1px solid var(--edge);background:var(--steel);padding:16px 18px;display:grid;gap:12px}
+.lb-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 14px}
+.lb-head h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px}
+.lb-reset{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mist)}
+.lb-auth{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:15px;color:var(--mist)}
+.lb-auth:empty{display:none}
+.lb-in{background:#5865f2;color:#fff}
+.lb-in svg{width:18px;height:18px}
+.lb-me{display:inline-flex;align-items:center;gap:8px}
+.lb-me img{width:24px;height:24px;border-radius:50%}
+.lb-me b{color:var(--frost)}
+.lb-out{color:var(--mist);font-size:13px}
+.lb-list{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.lb-list li{display:grid;grid-template-columns:40px 28px minmax(0,1fr) auto;align-items:center;gap:10px;padding:7px 10px;background:#060c13;border:1px solid transparent}
+.lb-list li.me{border-color:var(--ice);box-shadow:0 0 14px rgba(63,208,255,.18)}
+.lb-list img{width:28px;height:28px;border-radius:50%;background:var(--edge)}
+.lb-rank{font-family:var(--f-mono);font-size:14px;color:var(--mist);text-align:center}
+.lb-name{font-weight:700;color:var(--frost);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb-score{font-family:var(--f-display);font-size:18px;color:var(--ice);text-align:right;white-space:nowrap}
+.lb-score small{font-family:var(--f-mono);font-size:11px;color:var(--mist);margin-left:8px}
+.lb-list li.lb-empty{display:block;color:var(--mist);background:none;padding:6px 0}
+.lb-note{margin:0;font-size:15px;color:var(--frost)}
+.lb-note b{color:var(--ice)}
+.lb-note a{color:var(--ice)}
 /* desktop "post on X" helper */
 .xm{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:16px;background:rgba(3,5,8,.78);backdrop-filter:blur(6px)}
 .xm-box{position:relative;width:min(440px,100%);max-height:calc(100vh - 32px);overflow:auto;background:#07101a;border:1.5px solid var(--ice);box-shadow:0 0 60px rgba(63,208,255,.25);padding:22px 22px 20px;text-align:left}
@@ -340,6 +365,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
         <span class="new-best" id="newBest" hidden>New best</span>
         <span class="best">Best: <b id="bestOver">0</b></span>
         <p class="colt-says" id="coltSays">Never fold.</p>
+        <p class="lb-note" id="kcLb" hidden></p>
         <div class="row">
           <button class="btn" id="againBtn" type="button">Play again</button>
           <a class="btn ghost" id="shareX" href="#" target="_blank" rel="noopener">Post on X</a>
@@ -354,6 +380,11 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
     <div class="stat"><span>Your best</span><b id="bestStat">0</b></div>
     <div class="stat"><span>Games played</span><b id="playsStat">0</b></div>
     <div class="stat"><span>Knives caught, all time</span><b id="totalStat">0</b></div>
+  </div>
+  <div class="lb" data-lb="catch" aria-live="polite">
+    <div class="lb-head"><h3>This week's top 10</h3><span class="lb-reset"></span></div>
+    <div class="lb-auth"></div>
+    <ol class="lb-list"><li class="lb-empty">Loading the leaderboard…</li></ol>
   </div>
   </section>
 
@@ -397,6 +428,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
         <span class="new-best" id="ktNewBest" hidden>New best</span>
         <span class="best">Best: <b id="ktBestOver">0</b></span>
         <p class="colt-says" id="ktColt">Never fold.</p>
+        <p class="lb-note" id="ktLb" hidden></p>
         <div class="row">
           <button class="btn" id="ktAgain" type="button">Play again</button>
           <a class="btn ghost" id="ktShare" href="#" target="_blank" rel="noopener">Post on X</a>
@@ -411,6 +443,11 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
     <div class="stat"><span>Your best</span><b id="ktBestStat">0</b></div>
     <div class="stat"><span>Highest level</span><b id="ktLevelStat">0</b></div>
     <div class="stat"><span>Knives thrown, all time</span><b id="ktTotalStat">0</b></div>
+  </div>
+  <div class="lb" data-lb="throw" aria-live="polite">
+    <div class="lb-head"><h3>This week's top 10</h3><span class="lb-reset"></span></div>
+    <div class="lb-auth"></div>
+    <ol class="lb-list"><li class="lb-empty">Loading the leaderboard…</li></ol>
   </div>
   </section>
 
@@ -637,6 +674,79 @@ window.kultShareDesktop = async (getBlob, href, fileName, noteEl) => {
   }
   return copied;
 };
+/* Weekly leaderboard: Discord sign-in, score posting and the top-10 boards (server functions in netlify/functions) */
+window.KultLB = (() => {
+  const API = "/api";
+  let me = null, enabled = false, online = false, data = null;
+  const runs = {};
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const fmt = n => Number(n).toLocaleString("en-US");
+  const loginUrl = g => `${API}/auth/login?return=${encodeURIComponent("/lab/#knife-" + g)}`;
+  const DC = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.865-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.1 14.1 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .078-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .079.009c.12.1.246.198.373.292a.077.077 0 0 1-.007.128 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.363 1.225 1.993a.076.076 0 0 0 .084.029 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.029zM8.02 15.331c-1.183 0-2.157-1.086-2.157-2.42 0-1.332.956-2.418 2.157-2.418 1.21 0 2.176 1.095 2.157 2.419 0 1.333-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.086-2.157-2.42 0-1.332.955-2.418 2.157-2.418 1.21 0 2.176 1.095 2.157 2.419 0 1.333-.946 2.419-2.157 2.419z"/></svg>';
+  function until(iso){
+    const ms = Math.max(0, new Date(iso) - Date.now()), d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5);
+    return d > 0 ? `${d}d ${h}h` : `${h}h ${Math.max(1, Math.floor(ms % 36e5 / 6e4))}m`;
+  }
+  function render(){
+    document.querySelectorAll("[data-lb]").forEach(el => {
+      const g = el.dataset.lb, list = el.querySelector(".lb-list"), auth = el.querySelector(".lb-auth"), reset = el.querySelector(".lb-reset");
+      if(!online){ list.innerHTML = '<li class="lb-empty">The weekly leaderboard runs on ultwithknife.com.</li>'; auth.innerHTML = ""; reset.textContent = ""; return; }
+      const b = data.games[g];
+      reset.textContent = "Resets in " + until(data.resetsAt);
+      auth.innerHTML = !enabled ? "" : me
+        ? `<span class="lb-me"><img src="${esc(me.avatar)}" alt="" width="24" height="24">Signed in as <b>${esc(me.name)}</b>${b.me ? ` · you're #${b.me.rank}` : ""}</span><a class="lb-out" href="${API}/auth/logout">Sign out</a>`
+        : `<a class="btn sm lb-in" href="${loginUrl(g)}">${DC}Sign in with Discord</a><span>to put your scores on the board and in our Discord</span>`;
+      list.innerHTML = b.top.length
+        ? b.top.map((r, i) => `<li class="${r.me ? "me" : ""}"><span class="lb-rank">${i < 3 ? ["🥇", "🥈", "🥉"][i] : "#" + (i + 1)}</span><img src="${esc(r.avatar)}" alt="" width="28" height="28" loading="lazy"><span class="lb-name">${esc(r.name)}</span><span class="lb-score">${fmt(r.score)}${g === "throw" && r.level ? `<small>lvl ${r.level}</small>` : ""}</span></li>`).join("")
+        : '<li class="lb-empty">No scores yet this week. Be the first to take #1.</li>';
+    });
+  }
+  async function refresh(){
+    try {
+      const r = await fetch(API + "/leaderboard", { credentials: "same-origin" });
+      if(!r.ok || !(r.headers.get("content-type") || "").includes("json")) throw 0;
+      const j = await r.json(); if(!j.games) throw 0;
+      data = j; me = j.user; enabled = j.enabled; online = true;
+    } catch(e){ online = false; }
+    render();
+  }
+  async function start(game){
+    runs[game] = null;
+    if(!me) return;
+    try {
+      const r = await fetch(API + "/run/start", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ game }) });
+      if(r.ok) runs[game] = (await r.json()).run;
+    } catch(e){}
+  }
+  async function submit(game, score, level, note){
+    if(!note) return;
+    note.hidden = true;
+    if(!online || !enabled) return;
+    if(!me){ note.innerHTML = `<a href="${loginUrl(game)}">Sign in with Discord</a> to put your next run on the weekly leaderboard.`; note.hidden = false; return; }
+    const run = runs[game]; runs[game] = null;
+    if(!run || !(score > 0)) return;
+    note.textContent = "Posting your score…"; note.hidden = false;
+    try {
+      const r = await fetch(API + "/score", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ game, run, score, level }) });
+      const j = await r.json().catch(() => ({}));
+      if(r.ok){
+        note.innerHTML = j.improved
+          ? (j.rank === 1 ? "👑 <b>#1 this week!</b> Colt is announcing it in the Discord." : `New weekly best! You're <b>#${j.rank}</b> this week.`)
+          : `You're <b>#${j.rank}</b> this week. Your best: ${fmt(j.best)}${game === "throw" && j.bestLevel ? ` (level ${j.bestLevel})` : ""}.`;
+        refresh();
+      } else if(r.status === 401){ me = null; render(); note.innerHTML = `<a href="${loginUrl(game)}">Sign in with Discord</a> again to post scores.`; }
+      else note.textContent = j.error === "rejected" ? "That score didn't pass our checks, so it wasn't posted." : r.status === 429 ? "Easy there. Wait a few seconds between runs." : "Couldn't post that score.";
+    } catch(e){ note.textContent = "Couldn't reach the leaderboard right now."; }
+  }
+  const sp = new URLSearchParams(location.search).get("signin");
+  if(sp){
+    history.replaceState(null, "", location.pathname + location.hash);
+    setTimeout(() => { const t = document.getElementById("toast"); if(!t) return; t.textContent = sp === "cancelled" ? "Discord sign-in cancelled" : "Discord sign-in didn't work. Try again."; t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 2600); }, 600);
+  }
+  refresh();
+  setInterval(() => { if(!document.hidden && online) refresh(); }, 60000);
+  return { start, submit, refresh };
+})();
 document.addEventListener("DOMContentLoaded", () => {
   if(kultIsPhone) return;
   ["shareX", "csPost"].forEach(id => { const b = document.getElementById(id); if(b){ b.textContent = "Copy image + Post on X"; b.title = "Copies your image, then shows you how to paste it into X"; } });
@@ -727,7 +837,7 @@ function reset(){
   player.x = player.tx = W/2;
 }
 function start(){
-  reset(); state = "play";
+  reset(); state = "play"; window.KultLB && KultLB.start("catch");
   $("startScreen").hidden = true; $("overScreen").hidden = true; $("pauseScreen").hidden = true; $("kcNote").hidden = true;
   last = performance.now(); cv.focus({ preventScroll: true });
   const ar = document.querySelector(".arcade").getBoundingClientRect();
@@ -748,6 +858,7 @@ function gameOver(){
   $("bestOver").textContent = Math.max(best, score).toLocaleString("en-US");
   $("newBest").hidden = !(isBest && score > 0);
   $("coltSays").textContent = score === 0 ? "Paper hands detected." : OVER_LINES[Math.floor(Math.random()*OVER_LINES.length)];
+  window.KultLB && KultLB.submit("catch", score, null, $("kcLb"));
   const text = [
     `\u{1F52A} I scored ${score.toLocaleString("en-US")} in Knife Catch` + (isBest && score > 0 ? " (new personal best)" : ""),
     "",
@@ -1118,7 +1229,7 @@ function startLevel(n){
 function reset(){ stuck = []; papers = []; board = []; score = 0; thrown = 0; sliced = 0; debris = []; sparks = []; texts = []; shake = 0; hurt = 0; cameo = null; T.rot = 0; }
 function start(){
   ac();
-  reset(); startLevel(1);
+  reset(); startLevel(1); window.KultLB && KultLB.start("throw");
   ["ktStart", "ktOver", "ktPause"].forEach(id => $(id).hidden = true); $("ktNote").hidden = true;
   last = performance.now(); cv.focus({ preventScroll: true });
   const ar = $("ktArcade").getBoundingClientRect();
@@ -1185,6 +1296,7 @@ function gameOver(){
   $("ktBestOver").textContent = Math.max(best, score).toLocaleString("en-US");
   $("ktNewBest").hidden = !(isBest && score > 0);
   $("ktColt").textContent = score < 3 ? "Steady hands, Kult. Steady hands." : OVER_LINES[Math.floor(Math.random()*OVER_LINES.length)];
+  window.KultLB && KultLB.submit("throw", score, level, $("ktLb"));
   shareText = [
     `\u{1F52A} I reached level ${level} in Knife Throw with ${score.toLocaleString("en-US")} points` + (isBest && score > 0 ? " (new personal best)" : ""),
     "",

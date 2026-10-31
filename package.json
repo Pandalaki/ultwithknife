@@ -1,0 +1,9 @@
+{
+  "name": "ultwithknife",
+  "private": true,
+  "type": "module",
+  "description": "ultwithknife.com: static site in site/, leaderboard functions in netlify/",
+  "dependencies": {
+    "@netlify/blobs": "^11.1.7"
+  }
+}
