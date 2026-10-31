@@ -59,8 +59,9 @@ export function plausible(game, score, level, ms) {
   if (s < 3) return "too fast";
   if (s > 3 * 3600) return "run expired";
   if (game === "catch") {
-    // fastest items arrive ~3/s; best case every one is a x5 flame (25)
-    if (score > 40 * s + 25) return "impossible score";
+    // normal play tops out around 15 pts/s; a 5s green candle rush (x2, ~7 items/s) adds up to ~500.
+    // This allows a rush every 20s at full combo with room to spare.
+    if (score > 50 * s + 100) return "impossible score";
   } else {
     if (!Number.isInteger(level) || level < 1 || level > 999) return "bad level";
     // each level needs at least ~2s (5+ throws plus the clear animation)
