@@ -264,6 +264,12 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
 .lb{border:1px solid var(--edge);background:var(--steel);padding:16px 18px;display:grid;gap:12px}
 .lb-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 14px}
 .lb-head h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px}
+.start-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 12px}
+.lb-start:empty{display:none}
+.lb-start .btn{display:inline-flex;align-items:center;gap:8px}
+.lb-start .lb-as{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--mist)}
+.lb-start .lb-as img{width:22px;height:22px;border-radius:50%}
+.lb-start .lb-as b{color:var(--frost)}
 .lb-tabs{display:flex;gap:6px}
 .lb-tabs button{font:700 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;cursor:pointer;color:var(--mist);background:#060c13;border:1px solid var(--edge)}
 .lb-tabs button[aria-selected="true"]{color:#030508;background:var(--ice);border-color:var(--ice)}
@@ -366,7 +372,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
           <li><canvas data-icon="slow" width="48" height="48"></canvas><span><b>Slow-mo</b></span></li>
         </ul>
         <p class="pu-note">Ride the <b class="g">green candle rush</b> for double points. Survive the <b class="r">rug pull</b>.</p>
-        <button class="btn" id="startBtn" type="button">Start</button>
+        <div class="start-row"><button class="btn" id="startBtn" type="button">Start</button><span class="lb-start" data-lb-start="catch"></span></div>
         <span class="hint">Drag, move the mouse, or use the arrow keys</span>
       </div>
     </div>
@@ -437,7 +443,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
         </ul>
         <p class="pu-note">Throw fast for a <b>rapid-fire combo</b>. Beat a boss for a <b class="g">green candle bonus</b>.</p>
         <p class="pu-note kt-skin" id="ktSkin"></p>
-        <button class="btn" id="ktStartBtn" type="button">Start</button>
+        <div class="start-row"><button class="btn" id="ktStartBtn" type="button">Start</button><span class="lb-start" data-lb-start="throw"></span></div>
         <span class="hint">Tap, click or press Space to throw</span>
       </div>
     </div>
@@ -726,6 +732,13 @@ window.KultLB = (() => {
     render();
   })));
   function render(){
+    // sign-in next to Start on each game's start screen
+    document.querySelectorAll("[data-lb-start]").forEach(el => {
+      const g = el.dataset.lbStart;
+      el.innerHTML = !online || !enabled ? "" : me
+        ? `<span class="lb-as"><img src="${esc(me.avatar)}" alt="" width="22" height="22">Playing as <b>${esc(me.name)}</b></span>`
+        : `<a class="btn sm lb-in" href="${loginUrl(g)}">${DC}Sign in with Discord</a>`;
+    });
     document.querySelectorAll("[data-lb]").forEach(el => {
       const g = el.dataset.lb, list = el.querySelector(".lb-list"), auth = el.querySelector(".lb-auth"), reset = el.querySelector(".lb-reset");
       const all = when[g] === "all";
