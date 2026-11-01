@@ -1120,7 +1120,9 @@
  {
   "id": "turnaround-sheet",
   "title": "Turnaround Sheet",
-  "tags": [],
+  "tags": [
+   "references"
+  ],
   "kind": "ref",
   "ext": "png",
   "alpha": true
@@ -1128,7 +1130,9 @@
  {
   "id": "front",
   "title": "Front",
-  "tags": [],
+  "tags": [
+   "references"
+  ],
   "kind": "ref",
   "ext": "png",
   "alpha": true
@@ -1136,7 +1140,9 @@
  {
   "id": "three-quarter",
   "title": "Three-Quarter",
-  "tags": [],
+  "tags": [
+   "references"
+  ],
   "kind": "ref",
   "ext": "png",
   "alpha": true
@@ -1144,7 +1150,9 @@
  {
   "id": "side-profile",
   "title": "Side Profile",
-  "tags": [],
+  "tags": [
+   "references"
+  ],
   "kind": "ref",
   "ext": "png",
   "alpha": true
@@ -1152,7 +1160,9 @@
  {
   "id": "back",
   "title": "Back",
-  "tags": [],
+  "tags": [
+   "references"
+  ],
   "kind": "ref",
   "ext": "png",
   "alpha": true
@@ -1160,7 +1170,69 @@
  {
   "id": "headshot",
   "title": "Headshot",
-  "tags": [],
+  "tags": [
+   "references"
+  ],
+  "kind": "ref",
+  "ext": "png",
+  "alpha": true
+ },
+ {
+  "id": "walking",
+  "title": "Walking",
+  "tags": [
+   "model"
+  ],
+  "kind": "ref",
+  "ext": "png",
+  "alpha": true
+ },
+ {
+  "id": "hands-in-pockets",
+  "title": "Hands in Pockets",
+  "tags": [
+   "model"
+  ],
+  "kind": "ref",
+  "ext": "png",
+  "alpha": true
+ },
+ {
+  "id": "arms-crossed",
+  "title": "Arms Crossed",
+  "tags": [
+   "model"
+  ],
+  "kind": "ref",
+  "ext": "png",
+  "alpha": true
+ },
+ {
+  "id": "squat",
+  "title": "Squat",
+  "tags": [
+   "model"
+  ],
+  "kind": "ref",
+  "ext": "png",
+  "alpha": true
+ },
+ {
+  "id": "crouch",
+  "title": "Crouch",
+  "tags": [
+   "model"
+  ],
+  "kind": "ref",
+  "ext": "png",
+  "alpha": true
+ },
+ {
+  "id": "half-body",
+  "title": "Half Body",
+  "tags": [
+   "model"
+  ],
   "kind": "ref",
   "ext": "png",
   "alpha": true
