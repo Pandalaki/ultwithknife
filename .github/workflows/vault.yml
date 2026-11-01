@@ -9,6 +9,7 @@ on:
       - "site/memes/gifs/**"
       - "site/memes/images/**"
       - "site/memes/videos/**"
+      - "site/memes/colt/**"
       - "site/memes/vault.json"
       - "tools/vault.py"
   workflow_dispatch:

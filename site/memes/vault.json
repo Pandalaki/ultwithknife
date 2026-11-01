@@ -1116,5 +1116,53 @@
    "reaction"
   ],
   "kind": "gif"
+ },
+ {
+  "id": "turnaround-sheet",
+  "title": "Turnaround Sheet",
+  "tags": [],
+  "kind": "ref",
+  "ext": "png",
+  "alpha": true
+ },
+ {
+  "id": "front",
+  "title": "Front",
+  "tags": [],
+  "kind": "ref",
+  "ext": "png",
+  "alpha": true
+ },
+ {
+  "id": "three-quarter",
+  "title": "Three-Quarter",
+  "tags": [],
+  "kind": "ref",
+  "ext": "png",
+  "alpha": true
+ },
+ {
+  "id": "side-profile",
+  "title": "Side Profile",
+  "tags": [],
+  "kind": "ref",
+  "ext": "png",
+  "alpha": true
+ },
+ {
+  "id": "back",
+  "title": "Back",
+  "tags": [],
+  "kind": "ref",
+  "ext": "png",
+  "alpha": true
+ },
+ {
+  "id": "headshot",
+  "title": "Headshot",
+  "tags": [],
+  "kind": "ref",
+  "ext": "png",
+  "alpha": true
  }
 ]
