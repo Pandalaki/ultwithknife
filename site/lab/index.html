@@ -2624,7 +2624,7 @@ $("pfpSave").addEventListener("click", async () => {
   const c = document.createElement("canvas"); c.width = c.height = S; paint(c.getContext("2d"), true);
   const blob = await new Promise(r => c.toBlob(r, "image/png")); if(!blob){ say("Couldn't save the image"); return; }
   const file = new File([blob], "kult-colt-pfp.png", { type: "image/png" });
-  try { if(navigator.canShare && navigator.canShare({ files: [file] }) && kultIsPhone){ await navigator.share({ files: [file], text: "I became Colt. $KULT @ultwithknife" }); return; } }
+  try { if(navigator.canShare && navigator.canShare({ files: [file] }) && kultIsPhone){ await navigator.share({ files: [file], text: "I became Colt. Make yours: https://ultwithknife.com/lab/pfp/\n\n$KULT @ultwithknife" }); return; } }
   catch(e){ if(e && e.name === "AbortError") return; }
   const u = URL.createObjectURL(blob), a = document.createElement("a"); a.href = u; a.download = file.name; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(u), 4000); say("PFP saved");
