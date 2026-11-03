@@ -976,8 +976,10 @@ const player = { x: 0, tx: 0, w: 120, h: 108, tilt: 0 };
 let state = "ready", items = [], fx = [], texts = [], score = 0, lives = 3, combo = 0, mult = 1, t = 0, spawnT = 0, shake = 0, hurtFlash = 0, caught = 0, last = 0;
 // events and power-ups
 const MAX_LIVES = 5;
-const TIERS = [[0, ""], [30, "Bull market"], [60, "Euphoria"], [90, "Max degen"]];
-let tier = 0, rush = 0, nextRush = 0, rugWarn = 0, nextRug = 0, banner = null, power = { diamond: 0, magnet: 0, slow: 0 };
+// a new tier every 30 seconds, all the way up
+const TIER_NAMES = ["", "Bull market", "Euphoria", "Max degen", "Supercycle", "Mania", "Liquidation season", "God candle"];
+const tierName = n => n < TIER_NAMES.length ? TIER_NAMES[n] : "God candle +" + (n - TIER_NAMES.length + 1);
+let tier = 0, rush = 0, nextRush = 0, rugWarn = 0, nextRug = 0, rugCount = 0, nextPower = 0, banner = null, power = { diamond: 0, magnet: 0, slow: 0 };
 const showBanner = (big, small, color) => { banner = { big, small, color, life: 1 }; };
 const BEST = "kult-knife-best", PLAYS = "kult-knife-plays", TOTAL = "kult-knife-total";
 function stats(){
@@ -990,7 +992,7 @@ stats();
 function reset(){
   items = []; fx = []; texts = []; score = 0; lives = 3; combo = 0; mult = 1; t = 0; spawnT = .4; shake = 0; hurtFlash = 0; caught = 0;
   tier = 0; rush = 0; rugWarn = 0; banner = null; power = { diamond: 0, magnet: 0, slow: 0 };
-  nextRush = 20 + Math.random()*12; nextRug = 48 + Math.random()*18;
+  nextRush = 20 + Math.random()*12; nextRug = 48 + Math.random()*18; rugCount = 0; nextPower = 9 + Math.random()*4;
   player.x = player.tx = W/2;
 }
 function start(){
@@ -1030,46 +1032,67 @@ function gameOver(){
   setTimeout(() => { $("overScreen").hidden = false; $("againBtn").focus({ preventScroll: true }); }, 450);
 }
 
-/* difficulty ramps with time survived */
-const fallSpeed = () => H * Math.min(1.02, .30 + t*.012) * (1 + tier*.05);
-const spawnGap = () => Math.max(.32, .95 - t*.018);
+/* difficulty ramps with time survived: fast at first, then keeps creeping up (no autopilot), with a ceiling that's still beatable */
+const fallSpeed = () => H * Math.min(1.6, .30 + Math.min(t, 60)*.012 + Math.max(0, t - 60)*.0045);
+const spawnGap = () => t < 35 ? .95 - t*.018 : Math.max(.2, .32 - (t - 35)*.0009);
+const hazardShare = () => Math.min(.48, .14 + Math.min(t, 33)*.006 + Math.max(0, t - 33)*.0014);
 const itemSize = () => Math.max(40, Math.min(64, W*.075));
 function spawn(){
-  const r = Math.random(), hazard = Math.min(.34, .14 + t*.006);
+  const r = Math.random(), hazard = hazardShare();
   let type = "knife";
   if(rush > 0) type = Math.random() < .12 ? "flame" : "knife"; // green candles only: no hazards
-  else if(t > 8 && Math.random() < .035) type = pickPower();
-  else if(r < hazard) type = (t > 20 && Math.random() < .4) ? "candle" : "paper";
+  else if(t >= nextPower && !items.some(i => i.pu)){ type = pickPower(); nextPower = t + 10 + Math.random()*6; } // power-ups on a steady timer, one at a time
+  else if(r < hazard) type = (t > 20 && Math.random() < .4 + Math.min(.15, Math.max(0, t - 90)*.002)) ? "candle" : "paper";
   else if(r < hazard + .08) type = "flame";
+  if(!type){ type = "knife"; }
   const s = itemSize(), pu = !!POWER[type];
-  items.push({ type, s, x: s/2 + Math.random()*(W - s), y: -s, vy: fallSpeed()*(pu ? .7 : .85 + Math.random()*.3), rot: pu ? 0 : (Math.random()-.5)*.8, vr: pu ? 0 : (Math.random()-.5)*(type === "knife" ? 2.4 : 1.2), pu });
+  const it = { type, s, x: s/2 + Math.random()*(W - s), y: -s, vy: fallSpeed()*(pu ? .7 : .85 + Math.random()*.3), rot: pu ? 0 : (Math.random()-.5)*.8, vr: pu ? 0 : (Math.random()-.5)*(type === "knife" ? 2.4 : 1.2), pu };
+  // late game: some hazards drift sideways
+  if((type === "paper" || type === "candle") && t > 90 && Math.random() < Math.min(.45, (t - 90)*.004)){ it.sway = (W*.06 + Math.random()*W*.08); it.swayF = 1.6 + Math.random()*1.6; it.x0 = Math.min(Math.max(it.x, it.sway + s/2), W - it.sway - s/2); it.ph = Math.random()*6.28; }
+  items.push(it);
 }
 function pickPower(){
-  const opts = [["diamond", 30], ["magnet", 30], ["slow", 25]];
-  if(t > 25 && lives < MAX_LIVES) opts.push(["heart", 18]);
+  // never one that's already active or already falling
+  const busy = k => (power[k] > 0) || items.some(i => i.type === k);
+  const opts = [["diamond", 30], ["magnet", 30], ["slow", 25]].filter(([k]) => !busy(k));
+  if(t > 25 && lives < MAX_LIVES && !busy("heart")) opts.push(["heart", 18]);
+  if(!opts.length) return null;
   let r = Math.random()*opts.reduce((a, o) => a + o[1], 0);
   for(const [k, w] of opts){ if((r -= w) < 0) return k; }
-  return "magnet";
+  return opts[0][0];
 }
-// three lines of red candles, one after another, each with one gap wide enough for Colt
-const RUG_ROWS = 3, RUG_SPACING = 1.05; // seconds between rows
-let rugRowId = 0;
+// Rug pull: rows of red candles, each with one gap Colt fits through. Every rug pull is harder than the last:
+// more rows, tighter spacing, narrower gaps, mixed speeds and a different gap pattern.
+let rugRowId = 0, rugLen = 0;
+const rugRows = () => Math.min(7, 3 + rugCount);
 function rugWave(){
-  const s = itemSize(), gapW = player.w*1.15 + s*.9, sp = s*1.1, vy = fallSpeed()*.78;
-  const lo = gapW/2, hi = Math.max(lo + 1, W - gapW/2);
-  let gx = lo + Math.random()*(hi - lo);
-  for(let r = 0; r < RUG_ROWS; r++){
-    if(r){ // move the gap somewhere clearly different from the last one
-      let n, tries = 0;
-      do { n = lo + Math.random()*(hi - lo); } while(Math.abs(n - gx) < Math.min(W*.3, (hi - lo)*.5) && ++tries < 30);
-      gx = n;
+  const k = Math.min(1, rugCount/5); // 0 on the first rug pull, 1 from the sixth on
+  const n = rugRows(), s = itemSize(), sp = s*1.1;
+  const gapW = player.w*(1.15 - .2*k) + s*(.9 - .3*k); // never narrower than Colt's catch zone plus a margin
+  const spacing = 1.05 - .3*k; // seconds between rows
+  const lo = gapW/2, hi = Math.max(lo + 1, W - gapW/2), span = hi - lo;
+  const pattern = rugCount === 0 ? "random" : ["random", "stairs", "zigzag"][Math.floor(Math.random()*3)];
+  const dir = Math.random() < .5 ? 1 : -1;
+  // speeds vary row to row, but never speed up down the line (a later row can't catch an earlier one)
+  let v = fallSpeed()*(.78 + .12*k);
+  let gx = pattern === "stairs" ? (dir > 0 ? lo + span*.05 : hi - span*.05) : lo + Math.random()*span;
+  let y = -s, t0 = 0;
+  for(let r = 0; r < n; r++){
+    if(r){
+      if(pattern === "stairs"){ gx += dir*span/(n - 1)*(.8 + Math.random()*.3); gx = Math.min(hi, Math.max(lo, gx)); }
+      else if(pattern === "zigzag"){ gx = (r % 2 ? (dir > 0 ? hi - span*Math.random()*.15 : lo + span*Math.random()*.15) : (dir > 0 ? lo + span*Math.random()*.15 : hi - span*Math.random()*.15)); }
+      else { let m, tries = 0; do { m = lo + Math.random()*span; } while(Math.abs(m - gx) < Math.min(W*.3, span*.5) && ++tries < 30); gx = m; }
+      const nv = v*(.86 + Math.random()*.14); // same or slower
+      t0 += spacing*(.85 + Math.random()*.3);
+      y = -s - t0*nv; v = nv;
     }
-    const y = -s - r*vy*RUG_SPACING, rowId = ++rugRowId;
+    const rowId = ++rugRowId;
     for(let x = s/2; x < W; x += sp){
       if(Math.abs(x - gx) < gapW/2) continue;
-      items.push({ type: "candle", s, x, y, vy, rot: 0, vr: 0, rug: true, row: rowId });
+      items.push({ type: "candle", s, x, y, vy: v, rot: 0, vr: 0, rug: true, row: rowId });
     }
   }
+  rugLen = t0 + (H + s)/v; // roughly when the last row has passed
   shake = reduce ? 0 : .5;
 }
 function burst(x, y, color, n){
@@ -1081,15 +1104,17 @@ function popText(x, y, str, color){ texts.push({ x, y, str, color, life: 1 }); }
 function update(dt){
   t += dt;
   // speed tiers
-  while(tier < TIERS.length - 1 && t >= TIERS[tier + 1][0]){ tier++; showBanner(TIERS[tier][1], "speed up", "#3fd0ff"); }
+  while(t >= (tier + 1)*30){ tier++; showBanner(tierName(tier), tier > 3 ? "harder" : "speed up", tier > 3 ? "#f2c14e" : "#3fd0ff"); }
   // power-up timers
   for(const k in power) if(power[k] > 0){ power[k] = Math.max(0, power[k] - dt); if(!power[k]) popText(player.x, H - player.h - 20, POWER[k].name + " over", "#8ba3b8"); }
   // green candle rush
-  if(rush > 0){ rush -= dt; if(rush <= 0){ rush = 0; nextRush = t + 34 + Math.random()*20; } }
+  if(rush > 0){ rush -= dt; if(rush <= 0){ rush = 0; nextRush = t + (t > 120 ? 30 : 34) + Math.random()*(t > 120 ? 14 : 20); } }
   else if(!rugWarn && t >= nextRush){ rush = 5; spawnT = 0; showBanner("Green candle rush", "x2 points", "#4dff9a"); }
   // rug pull: warning, then the wave
-  if(rugWarn > 0){ rugWarn -= dt; spawnT = Math.max(spawnT, .2); if(rugWarn <= 0){ rugWarn = 0; rugWave(); spawnT = 1.5 + (RUG_ROWS - 1)*RUG_SPACING; nextRug = t + 50 + Math.random()*30; } }
-  else if(!rush && t >= nextRug){ rugWarn = 1.6; nextRush = Math.max(nextRush, t + 8); showBanner("Rug pull", "find the gap · 3 in a row", "#ff5a6e"); }
+  if(rugWarn > 0){ rugWarn -= dt; spawnT = Math.max(spawnT, .2); if(rugWarn <= 0){ rugWarn = 0; rugWave(); rugCount++;
+    spawnT = Math.max(1.5, rugLen*.75); // normal drops resume as the last rows come down
+    const gap = Math.max(32, 55 - rugCount*4); nextRug = t + rugLen + gap + Math.random()*16; nextRush = Math.max(nextRush, t + rugLen + 4); } }
+  else if(!rush && t >= nextRug){ rugWarn = 1.6; nextRush = Math.max(nextRush, t + 8); showBanner(rugCount ? "Rug pull #" + (rugCount + 1) : "Rug pull", "find the gap · " + rugRows() + " in a row", "#ff5a6e"); }
   const idt = power.slow > 0 ? dt*.45 : dt; // slow-mo: everything falls slower
   // player eases toward target
   const prev = player.x;
@@ -1106,6 +1131,7 @@ function update(dt){
   for(let i = items.length-1; i >= 0; i--){
     const it = items[i];
     it.y += it.vy*idt; it.rot += it.vr*idt;
+    if(it.sway){ it.ph += it.swayF*idt; it.x = it.x0 + Math.sin(it.ph)*it.sway; }
     if(power.magnet > 0 && (it.type === "knife" || it.type === "flame") && it.y > H*.15) it.x += (player.x - it.x)*Math.min(1, dt*3.2);
     const inX = Math.abs(it.x - hx) < hw + it.s*.28;
     const inY = it.y + it.s*.4 > top + player.h*.04 && it.y < top + player.h*.55;
@@ -1207,7 +1233,7 @@ function render(dt){
     cx.font = '700 15px "JetBrains Mono",monospace';
     let hy = 70;
     if(mult > 1 || rush > 0){ cx.fillStyle = rush > 0 ? "#4dff9a" : "#3fd0ff"; cx.fillText("x" + (mult*(rush > 0 ? 2 : 1)) + (rush > 0 ? " RUSH" : " COMBO"), 20, hy); hy += 22; }
-    if(TIERS[tier][1]){ cx.font = '700 12px "JetBrains Mono",monospace'; cx.fillStyle = "rgba(139,163,184,.9)"; cx.fillText(TIERS[tier][1].toUpperCase(), 20, hy); hy += 14; }
+    if(tier){ cx.font = '700 12px "JetBrains Mono",monospace'; cx.fillStyle = tier > 3 ? "rgba(242,193,78,.95)" : "rgba(139,163,184,.9)"; cx.fillText(tierName(tier).toUpperCase(), 20, hy); hy += 14; }
     // active power-ups with a timer bar
     for(const k of ["diamond", "magnet", "slow"]){
       if(!(power[k] > 0)) continue;
