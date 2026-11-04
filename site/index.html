@@ -733,15 +733,58 @@ addEventListener("pointermove", e => {
 
 /* Colt's daily wisdom: same line for everyone on a given day, changes at local midnight */
 const WISDOM = [
-  "Pressure makes diamonds.", "Real recognize real.", "Scared money don't make money.", "The streets made me.",
-  "Trust the process.", "Trust your gut.", "The vision is clear.", "The bottom is in.", "Built different.",
-  "Can you smell it?", "Cry harder.", "Do your own research.", "Don't hate the player, hate the game.",
-  "Grass is your best friend now.", "I don't chase. I attract.", "It's only temporary.", "Never fold.",
-  "The next cycle is now.", "No weak hands.", "HODL or fall on the knife.", "Feet up. Knife out.",
-  "Shades on. Doubts off.", "Red candles build character.", "Stay sharp.", "The chain stays on. Always.",
-  "Paper hands fold. Track suits don't.", "Sit back. Spin the knife.", "Every dip is a discount.",
-  "Diamonds aren't rushed.", "Loud chain, quiet wallet moves."
+  "Pressure makes diamonds.", "Real recognize real.", "Scared money don't make money.",
+  "The streets made me.", "Trust the process.", "Trust your gut.",
+  "The vision is clear.", "The bottom is in.", "Built different.",
+  "Can you smell it?", "Cry harder.", "Do your own research.",
+  "Don't hate the player, hate the game.", "Grass is your best friend now.", "I don't chase. I attract.",
+  "It's only temporary.", "Never fold.", "The next cycle is now.",
+  "No weak hands.", "HODL or fall on the knife.", "Feet up. Knife out.",
+  "Shades on. Doubts off.", "Red candles build character.", "Stay sharp.",
+  "The chain stays on. Always.", "Paper hands fold. Track suits don't.", "Sit back. Spin the knife.",
+  "Every dip is a discount.", "Diamonds aren't rushed.", "Loud chain, quiet wallet moves.",
+  "Fortune favors the sharp.", "Charts go up. Charts go down. The suit stays blue.", "Panic is a paper hand habit.",
+  "Hydrate. Then HODL.", "Sleep well. The knife never sleeps.", "Bears come and go. The mustache stays.",
+  "Zoom out.", "Quiet weeks build loud months.", "FOMO is for tourists.",
+  "Calm hands, sharp knife.", "Fear is just a red candle with a loud voice.", "Good things come to those who don't panic sell.",
+  "You can't spell Kult without U.", "Lead with the chain.", "Shades on. Eyes on the long game.",
+  "Be the whale you want to see.", "A dip is just the chart stretching.", "Volatility is the price of admission.",
+  "Never trust a man without a mustache.", "Ice in the chain. Ice in the veins.", "Loyalty is the rarest token.",
+  "The group chat is not financial advice.", "Every legend started at the bottom of a chart.", "If it was easy, everyone would have a track suit.",
+  "Be early or be loud. Ideally both.", "Don't watch the chart. Let it watch you.", "Discipline over dopamine.",
+  "Read the room, then read the chart.", "Some sell the news. We make the news.", "Comfort zones don't make legends.",
+  "Big moves start quiet.", "Talk less. Build more.", "Your vibe attracts your bags.",
+  "Weak hands drop knives. We catch them.", "Stack knives, not worries.", "Rest if you must. Never quit.",
+  "Pump or dump, the drip stays the same.", "Ignore the noise. Follow the knife.", "Fold your laundry, not your bags.",
+  "One more candle. Always one more candle.", "Character is built in the red.", "Normalize holding.",
+  "Patience is a flex.", "Smart money waits. Loud money panics.", "Trends end. Kults don't.",
+  "Make your bed. Check the chart. Stay calm.", "Never argue with a man in a track suit.", "Keep your knives sharp and your friends sharper.",
+  "Haters are just early fans.", "Bull or bear, Colt's still here.", "Be the one who stayed.",
+  "Leave your doubts at the door. Keep your shades on.", "Good morning to holders only.", "Respect the knife.",
+  "Stay humble. Stay sharp. Stay blue.", "Legends don't check the price every five minutes.", "Keep calm and carry the knife.",
+  "Strong coffee, stronger hands.", "A true Kult member never asks 'wen'.", "The track suit is a state of mind."
 ];
+// Shuffled, not random: every line is shown once (in a mixed-up order) before any line repeats.
+// The lines sit in three fixed groups that always come in the same order, and each group is reshuffled every round,
+// so a line never comes back sooner than about two months. Same line for everyone on a given day.
+function wisdomShuffle(list, seed){
+  let x = (seed * 2654435761 + 0x9e3779b9) >>> 0;
+  const rnd = () => { x = (x + 0x6D2B79F5) >>> 0; let z = x; z = Math.imul(z ^ (z >>> 15), z | 1); z ^= z + Math.imul(z ^ (z >>> 7), z | 61); return ((z ^ (z >>> 14)) >>> 0) / 4294967296; };
+  const d = list.slice();
+  for(let i = d.length - 1; i > 0; i--){ const j = Math.floor(rnd()*(i + 1)); [d[i], d[j]] = [d[j], d[i]]; }
+  return d;
+}
+const WISDOM_START = 20759; // Nov 2, 2026 (days since 1970)
+const WISDOM_GROUPS = (() => { const all = wisdomShuffle(WISDOM.map((_, i) => i), 7), g = Math.ceil(all.length/3); return [all.slice(0, g), all.slice(g, 2*g), all.slice(2*g)]; })();
+function wisdomFor(day){
+  const n = WISDOM.length, k = day - WISDOM_START, round = Math.floor(k/n);
+  let pos = ((k % n) + n) % n;
+  for(let gi = 0; gi < 3; gi++){
+    const g = WISDOM_GROUPS[gi];
+    if(pos < g.length) return wisdomShuffle(g, round*3 + gi + 1)[pos];
+    pos -= g.length;
+  }
+}
 (() => {
   const el = document.getElementById("wisdom"), dateEl = document.getElementById("wisdomDate");
   if(!el) return;
@@ -751,8 +794,7 @@ const WISDOM = [
     const day = Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 864e5);
     if(day === shownDay) return;
     const fresh = shownDay !== null; shownDay = day;
-    let h = Math.imul(day, 2654435761) >>> 0; h = (h ^ (h >>> 15)) >>> 0;
-    el.textContent = WISDOM[h % WISDOM.length];
+    el.textContent = WISDOM[wisdomFor(day)];
     const link = document.getElementById("wisdomCard"); if(link) link.href = "lab/?say=" + encodeURIComponent(el.textContent) + "#colt-says";
     dateEl.textContent = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
     if(fresh){ el.classList.remove("fresh"); void el.offsetWidth; el.classList.add("fresh"); }
