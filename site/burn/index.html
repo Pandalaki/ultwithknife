@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<title>Burn KULT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Chakra+Petch:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #030508; --panel: #0a1119; --line: #1a2836; --text: #e9f4ff; --muted: #8ba3b8;
+    --fire: #ff7a1a; --fire-glow: rgba(255, 122, 26, .35); --ok: #4dff9a; --warn: #f2c14e; --red: #ff5a6e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; color: var(--text); font-family: 'Chakra Petch', system-ui, sans-serif;
+    background: radial-gradient(ellipse at 50% 0%, #3a1a05 0%, #0b1a28 40%, var(--bg) 70%);
+  }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 48px 16px 64px; }
+  header { display: flex; gap: 20px; align-items: center; margin-bottom: 32px; }
+  .logo { width: 88px; height: 88px; object-fit: contain; flex: none; display: block; filter: drop-shadow(0 0 22px rgba(255,109,0,.35)); }
+  h1 { font-family: 'Dela Gothic One', 'Arial Black', sans-serif; font-size: clamp(56px, 14vw, 92px); line-height: .9; margin: 0;
+       letter-spacing: 0; text-shadow: 0 0 30px var(--fire-glow); }
+  .sub { color: var(--muted); letter-spacing: 4px; font-size: 12px; text-transform: uppercase; margin-top: 6px; }
+  .label { color: var(--muted); letter-spacing: 3px; font-size: 13px; text-transform: uppercase; font-weight: 600; margin: 28px 0 10px; }
+  .card { border: 1px solid var(--line); background: var(--panel); border-radius: 4px; padding: 16px 18px; }
+  input[type=text] { width: 100%; background: #060b11; border: 1px solid var(--line); color: var(--text); border-radius: 4px;
+    padding: 14px; font: 600 22px 'JetBrains Mono', monospace; }
+  input[type=text]:focus { outline: 2px solid var(--fire); border-color: transparent; }
+  .row { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--muted); margin-top: 8px; flex-wrap: wrap; }
+  .link { background: none; border: 0; color: var(--fire); cursor: pointer; font: 600 13px 'JetBrains Mono', monospace; padding: 0; }
+  .dead { word-break: break-all; font-size: 14px; }
+  .dead b { color: var(--fire); }
+  label.check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; margin-top: 20px; cursor: pointer; }
+  label.check input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--fire); flex: none; }
+  button.primary { width: 100%; margin-top: 20px; background: var(--fire); color: #1a0a00; border: 0; border-radius: 4px; padding: 16px;
+    font: 700 18px 'JetBrains Mono', monospace; cursor: pointer; letter-spacing: 1px; }
+  button.primary:disabled { opacity: .45; cursor: not-allowed; }
+  .msg { border-radius: 4px; padding: 12px 14px; margin-top: 16px; font-size: 14px; line-height: 1.5; display: none; word-break: break-word; }
+  .msg.show { display: block; }
+  .msg.ok { background: rgba(76,195,138,.1); border: 1px solid var(--ok); }
+  .msg.err { background: rgba(192,57,43,.12); border: 1px solid var(--red); }
+  .msg.info { background: rgba(255,179,71,.08); border: 1px solid var(--warn); }
+  .msg a { color: var(--fire); }
+  .amtwrap { position: relative; }
+  .amtwrap input { padding-right: 110px; }
+  .badge { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: var(--fire); color: #1a0a00;
+    border-radius: 999px; padding: 4px 12px; font: 700 15px 'JetBrains Mono', monospace; display: none; pointer-events: none; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .chip { background: #0d1620; border: 1px solid var(--line); color: var(--text); border-radius: 999px; padding: 8px 14px;
+    font: 700 14px 'Chakra Petch', sans-serif; cursor: pointer; }
+  .chip:hover, .chip:focus { border-color: var(--fire); color: var(--fire); outline: none; }
+  .chip.pct { color: var(--muted); }
+  .equals { font-size: 13px; color: var(--muted); margin-top: 8px; min-height: 18px; word-break: break-all; }
+  .equals b { color: var(--text); }
+  .hint { color: var(--muted); font-size: 13px; margin-top: 32px; line-height: 1.6; }
+  .foot { text-align: center; font: 500 12px 'JetBrains Mono', monospace; letter-spacing: .1em; color: var(--muted); padding: 0 16px 32px; }
+  .foot a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a href="/" title="ultwithknife.com"><img class="logo" src="/img/kult-logo.png" alt="KULT" /></a>
+    <div>
+      <h1>BURN 🔥</h1>
+      <div class="sub" id="sub">Burn KULT · Cronos</div>
+    </div>
+  </header>
+
+  <div class="label">Amount to burn</div>
+  <div class="amtwrap">
+    <input type="text" id="amount" autocomplete="off" placeholder="e.g. 100K, 1M, 5M" />
+    <span class="badge" id="badge"></span>
+  </div>
+  <div class="equals" id="equals"></div>
+  <div class="chips" id="presets"></div>
+  <div class="chips" id="pcts" style="display:none">
+    <button class="chip pct" data-bp="50">0.5%</button>
+    <button class="chip pct" data-bp="100">1%</button>
+    <button class="chip pct" data-bp="500">5%</button>
+    <button class="chip pct" data-bp="1000">10%</button>
+  </div>
+  <div class="row">
+    <span id="balance">Connect your wallet to see your balance</span>
+  </div>
+
+  <div class="label">Burn address (tokens sent here are gone forever)</div>
+  <div class="card dead"><b>0x000000000000000000000000000000000000dEaD</b></div>
+
+  <label class="check"><input type="checkbox" id="agree" />
+    <span>I understand this is <b>permanent</b>. My tokens go to the burn address above and can never be recovered.</span></label>
+
+  <button class="primary" id="burnBtn" disabled>🔥 BURN</button>
+  <div class="row" style="justify-content:center;margin-top:12px"><button class="link" id="wcBtn" style="display:none;color:var(--muted)">📱 Use a phone wallet (WalletConnect)</button></div>
+  <div id="status" class="msg"></div>
+
+  <p class="hint">
+    Your wallet will show one transfer to the burn address. <b>Check that address</b> before confirming.
+    No approvals, no deposits: the bot never touches your tokens. Burns from verified wallets are announced in Discord with your name.
+  </p>
+</div>
+
+<script>
+  // ====== SETTING ======
+  // The KULT copy of the verify bot on Railway (no slash at the end).
+  const API_BASE = 'PASTE_KULT_RAILWAY_ADDRESS';
+  // =====================
+  const NOT_READY = /^PASTE_/.test(API_BASE);
+
+  const DEAD = '0x000000000000000000000000000000000000dEaD';
+  const $ = (id) => document.getElementById(id);
+  // ---- Wallet connection: browser extension / in-wallet browser, or WalletConnect for phones ----
+  let WC = { id: null, chainId: 25, rpc: 'https://evm.cronos.org', provider: null };
+  function loadWalletConnect() {
+    return new Promise((resolve, reject) => {
+      if (window.WCEthereumProvider) return resolve();
+      const s = document.createElement('script');
+      s.src = API_BASE + '/wallet.js';
+      s.onload = resolve;
+      s.onerror = () => reject(new Error('Could not load WalletConnect. Please try again.'));
+      document.head.appendChild(s);
+    });
+  }
+  async function getWallet(useWalletConnect) {
+    if (!useWalletConnect && window.ethereum) {
+      const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      return { eth: window.ethereum, account, isWC: false };
+    }
+    if (!WC.id) throw Object.assign(new Error('NO_WALLET'), { code: 'NO_WALLET' });
+    await loadWalletConnect();
+    if (!WC.provider) {
+      WC.provider = await window.WCEthereumProvider.init({
+        projectId: WC.id,
+        optionalChains: [WC.chainId],
+        rpcMap: { [WC.chainId]: WC.rpc },
+        showQrModal: true,
+        metadata: { name: document.title, description: document.title, url: location.origin, icons: [location.origin + '/img/kult-logo.png'] },
+      });
+    }
+    if (!WC.provider.session) await WC.provider.connect();
+    return { eth: WC.provider, account: WC.provider.accounts[0], isWC: true };
+  }
+  async function endWalletConnect() {
+    try { if (WC.provider && WC.provider.session) await WC.provider.disconnect(); } catch {}
+  }
+
+  let cfg = null, account = null, balanceRaw = null, wallet = null;
+
+  function show(cls, html) { const s = $('status'); s.className = 'msg show ' + cls; s.innerHTML = html; }
+  function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+  // Decimal text -> big integer in token units, without rounding errors.
+  // "1B" -> "1000000000", "2.5T" -> "2500000000000" (exact, no rounding)
+  function expand(text) {
+    const t = String(text || '').trim().toLowerCase().replace(/[,_\s]/g, '');
+    const m = t.match(/^(\d+(?:\.\d+)?|\.\d+)([kmbt])?$/);
+    if (!m) return null;
+    const shift = { k: 3, m: 6, b: 9, t: 12 }[m[2]] || 0;
+    let [whole, frac = ''] = m[1].split('.');
+    frac = frac.padEnd(shift, '0');
+    whole = ((whole || '0') + frac.slice(0, shift)).replace(/^0+(?=\d)/, '');
+    frac = frac.slice(shift).replace(/0+$/, '');
+    return frac ? whole + '.' + frac : whole;
+  }
+  const compact = (n) => new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 3 }).format(Number(n));
+  function toRaw(text, decimals) {
+    const t = expand(text);
+    if (t === null) return null;
+    if (!/^\d+(\.\d+)?$/.test(t)) return null;
+    const [whole, frac = ''] = t.split('.');
+    if (frac.length > decimals) return null;
+    return BigInt(whole + frac.padEnd(decimals, '0'));
+  }
+  function fromRaw(raw, decimals) {
+    const s = raw.toString().padStart(decimals + 1, '0');
+    const whole = s.slice(0, s.length - decimals), frac = s.slice(s.length - decimals).replace(/0+$/, '');
+    return whole + (frac ? '.' + frac : '');
+  }
+  const pretty = (n) => Number(n).toLocaleString('en-US', { maximumFractionDigits: 4 });
+  const pad32 = (hex) => hex.replace(/^0x/, '').toLowerCase().padStart(64, '0');
+
+  async function ensureChain(eth) {
+    const want = '0x' + cfg.chainId.toString(16);
+    const have = await eth.request({ method: 'eth_chainId' });
+    if (have === want) return;
+    try {
+      await eth.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: want }] });
+    } catch (e) {
+      if (e && e.code === 4902) {
+        await eth.request({ method: 'wallet_addEthereumChain', params: [{
+          chainId: want, chainName: cfg.chainName, rpcUrls: [cfg.rpcUrl],
+          nativeCurrency: { name: 'CRO', symbol: 'CRO', decimals: 18 },
+          blockExplorerUrls: [cfg.explorerTx.replace(/\/tx\/?$/, '')],
+        }] });
+      } else throw e;
+    }
+  }
+
+  async function loadBalance(eth) {
+    const data = '0x70a08231' + pad32(account); // balanceOf(account)
+    const res = await eth.request({ method: 'eth_call', params: [{ to: cfg.tokenAddress, data }, 'latest'] });
+    balanceRaw = BigInt(res);
+    $('balance').textContent = `Your balance: ${pretty(fromRaw(balanceRaw, cfg.decimals))} ${cfg.tokenSymbol}`;
+    $('balance').textContent = `Your balance: ${pretty(fromRaw(balanceRaw, cfg.decimals))} ${cfg.tokenSymbol} (${compact(fromRaw(balanceRaw, cfg.decimals))})`;
+    $('pcts').style.display = balanceRaw > 0n ? 'flex' : 'none';
+  }
+
+  function refreshButton() {
+    const raw = cfg ? toRaw($('amount').value, cfg.decimals) : null;
+    $('burnBtn').disabled = !(raw && raw > 0n && $('agree').checked);
+    const human = raw && raw > 0n ? fromRaw(raw, cfg.decimals) : null;
+    $('burnBtn').textContent = human ? `🔥 BURN ${compact(human)} ${cfg.tokenSymbol}` : '🔥 BURN';
+    const typed = $('amount').value.trim();
+    $('badge').textContent = human ? compact(human) : '';
+    $('badge').style.display = human ? 'block' : 'none';
+    $('equals').innerHTML = human
+      ? `= <b>${esc(pretty(human))}</b> ${esc(cfg.tokenSymbol)} <b>(${esc(compact(human))})</b>`
+      : typed ? 'Enter an amount like <b>100K</b>, <b>1M</b>, <b>5M</b> or a plain number.' : '';
+  }
+
+  async function burn(useWalletConnect) {
+    const raw = toRaw($('amount').value, cfg.decimals);
+    if (!raw || raw <= 0n) return show('err', 'Enter an amount above 0.');
+    $('burnBtn').disabled = true;
+    try {
+      show('info', 'Check your wallet: approve the connection…');
+      if (!wallet || (useWalletConnect === true) !== wallet.isWC) wallet = await getWallet(useWalletConnect === true);
+      const eth = wallet.eth;
+      account = wallet.account;
+      await ensureChain(eth);
+      await loadBalance(eth);
+      if (raw > balanceRaw) {
+        show('err', `You only have ${esc(pretty(fromRaw(balanceRaw, cfg.decimals)))} ${esc(cfg.tokenSymbol)} in this wallet.`);
+        return;
+      }
+      show('info', `Check your wallet: confirm sending <b>${esc(pretty(fromRaw(raw, cfg.decimals)))} ${esc(cfg.tokenSymbol)} (${esc(compact(fromRaw(raw, cfg.decimals)))})</b> to <b>0x…dEaD</b>.`);
+      const data = '0xa9059cbb' + pad32(DEAD) + pad32(raw.toString(16)); // transfer(DEAD, amount)
+      const hash = await eth.request({ method: 'eth_sendTransaction', params: [{ from: account, to: cfg.tokenAddress, data }] });
+      show('ok', `🔥 Burn sent! It will be announced in Discord within about 30 seconds once it confirms.<br><br><a href="${cfg.explorerTx}${hash}" target="_blank" rel="noopener">View transaction</a>`);
+      $('agree').checked = false;
+      setTimeout(() => loadBalance(eth).catch(() => {}), 8000);
+    } catch (e) {
+      if (e && e.code === 'NO_WALLET') {
+        show('info', 'No wallet found in this browser.<br><br><b>On a phone:</b> go back to Discord, tap <b>copy burn link</b>, then paste it into your wallet app\'s built-in browser.<br><b>On a computer:</b> install MetaMask, Rabby, or the Crypto.com DeFi Wallet extension.');
+      } else {
+        const msg = e && (e.code === 4001 || /reject|denied|cancel/i.test(e.message || '')) ? 'You cancelled in your wallet. Nothing was burned.' : (e && e.message) || 'Something went wrong.';
+        show('err', esc(msg));
+      }
+    } finally {
+      refreshButton();
+    }
+  }
+
+  async function init() {
+    if (NOT_READY) {
+      show('info', 'The KULT burn page is being set up. Check back soon in the <b>KULT Discord</b>.');
+      return;
+    }
+    try {
+      const res = await fetch(API_BASE + '/api/burn-config');
+      cfg = await res.json();
+      document.title = `Burn ${cfg.tokenSymbol}`;
+      WC.id = cfg.wcProjectId || null;
+      WC.chainId = cfg.chainId;
+      WC.rpc = cfg.rpcUrl;
+      if (WC.id && window.ethereum) $('wcBtn').style.display = 'inline';
+      $('sub').textContent = `Burn ${cfg.tokenSymbol} · ${cfg.chainName}`;
+    } catch {
+      show('err', 'Could not load the burn page settings. Please try again in a moment.');
+      return;
+    }
+    const box = $('presets');
+    for (const p of cfg.presets || ['100K', '1M', '5M', '10M']) {
+      if (!expand(p)) continue;
+      const b = document.createElement('button');
+      b.className = 'chip';
+      b.textContent = compact(expand(p));
+      b.onclick = () => { $('amount').value = compact(expand(p)); refreshButton(); };
+      box.appendChild(b);
+    }
+    const q = new URLSearchParams(location.search).get('amount');
+    if (q && toRaw(q, cfg.decimals)) {
+      // Show "2.5B" instead of "2500000000" when that's exactly the same amount.
+      const short = compact(q);
+      $('amount').value = expand(short) === expand(q) ? short : q;
+    }
+    refreshButton();
+    if (window.ethereum) {
+      try {
+        const accs = await window.ethereum.request({ method: 'eth_accounts' });
+        if (accs && accs[0]) { account = accs[0]; await loadBalance(window.ethereum); }
+      } catch {}
+    }
+  }
+
+  $('amount').addEventListener('input', refreshButton);
+  $('agree').addEventListener('change', refreshButton);
+  $('burnBtn').addEventListener('click', () => burn(false));
+  $('wcBtn').addEventListener('click', () => { if (!$('burnBtn').disabled) burn(true); else show('info', 'Enter an amount and tick the checkbox first.'); });
+  // Percent of the wallet's balance, in basis points (50 = 0.5%), exact integer math.
+  document.querySelectorAll('[data-bp]').forEach((b) => b.addEventListener('click', () => {
+    if (balanceRaw == null) return;
+    const part = (balanceRaw * BigInt(b.dataset.bp)) / 10000n;
+    $('amount').value = fromRaw(part, cfg.decimals);
+    refreshButton();
+  }));
+  init();
+</script>
+<p class="foot"><a href="/">ultwithknife.com</a> · <a href="https://discord.gg/CCZ2X2G9vK">Discord</a></p>
+</body>
+</html>

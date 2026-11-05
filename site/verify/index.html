@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<title>KULT Verify</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Chakra+Petch:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #030508; --panel: #0a1119; --line: #1a2836; --text: #e9f4ff; --muted: #8ba3b8;
+    --red: #3fd0ff; --red-glow: rgba(63, 208, 255, .35); --blue: #3fd0ff; --ok: #4dff9a; --warn: #f2c14e; --bad: #ff5a6e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, #0b2a40 0%, var(--bg) 60%);
+    color: var(--text); font-family: 'Chakra Petch', system-ui, sans-serif;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 48px 16px 64px; }
+  header { display: flex; gap: 20px; align-items: center; margin-bottom: 40px; }
+  .logo { width: 96px; height: 96px; object-fit: contain; flex: none; display: block; filter: drop-shadow(0 0 22px rgba(63,208,255,.35)); }
+  h1 { font-family: 'Dela Gothic One', 'Arial Black', sans-serif; font-size: clamp(56px, 14vw, 96px); line-height: .9; margin: 0;
+       letter-spacing: 0; text-shadow: 0 0 30px var(--red-glow); }
+  .sub { color: var(--muted); letter-spacing: 4px; font-size: 12px; text-transform: uppercase; margin-top: 6px; }
+  .label { color: var(--muted); letter-spacing: 3px; font-size: 13px; text-transform: uppercase; font-weight: 600; }
+  .row { display: flex; justify-content: space-between; align-items: center; margin: 36px 0 12px; }
+  .card { border: 1px solid var(--line); background: var(--panel); border-radius: 4px; padding: 16px 18px;
+          display: flex; align-items: center; gap: 12px; margin-bottom: 8px; word-break: break-all; }
+  .card .addr { flex: 1; font-size: 14px; }
+  .tag { border: 1px solid var(--blue); color: var(--blue); border-radius: 4px; padding: 2px 8px; font-size: 12px; flex: none; }
+  .x { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 18px; padding: 4px; flex: none; }
+  .x:hover { color: var(--bad); }
+  button.primary { background: var(--red); color: #030508; border: 0; border-radius: 4px; padding: 12px 18px;
+                   font: 700 14px 'Chakra Petch', sans-serif; cursor: pointer; }
+  button.primary:disabled { opacity: .5; cursor: wait; }
+  button.ghost { background: none; border: 0; color: var(--text); font: 700 14px 'Chakra Petch', sans-serif; cursor: pointer; }
+  button.ghost:hover { color: var(--red); }
+  .big { font-size: clamp(36px, 10vw, 52px); font-weight: 600; }
+  .big small { font-size: 20px; color: var(--muted); margin-left: 8px; }
+  .empty { color: var(--muted); font-size: 14px; }
+  .discord { border-color: #3b3f8f; color: #b5b9ff; }
+  .msg { border-radius: 4px; padding: 12px 14px; margin-top: 16px; font-size: 14px; line-height: 1.5; display: none; }
+  .msg.show { display: block; }
+  .msg.ok { background: rgba(76,195,138,.1); border: 1px solid var(--ok); }
+  .msg.err { background: rgba(255,90,110,.1); border: 1px solid var(--bad); }
+  .msg.info { background: rgba(255,179,71,.08); border: 1px solid var(--warn); }
+  .tiers { font-size: 13px; color: var(--muted); line-height: 1.8; margin-top: 8px; }
+  .hint { color: var(--muted); font-size: 13px; margin-top: 40px; line-height: 1.6; }
+  .foot { text-align: center; font: 500 12px 'JetBrains Mono', monospace; letter-spacing: .1em; color: var(--muted); padding: 0 16px 32px; }
+  .foot a { color: var(--muted); }
+  code { background: #0f1b27; padding: 1px 5px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a href="/" title="ultwithknife.com"><img class="logo" src="/img/kult-logo.png" alt="KULT" /></a>
+    <div>
+      <h1>VERIFY</h1>
+      <div class="sub" id="sub">KULT holder verification · Cronos</div>
+    </div>
+  </header>
+
+  <div id="expired" class="msg err"></div>
+
+  <main id="app" style="display:none">
+    <div class="row">
+      <span class="label">Wallets</span>
+      <button class="ghost" id="addBtn">＋ Add Wallet</button>
+    </div>
+    <div id="wallets"></div>
+    <div class="row" style="margin:10px 0 0;justify-content:flex-end"><button class="ghost" id="wcBtn" style="display:none;font-size:13px;color:var(--muted)">📱 Use a phone wallet (WalletConnect)</button></div>
+    <div id="status" class="msg"></div>
+
+    <div class="row"><span class="label">Holdings</span></div>
+    <div class="big"><span id="total">0</span><small>$<span class="sym"></span></small></div>
+    <div class="tiers" id="breakdown" style="display:none"></div>
+    <div class="tiers" id="tiers"></div>
+
+    <div class="row"><span class="label">Social accounts</span></div>
+    <div class="card discord"><span>👾</span><span class="addr" id="username"></span></div>
+
+    <p class="hint">
+      Linking a wallet only asks you to <b>sign a message</b>. It's free, sends no transaction, and never gives access to your funds.
+      After linking, your roles update automatically. You can also press <b>verify</b> in Discord any time.
+    </p>
+  </main>
+</div>
+
+<script>
+  // ====== SETTING ======
+  // The KULT copy of the verify bot on Railway (no slash at the end).
+  const API_BASE = 'PASTE_KULT_RAILWAY_ADDRESS';
+  // =====================
+  const NOT_READY = /^PASTE_/.test(API_BASE);
+
+  const $ = (id) => document.getElementById(id);
+  // ---- Wallet connection: browser extension / in-wallet browser, or WalletConnect for phones ----
+  let WC = { id: null, chainId: 25, rpc: 'https://evm.cronos.org', provider: null };
+  function loadWalletConnect() {
+    return new Promise((resolve, reject) => {
+      if (window.WCEthereumProvider) return resolve();
+      const s = document.createElement('script');
+      s.src = API_BASE + '/wallet.js';
+      s.onload = resolve;
+      s.onerror = () => reject(new Error('Could not load WalletConnect. Please try again.'));
+      document.head.appendChild(s);
+    });
+  }
+  async function getWallet(useWalletConnect) {
+    if (!useWalletConnect && window.ethereum) {
+      const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      return { eth: window.ethereum, account, isWC: false };
+    }
+    if (!WC.id) throw Object.assign(new Error('NO_WALLET'), { code: 'NO_WALLET' });
+    await loadWalletConnect();
+    if (!WC.provider) {
+      WC.provider = await window.WCEthereumProvider.init({
+        projectId: WC.id,
+        optionalChains: [WC.chainId],
+        rpcMap: { [WC.chainId]: WC.rpc },
+        showQrModal: true,
+        metadata: { name: document.title, description: document.title, url: location.origin, icons: [location.origin + '/img/kult-logo.png'] },
+      });
+    }
+    if (!WC.provider.session) await WC.provider.connect();
+    return { eth: WC.provider, account: WC.provider.accounts[0], isWC: true };
+  }
+  async function endWalletConnect() {
+    try { if (WC.provider && WC.provider.session) await WC.provider.disconnect(); } catch {}
+  }
+
+  const token = new URLSearchParams(location.search).get('t');
+  let symbol = '';
+
+  function show(el, cls, html) { el.className = 'msg show ' + cls; el.innerHTML = html; }
+  function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+  async function api(path, opts = {}) {
+    const res = await fetch(API_BASE + path, { headers: { 'Content-Type': 'application/json' }, ...opts });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || 'Request failed');
+    return data;
+  }
+
+  function render(data) {
+    $('total').textContent = data.totalText;
+    if (data.vaultText !== undefined) {
+      const bd = $('breakdown');
+      bd.style.display = 'block';
+      bd.textContent = data.breakdown || `In wallets: ${data.walletText} · Locked in vault: ${data.vaultText}`;
+    }
+    const box = $('wallets');
+    box.innerHTML = '';
+    if (!data.wallets.length) {
+      box.innerHTML = '<div class="empty">No wallets linked yet. Click “Add Wallet”.</div>';
+      return;
+    }
+    for (const w of data.wallets) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<span>👛</span><span class="addr">${esc(w)}</span><span class="tag">EVM</span>`;
+      const x = document.createElement('button');
+      x.className = 'x'; x.title = 'Remove wallet'; x.textContent = '🗑';
+      x.onclick = () => unlink(w);
+      card.appendChild(x);
+      box.appendChild(card);
+    }
+  }
+
+  async function load() {
+    if (NOT_READY) {
+      show($('expired'), 'info', 'Holder verification is being set up. Check back soon in the <b>KULT Discord</b>.');
+      return;
+    }
+    if (!token) {
+      show($('expired'), 'err', 'Open this page from the <b>connections</b> button in Discord. It gives you a private link.');
+      return;
+    }
+    try {
+      const data = await api('/api/session?t=' + encodeURIComponent(token));
+      symbol = data.tokenSymbol;
+      WC.id = data.wcProjectId || null;
+      if (data.chainId) WC.chainId = data.chainId;
+      if (data.rpcUrl) WC.rpc = data.rpcUrl;
+      if (WC.id && window.ethereum) $('wcBtn').style.display = 'inline';
+      document.querySelectorAll('.sym').forEach((e) => (e.textContent = symbol));
+      $('sub').textContent = `${symbol} holder verification · ${data.chainName}`;
+      document.title = `${symbol} Verify`;
+      $('username').textContent = data.username;
+      $('tiers').innerHTML = data.tiers
+        .map((t) => `${esc(t.name)}: ${Number(t.minTokens).toLocaleString('en-US')}+ ${esc(symbol)}`)
+        .join('<br>');
+      render(data);
+      $('app').style.display = 'block';
+    } catch (e) {
+      show($('expired'), 'err', esc(e.message));
+    }
+  }
+
+  function toHex(str) {
+    return '0x' + Array.from(new TextEncoder().encode(str)).map((b) => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function addWallet(useWalletConnect) {
+    const status = $('status');
+    const btn = $('addBtn');
+    btn.disabled = true;
+    let w = null;
+    try {
+      show(status, 'info', 'Check your wallet: approve the connection…');
+      w = await getWallet(useWalletConnect === true);
+      const address = w.account;
+      const { message } = await api(`/api/message?t=${encodeURIComponent(token)}&address=${address}`);
+      show(status, 'info', 'Check your wallet: sign the message (free, no transaction)…');
+      const signature = await w.eth.request({ method: 'personal_sign', params: [toHex(message), address] });
+      show(status, 'info', 'Checking your holdings…');
+      const data = await api('/api/link', { method: 'POST', body: JSON.stringify({ t: token, address, signature }) });
+      render(data);
+      let html = `✅ Wallet linked! Total: <b>${esc(data.totalText)} ${esc(symbol)}</b><br>`;
+      html += data.roles.length
+        ? `Roles unlocked: <b>${data.roles.map(esc).join(', ')}</b>`
+        : 'No roles unlocked yet at this balance.';
+      if (data.errors.length) html += '<br><br>⚠️ ' + data.errors.map(esc).join('<br>⚠️ ');
+      html += '<br><br>You can close this page and head back to Discord. To add another wallet, switch accounts in your wallet and click “Add Wallet” again.';
+      show(status, data.errors.length ? 'info' : 'ok', html);
+    } catch (e) {
+      if (e && e.code === 'NO_WALLET') {
+        show(status, 'info',
+          'No wallet found in this browser.<br><br>' +
+          '<b>On a computer:</b> install MetaMask, Rabby, or the Crypto.com DeFi Wallet extension, then reload this page.<br>' +
+          '<b>On a phone:</b> go back to Discord, tap <b>copy verify link</b>, then open your wallet app, ' +
+          'go to its built-in browser, and paste the link there.');
+      } else {
+        const msg = e && (e.code === 4001 || /reject|denied|cancel/i.test(e.message || '')) ? 'You cancelled the request in your wallet.' : ((e && e.message) || 'Something went wrong.');
+        show(status, 'err', esc(msg));
+      }
+    } finally {
+      // WalletConnect: end the session so the next "Add Wallet" can pick a different wallet.
+      if (w && w.isWC) await endWalletConnect();
+      btn.disabled = false;
+    }
+  }
+
+  async function unlink(address) {
+    if (!confirm('Remove ' + address + '?')) return;
+    try {
+      const data = await api('/api/unlink', { method: 'POST', body: JSON.stringify({ t: token, address }) });
+      render(data);
+      show($('status'), 'ok', 'Wallet removed. Your roles will update shortly.');
+    } catch (e) {
+      show($('status'), 'err', esc(e.message));
+    }
+  }
+
+  $('addBtn').onclick = () => addWallet(false);
+  $('wcBtn').onclick = () => addWallet(true);
+  load();
+</script>
+<p class="foot"><a href="/">ultwithknife.com</a> · <a href="https://discord.gg/CCZ2X2G9vK">Discord</a></p>
+</body>
+</html>
