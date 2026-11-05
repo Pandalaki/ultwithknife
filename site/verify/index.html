@@ -46,6 +46,7 @@
   .msg.ok { background: rgba(76,195,138,.1); border: 1px solid var(--ok); }
   .msg.err { background: rgba(255,90,110,.1); border: 1px solid var(--bad); }
   .msg.info { background: rgba(255,179,71,.08); border: 1px solid var(--warn); }
+  .msg a.dc { display: inline-block; background: #5865f2; color: #fff; text-decoration: none; padding: 10px 16px; border-radius: 4px; font-weight: 700; }
   .tiers { font-size: 13px; color: var(--muted); line-height: 1.8; margin-top: 8px; }
   .hint { color: var(--muted); font-size: 13px; margin-top: 40px; line-height: 1.6; }
   .foot { text-align: center; font: 500 12px 'JetBrains Mono', monospace; letter-spacing: .1em; color: var(--muted); padding: 0 16px 32px; }
@@ -172,11 +173,15 @@
 
   async function load() {
     if (NOT_READY) {
-      show($('expired'), 'info', 'Holder verification is being set up. Check back soon in the <b>KULT Discord</b>.');
+      show($('expired'), 'info', 'Holder verification is being set up. Check back soon in the <b>KULT Discord</b>.<br><br><a class="dc" href="https://discord.gg/CCZ2X2G9vK" target="_blank" rel="noopener">Join the KULT Discord</a>');
       return;
     }
     if (!token) {
-      show($('expired'), 'err', 'Open this page from the <b>connections</b> button in Discord. It gives you a private link.');
+      show($('expired'), 'info',
+        '<b>Verification starts in our Discord.</b><br><br>' +
+        'Join the KULT Discord, go to the <b>#verify</b> channel and click <b>connections</b>. ' +
+        'The bot sends you a private link back to this page, where you connect your wallet and sign a free message (no transaction).<br><br>' +
+        '<a class="dc" href="https://discord.gg/CCZ2X2G9vK" target="_blank" rel="noopener">Join the KULT Discord</a>');
       return;
     }
     try {

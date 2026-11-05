@@ -317,6 +317,15 @@ p{margin:0}
 .step code{font-family:var(--f-mono);font-size:13px;color:var(--frost);background:rgba(63,208,255,.1);padding:1px 6px;overflow-wrap:anywhere}
 .step::after{content:"";position:absolute;right:-1px;top:-1px;width:22px;height:22px;background:linear-gradient(225deg,var(--ice) 50%,transparent 50%);opacity:.85}
 @media (max-width:1000px){.steps{grid-template-columns:repeat(2,1fr)}}
+.holders{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-top:40px}
+.holder-card{padding:26px 24px;border:1px solid rgba(63,208,255,.28);background:linear-gradient(135deg,rgba(63,208,255,.08),rgba(11,17,24,.7) 60%);display:grid;gap:10px;align-content:start;justify-items:start}
+.holder-card h3{margin:0;font-family:var(--f-display);font-size:24px;line-height:1.1}
+.holder-card p{margin:0;color:var(--mist);font-size:15.5px}
+.holder-card p b{color:var(--frost)}
+.holder-card .btn{margin-top:6px}
+.holder-card.burn{border-color:rgba(255,122,26,.35);background:linear-gradient(135deg,rgba(255,122,26,.10),rgba(11,17,24,.7) 60%)}
+.holder-card.burn .step-n{color:#ff9a4d}
+@media (max-width:760px){.holders{grid-template-columns:1fr}}
 @media (max-width:560px){.steps{grid-template-columns:1fr}}
 
 /* final call */
@@ -556,6 +565,20 @@ footer{padding:40px var(--gut) 48px;max-width:1360px;margin:0 auto;display:grid;
       <a class="btn" id="buyBtn2" href="#" target="_blank" rel="noopener">Buy on VVS Finance</a>
       <button class="btn ghost" id="copyCa2" type="button">Copy contract</button>
     </div>
+    <div class="holders" aria-label="For holders">
+      <div class="holder-card">
+        <span class="step-n">HOLDERS</span>
+        <h3>Get your holder role</h3>
+        <p>Already holding? Verify your $KULT in our Discord to unlock holder roles, from <b>KULT Holder</b> all the way up to <b>Colt's BFF</b>. You only sign a message: free, no transaction, and your tokens never leave your wallet.</p>
+        <a class="btn sm" href="https://discord.gg/CCZ2X2G9vK" target="_blank" rel="noopener">Verify in Discord</a>
+      </div>
+      <div class="holder-card burn">
+        <span class="step-n">BURN</span>
+        <h3>Feed the fire 🔥</h3>
+        <p>Send $KULT to the burn address, gone for good. Burns from verified wallets get announced in the Discord with your name.</p>
+        <a class="btn sm ghost" href="burn/">Burn $KULT</a>
+      </div>
+    </div>
   </section>
 
 
@@ -578,7 +601,7 @@ footer{padding:40px var(--gut) 48px;max-width:1360px;margin:0 auto;display:grid;
 <footer>
   <div class="foot-row">
     <a class="brand" href="#top"><img src="img/pendant-sm.webp" alt="" width="40" height="40">KULT</a>
-    <span style="font-family:var(--f-mono);font-size:12px;letter-spacing:.14em">ULT WITH KNIFE · CRONOS · <a href="https://x.com/ultwithknife" target="_blank" rel="noopener" style="color:var(--ice);text-decoration:none">@ultwithknife</a> · <a href="https://discord.gg/CCZ2X2G9vK" target="_blank" rel="noopener" style="color:var(--ice);text-decoration:none">Discord</a></span>
+    <span style="font-family:var(--f-mono);font-size:12px;letter-spacing:.14em">ULT WITH KNIFE · CRONOS · <a href="https://x.com/ultwithknife" target="_blank" rel="noopener" style="color:var(--ice);text-decoration:none">@ultwithknife</a> · <a href="https://discord.gg/CCZ2X2G9vK" target="_blank" rel="noopener" style="color:var(--ice);text-decoration:none">Discord</a> · <a href="burn/" style="color:var(--ice);text-decoration:none">Burn</a></span>
   </div>
   <p class="disclaimer">$KULT is a memecoin with no intrinsic value or expectation of financial return. It is not an investment, security or financial product, and there is no formal team, roadmap or promise of anything. Crypto is volatile and you can lose everything you put in. Only buy what you can afford to lose, and always verify the contract address yourself.</p>
 </footer>
