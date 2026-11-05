@@ -4,92 +4,114 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
 <title>KULT Verify</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Chakra+Petch:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
 <style>
-  :root {
-    --bg: #030508; --panel: #0a1119; --line: #1a2836; --text: #e9f4ff; --muted: #8ba3b8;
-    --red: #3fd0ff; --red-glow: rgba(63, 208, 255, .35); --blue: #3fd0ff; --ok: #4dff9a; --warn: #f2c14e; --bad: #ff5a6e;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, #0b2a40 0%, var(--bg) 60%);
-    color: var(--text); font-family: 'Chakra Petch', system-ui, sans-serif;
-  }
-  .wrap { max-width: 640px; margin: 0 auto; padding: 48px 16px 64px; }
-  header { display: flex; gap: 20px; align-items: center; margin-bottom: 40px; }
-  .logo { width: 96px; height: 96px; object-fit: contain; flex: none; display: block; filter: drop-shadow(0 0 22px rgba(63,208,255,.35)); }
-  h1 { font-family: 'Dela Gothic One', 'Arial Black', sans-serif; font-size: clamp(56px, 14vw, 96px); line-height: .9; margin: 0;
-       letter-spacing: 0; text-shadow: 0 0 30px var(--red-glow); }
-  .sub { color: var(--muted); letter-spacing: 4px; font-size: 12px; text-transform: uppercase; margin-top: 6px; }
-  .label { color: var(--muted); letter-spacing: 3px; font-size: 13px; text-transform: uppercase; font-weight: 600; }
-  .row { display: flex; justify-content: space-between; align-items: center; margin: 36px 0 12px; }
-  .card { border: 1px solid var(--line); background: var(--panel); border-radius: 4px; padding: 16px 18px;
-          display: flex; align-items: center; gap: 12px; margin-bottom: 8px; word-break: break-all; }
-  .card .addr { flex: 1; font-size: 14px; }
-  .tag { border: 1px solid var(--blue); color: var(--blue); border-radius: 4px; padding: 2px 8px; font-size: 12px; flex: none; }
-  .x { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 18px; padding: 4px; flex: none; }
-  .x:hover { color: var(--bad); }
-  button.primary { background: var(--red); color: #030508; border: 0; border-radius: 4px; padding: 12px 18px;
-                   font: 700 14px 'Chakra Petch', sans-serif; cursor: pointer; }
-  button.primary:disabled { opacity: .5; cursor: wait; }
-  button.ghost { background: none; border: 0; color: var(--text); font: 700 14px 'Chakra Petch', sans-serif; cursor: pointer; }
-  button.ghost:hover { color: var(--red); }
-  .big { font-size: clamp(36px, 10vw, 52px); font-weight: 600; }
-  .big small { font-size: 20px; color: var(--muted); margin-left: 8px; }
-  .empty { color: var(--muted); font-size: 14px; }
-  .discord { border-color: #3b3f8f; color: #b5b9ff; }
-  .msg { border-radius: 4px; padding: 12px 14px; margin-top: 16px; font-size: 14px; line-height: 1.5; display: none; }
-  .msg.show { display: block; }
-  .msg.ok { background: rgba(76,195,138,.1); border: 1px solid var(--ok); }
-  .msg.err { background: rgba(255,90,110,.1); border: 1px solid var(--bad); }
-  .msg.info { background: rgba(255,179,71,.08); border: 1px solid var(--warn); }
-  .msg a.dc { display: inline-block; background: #5865f2; color: #fff; text-decoration: none; padding: 10px 16px; border-radius: 4px; font-weight: 700; }
-  .tiers { font-size: 13px; color: var(--muted); line-height: 1.8; margin-top: 8px; }
-  .hint { color: var(--muted); font-size: 13px; margin-top: 40px; line-height: 1.6; }
-  .foot { text-align: center; font: 500 12px 'JetBrains Mono', monospace; letter-spacing: .1em; color: var(--muted); padding: 0 16px 32px; }
-  .foot a { color: var(--muted); }
-  code { background: #0f1b27; padding: 1px 5px; border-radius: 3px; }
+:root{--void:#030508;--steel:#0b1118;--edge:#1a2836;--frost:#e9f4ff;--mist:#8ba3b8;--ice:#3fd0ff;--deep:#1a6dff;--gold:#f2c14e;--fire:#ff7a1a;--ok:#4dff9a;--bad:#ff5a6e;
+  --f-display:"Dela Gothic One","Arial Black",Impact,sans-serif;--f-body:"Chakra Petch","Segoe UI",system-ui,sans-serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gut:clamp(16px,4vw,56px);--accent:var(--ice);--accent-rgb:63,208,255;color-scheme:dark}
+*{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;min-height:100vh;color:var(--frost);font-family:var(--f-body);font-size:17px;line-height:1.6;
+  background:radial-gradient(900px 520px at 50% -80px,rgba(var(--accent-rgb),.16),transparent 70%),var(--void)}
+a{color:inherit}
+img{max-width:100%;display:block}
+::selection{background:var(--ice);color:var(--void)}
+:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
+/* nav (same as the main site) */
+.nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:14px var(--gut);
+  background:linear-gradient(to bottom,rgba(3,5,8,.92),rgba(3,5,8,.6));backdrop-filter:blur(10px);border-bottom:1px solid rgba(63,208,255,.08)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-size:20px;letter-spacing:.04em;margin-right:auto}
+.brand img{width:44px;height:48px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(242,193,78,.45))}
+.btn{--c:var(--ice);display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 22px;font-family:var(--f-body);font-weight:700;font-size:15px;
+  letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--void);background:var(--c);border:0;cursor:pointer;
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);transition:transform .2s,opacity .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn.ghost{background:transparent;color:var(--frost);box-shadow:inset 0 0 0 1.5px rgba(63,208,255,.55)}
+.btn.ghost:hover{color:var(--ice)}
+.btn.sm{padding:10px 16px;font-size:13px}
+@media (max-width:420px){.nav .hide-sm{display:none}}
+/* page */
+main{max-width:720px;margin:0 auto;padding:clamp(32px,6vw,72px) var(--gut) 56px}
+.eyebrow{font-family:var(--f-mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--accent);box-shadow:0 0 12px var(--accent);flex:none}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(40px,7vw,68px);line-height:1.02;margin:14px 0 14px;letter-spacing:-.005em;text-wrap:balance}
+h1 .k{color:var(--accent);text-shadow:0 0 28px rgba(var(--accent-rgb),.55)}
+.lede{color:var(--mist);font-size:18px;margin:0 0 34px;max-width:56ch}
+.label{font-family:var(--f-mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mist);margin:30px 0 10px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.panel{border:1px solid var(--edge);background:linear-gradient(160deg,rgba(26,40,54,.55),rgba(11,17,24,.9));padding:20px 22px}
+.panel.accent{border-color:rgba(var(--accent-rgb),.35);background:linear-gradient(135deg,rgba(var(--accent-rgb),.10),rgba(11,17,24,.85) 60%)}
+.msg{padding:14px 16px;margin-top:16px;font-size:15px;line-height:1.55;display:none;border:1px solid var(--edge);background:var(--steel);word-break:break-word}
+.msg.show{display:block}
+.msg.ok{border-color:rgba(77,255,154,.6);background:rgba(77,255,154,.07)}
+.msg.err{border-color:rgba(255,90,110,.6);background:rgba(255,90,110,.08)}
+.msg.info{border-color:rgba(242,193,78,.55);background:rgba(242,193,78,.06)}
+.msg a{color:var(--accent)}
+.msg a.dc{display:inline-flex;margin-top:4px;background:#5865f2;color:#fff;text-decoration:none;padding:10px 16px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px;
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.hint{color:var(--mist);font-size:14px;margin-top:34px;line-height:1.6}
+.hint b{color:var(--frost)}
+footer{border-top:1px solid var(--edge);padding:26px var(--gut) 34px;text-align:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
+footer a{color:var(--ice);text-decoration:none}
+footer p{max-width:720px;margin:12px auto 0;text-transform:none;letter-spacing:0;font-family:var(--f-body);font-size:13px;line-height:1.5}
+
+.card{border:1px solid var(--edge);background:var(--steel);padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;word-break:break-all}
+.card .addr{flex:1;font-family:var(--f-mono);font-size:13.5px}
+.tag{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;border:1px solid rgba(63,208,255,.5);color:var(--ice);padding:2px 8px;flex:none}
+.x{background:none;border:0;color:var(--mist);cursor:pointer;font-size:18px;padding:4px;flex:none}
+.x:hover{color:var(--bad)}
+.empty{color:var(--mist);font-size:15px}
+.linkbtn{background:none;border:0;color:var(--mist);cursor:pointer;font:600 13px var(--f-body);letter-spacing:.06em;padding:4px 0}
+.linkbtn:hover{color:var(--ice)}
+.big{font-family:var(--f-display);font-size:clamp(40px,9vw,60px);line-height:1}
+.big small{font-family:var(--f-body);font-size:20px;color:var(--mist);margin-left:10px;font-weight:600}
+.tiers{font-size:14.5px;color:var(--mist);line-height:1.9;margin-top:14px}
+.discord{border-color:rgba(88,101,242,.6);color:#c8ccff}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <a href="/" title="ultwithknife.com"><img class="logo" src="/img/kult-logo.png" alt="KULT" /></a>
-    <div>
-      <h1>VERIFY</h1>
-      <div class="sub" id="sub">KULT holder verification · Cronos</div>
-    </div>
-  </header>
+<header class="nav">
+  <a class="brand" href="../"><img src="../img/pendant-sm.webp" alt="" width="40" height="40">KULT</a>
+  <a class="btn ghost sm hide-sm" href="https://discord.gg/CCZ2X2G9vK" target="_blank" rel="noopener">Discord</a>
+  <a class="btn sm" href="https://vvs.finance/trade/swap?inputCurrency=cro&amp;outputCurrency=0xd0186314CF470650Da5C395346c8A657831d1fc6&amp;exactAmount=0&amp;exactField=input" target="_blank" rel="noopener">Buy $KULT</a>
+</header>
+<main>
+  <div class="eyebrow" id="sub">KULT holders · Cronos</div>
+  <h1>Verify your <span class="k">$KULT.</span></h1>
+  <p class="lede">Link your wallets to unlock holder roles in the KULT Discord, from KULT Holder all the way up to Colt's BFF. Free, no transaction, and your tokens never leave your wallet.</p>
 
   <div id="expired" class="msg err"></div>
 
-  <main id="app" style="display:none">
-    <div class="row">
-      <span class="label">Wallets</span>
-      <button class="ghost" id="addBtn">＋ Add Wallet</button>
-    </div>
+  <div id="app" style="display:none">
+    <div class="label"><span>Wallets</span><button class="btn sm" id="addBtn" type="button">＋ Add wallet</button></div>
     <div id="wallets"></div>
-    <div class="row" style="margin:10px 0 0;justify-content:flex-end"><button class="ghost" id="wcBtn" style="display:none;font-size:13px;color:var(--muted)">📱 Use a phone wallet (WalletConnect)</button></div>
+    <div style="text-align:right"><button class="linkbtn" id="wcBtn" style="display:none" type="button">📱 Use a phone wallet (WalletConnect)</button></div>
     <div id="status" class="msg"></div>
 
-    <div class="row"><span class="label">Holdings</span></div>
-    <div class="big"><span id="total">0</span><small>$<span class="sym"></span></small></div>
-    <div class="tiers" id="breakdown" style="display:none"></div>
-    <div class="tiers" id="tiers"></div>
+    <div class="label"><span>Holdings</span></div>
+    <div class="panel accent">
+      <div class="big"><span id="total">0</span><small>$<span class="sym"></span></small></div>
+      <div class="tiers" id="breakdown" style="display:none"></div>
+      <div class="tiers" id="tiers"></div>
+    </div>
 
-    <div class="row"><span class="label">Social accounts</span></div>
+    <div class="label"><span>Discord account</span></div>
     <div class="card discord"><span>👾</span><span class="addr" id="username"></span></div>
 
     <p class="hint">
       Linking a wallet only asks you to <b>sign a message</b>. It's free, sends no transaction, and never gives access to your funds.
       After linking, your roles update automatically. You can also press <b>verify</b> in Discord any time.
     </p>
-  </main>
-</div>
-
+  </div>
+</main>
+<footer>
+  <a href="../">ultwithknife.com</a> · <a href="https://x.com/ultwithknife" target="_blank" rel="noopener">@ultwithknife</a> · <a href="https://discord.gg/CCZ2X2G9vK" target="_blank" rel="noopener">Discord</a>
+  <p>$KULT is a memecoin with no intrinsic value or expectation of financial return. Always check addresses before you confirm anything in your wallet.</p>
+</footer>
 <script>
   // ====== SETTING ======
   // The KULT copy of the verify bot on Railway (no slash at the end).
@@ -123,7 +145,7 @@
         optionalChains: [WC.chainId],
         rpcMap: { [WC.chainId]: WC.rpc },
         showQrModal: true,
-        metadata: { name: document.title, description: document.title, url: location.origin, icons: [location.origin + '/img/kult-logo.png'] },
+        metadata: { name: document.title, description: document.title, url: location.origin, icons: [new URL('../img/kult-logo.png', location.href).href] },
       });
     }
     if (!WC.provider.session) await WC.provider.connect();
@@ -192,7 +214,7 @@
       if (data.rpcUrl) WC.rpc = data.rpcUrl;
       if (WC.id && window.ethereum) $('wcBtn').style.display = 'inline';
       document.querySelectorAll('.sym').forEach((e) => (e.textContent = symbol));
-      $('sub').textContent = `${symbol} holder verification · ${data.chainName}`;
+      $('sub').textContent = `${symbol} holders · ${data.chainName}`;
       document.title = `${symbol} Verify`;
       $('username').textContent = data.username;
       $('tiers').innerHTML = data.tiers
@@ -264,6 +286,5 @@
   $('wcBtn').onclick = () => addWallet(true);
   load();
 </script>
-<p class="foot"><a href="/">ultwithknife.com</a> · <a href="https://discord.gg/CCZ2X2G9vK">Discord</a></p>
 </body>
 </html>
