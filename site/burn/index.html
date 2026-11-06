@@ -78,6 +78,14 @@ label.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--fire)
 #burnBtn{--c:var(--fire);width:100%;margin-top:20px;font-size:17px;padding:17px;color:#1a0a00}
 .linkbtn{background:none;border:0;color:var(--mist);cursor:pointer;font:600 13px var(--f-body);letter-spacing:.06em}
 .linkbtn:hover{color:var(--fire)}
+.hero{display:grid;grid-template-columns:1fr 200px;gap:clamp(20px,4vw,40px);align-items:center;margin-bottom:6px}
+.hero .lede{margin-bottom:0}
+.colt{margin:0;position:relative;transform:rotate(2.5deg)}
+.colt video{display:block;width:100%;aspect-ratio:360/512;object-fit:cover;background:#1a0a00;border:1.5px solid rgba(255,122,26,.7);
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);box-shadow:0 0 40px rgba(255,122,26,.35)}
+.colt::after{content:"";position:absolute;inset:-18px;z-index:-1;background:radial-gradient(closest-side,rgba(255,122,26,.35),transparent);filter:blur(10px)}
+.colt figcaption{font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--fire);text-align:center;margin-top:10px}
+@media (max-width:600px){.hero{grid-template-columns:1fr 112px;gap:16px;align-items:start}.hero h1{font-size:clamp(34px,10vw,44px)}.colt{margin-top:28px}.colt figcaption{display:none}.hero .lede{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -87,9 +95,17 @@ label.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--fire)
   <a class="btn sm" href="https://vvs.finance/trade/swap?inputCurrency=cro&amp;outputCurrency=0xd0186314CF470650Da5C395346c8A657831d1fc6&amp;exactAmount=0&amp;exactField=input" target="_blank" rel="noopener">Buy $KULT</a>
 </header>
 <main>
-  <div class="eyebrow" id="sub">Burn $KULT · Cronos</div>
-  <h1>Feed the <span class="k">fire.</span></h1>
-  <p class="lede">Send $KULT to the burn address and it's gone for good. Burns from verified wallets get announced in the KULT Discord with your name.</p>
+  <div class="hero">
+    <div>
+      <div class="eyebrow" id="sub">Burn $KULT · Cronos</div>
+      <h1>Feed the <span class="k">fire.</span></h1>
+      <p class="lede">Send $KULT to the burn address and it's gone for good. Burns from verified wallets get announced in the KULT Discord with your name.</p>
+    </div>
+    <figure class="colt">
+      <video src="../img/burn-colt.mp4" poster="../img/burn-colt.webp" autoplay muted loop playsinline aria-label="Colt shovelling cash into the fireplace"></video>
+      <figcaption>Colt does it daily</figcaption>
+    </figure>
+  </div>
 
   <div class="label"><span>Amount to burn</span></div>
   <div class="amtwrap">
