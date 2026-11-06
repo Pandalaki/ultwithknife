@@ -1094,8 +1094,8 @@
   "dur": 11.8
  },
  {
-  "id": "clearance-sale",
-  "title": "Clearance Sale",
+  "id": "walk-out",
+  "title": "Walk Out",
   "tags": [
    "bullish"
   ],
@@ -1110,8 +1110,8 @@
   "kind": "gif"
  },
  {
-  "id": "post-fight-interview",
-  "title": "Post-Fight Interview",
+  "id": "happy-to-be-here",
+  "title": "Happy to be Here",
   "tags": [
    "reaction"
   ],
@@ -1236,5 +1236,104 @@
   "kind": "ref",
   "ext": "png",
   "alpha": true
+ },
+ {
+  "id": "are-you-not-entertained",
+  "title": "Are You Not Entertained",
+  "tags": [
+   "flex"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "breakfast-of-champions",
+  "title": "Breakfast of Champions",
+  "tags": [
+   "gmgn",
+   "chill"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "face-the-bear",
+  "title": "Face the Bear",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "heres-colty",
+  "title": "Here's Colty",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "hey-there",
+  "title": "Hey There",
+  "tags": [
+   "gmgn"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "locker-room",
+  "title": "Locker Room",
+  "tags": [
+   "party",
+   "kult"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "not-dead-yet",
+  "title": "Not Dead Yet",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "not-reading-that",
+  "title": "Not Reading That",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "oh-heyyy",
+  "title": "Oh Heyyy",
+  "tags": [
+   "gmgn",
+   "reaction"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "peekaboo",
+  "title": "Peekaboo",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "thriller",
+  "title": "Thriller",
+  "tags": [
+   "party"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "whale-hello-there",
+  "title": "Whale Hello There",
+  "tags": [
+   "bullish"
+  ],
+  "kind": "gif"
  }
 ]
