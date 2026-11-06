@@ -69,7 +69,8 @@ img{max-width:100%;height:auto;display:block}
 .eyebrow::before{content:"";width:34px;height:2px;background:var(--ice);box-shadow:0 0 12px var(--ice)}
 
 main{max-width:1100px;margin:0 auto;padding-block:clamp(28px,5vw,56px) clamp(48px,7vw,88px);padding-inline:var(--gut);display:grid;gap:22px}
-.lab-head{display:grid;gap:12px}
+.lab-head{display:grid;gap:12px;margin-bottom:14px}
+#panel-memes .tool-head{margin-bottom:10px}
 h1{font-family:var(--f-display);font-weight:400;font-size:clamp(36px,6vw,72px);line-height:1;margin:0;text-wrap:balance}
 h1 .k{color:var(--ice);text-shadow:0 0 26px rgba(63,208,255,.6)}
 .lede{color:var(--mist);max-width:60ch;margin:0}
@@ -342,7 +343,6 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
   <div class="lab-head">
     <div class="eyebrow">The KULT Lab</div>
     <h1>Play with the <span class="k">knife.</span></h1>
-    <p class="lede">Two games, a PFP maker, a quote card maker and a vault of Colt GIFs, memes and videos for the Kult. Everything runs right here on your device.</p>
   </div>
 
   <div class="tabs" role="tablist" aria-label="Lab tools">
@@ -632,7 +632,6 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
   <section class="tool" id="panel-memes" aria-labelledby="mvH">
   <div class="tool-head">
     <h2 id="mvH">Meme <span class="k">Vault.</span></h2>
-    <p class="lede"><span id="mvCounts">Colt GIFs and memes</span>, free for the Kult. Tap one to see it big, then download it and post it anywhere.</p>
   </div>
   <div class="seg mv-types" role="radiogroup" aria-label="GIFs, memes, videos or Colt">
     <button type="button" role="radio" aria-checked="true" data-k="gif">GIFs <small id="mvNgif"></small></button>
@@ -2099,7 +2098,6 @@ function build(){
   const nG = MEMES.filter(m => m.k === "gif").length, nI = MEMES.filter(m => m.k === "img").length, nV = MEMES.filter(m => m.k === "vid").length;
   $("mvNgif").textContent = nG; $("mvNimg").textContent = nI; $("mvNvid").textContent = nV; $("mvNref").textContent = MEMES.filter(m => m.k === "ref").length;
   const pl = (n, w) => n + " " + w + (n === 1 ? "" : "s");
-  $("mvCounts").textContent = pl(nG, "Colt GIF") + (nV ? `, ${pl(nI, "meme")} and ${pl(nV, "video")}` : nI ? ` and ${pl(nI, "meme")}` : "");
   document.querySelectorAll(".mv-types button").forEach(b => b.addEventListener("click", () => setKind(b.dataset.k)));
   const grid = $("mvGrid");
   grid.innerHTML = MEMES.map((m, i) => `<div class="mv-tile" data-i="${i}">
