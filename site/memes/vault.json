@@ -1394,5 +1394,39 @@
   "title": "Wave",
   "tags": [],
   "kind": "gif"
+ },
+ {
+  "id": "city-views",
+  "title": "City Views",
+  "tags": [
+   "chill",
+   "gmgn"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "deep-thoughts",
+  "title": "Deep Thoughts",
+  "tags": [
+   "chill"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "the-boss",
+  "title": "The Boss",
+  "tags": [
+   "flex"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "yacht-life",
+  "title": "Yacht Life",
+  "tags": [
+   "flex",
+   "chill"
+  ],
+  "kind": "gif"
  }
 ]
