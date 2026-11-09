@@ -172,6 +172,11 @@ label.btn{user-select:none}
 .tab-pic img{width:100%;height:100%;object-fit:cover;display:block}
 a.tab:hover .tab-pic{transform:rotate(-8deg) scale(1.08)}
 .tab[style*="--tc"][aria-selected="true"]{border-color:var(--tc);box-shadow:0 0 18px color-mix(in srgb,var(--tc) 35%,transparent)}
+.tabs.wrapped [data-tab="memes"]{order:1}.tabs.wrapped [data-tab="colt-says"]{order:2}.tabs.wrapped [data-tab="pfp"]{order:3}
+.tabs.wrapped .tab-break{order:4;display:block;flex-basis:100%;height:0}
+.tabs.wrapped{row-gap:5px}
+@media (max-width:560px){.tabs.wrapped{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tabs.wrapped .tab-break{display:none}.tabs.wrapped [data-tab="memes"]{grid-column:1/-1;justify-self:start}.tabs.wrapped .tab{min-width:0;padding-left:10px;padding-right:8px;gap:8px;font-size:12.5px;letter-spacing:.06em;white-space:nowrap}.tabs.wrapped .tab.tab-memes{padding-left:6px}}.tabs.wrapped [data-tab="knife-catch"]{order:5}.tabs.wrapped [data-tab="knife-throw"]{order:6}
+.tab-break{display:none}
 .tab.tab-memes{position:relative;gap:10px;padding:6px 16px 6px 6px;color:var(--void);background:linear-gradient(100deg,var(--ice),#8fe6ff 40%,var(--gold) 75%,var(--ice));background-size:220% 100%;
   border-color:transparent;font-size:16px;animation:tmShine 4s linear infinite,tmPop .7s cubic-bezier(.2,1.6,.4,1) .2s both;box-shadow:0 0 24px rgba(63,208,255,.45)}
 .tab.tab-memes:hover{color:var(--void);transform:translateY(-2px) rotate(-1.5deg)}
@@ -356,6 +361,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
     <a class="tab" role="tab" aria-selected="false" href="#knife-catch" data-tab="knife-catch" style="--tc:#3fd0ff"><span class="tab-pic" aria-hidden="true"><img src="../img/tab-catch.webp" alt="" width="30" height="30"></span>Knife Catch</a>
     <a class="tab" role="tab" aria-selected="false" href="#knife-throw" data-tab="knife-throw" style="--tc:#ff7a1a"><span class="tab-pic" aria-hidden="true"><img src="../img/tab-throw.webp" alt="" width="30" height="30"></span>Knife Throw</a>
     <a class="tab" role="tab" aria-selected="false" href="#pfp" data-tab="pfp" style="--tc:#4dff9a"><span class="tab-pic" aria-hidden="true"><img src="../img/tab-pfp.webp" alt="" width="30" height="30"></span>Become Colt</a>
+    <span class="tab-break" aria-hidden="true"></span>
   </div>
 
   <section class="tool" id="panel-kc" hidden aria-label="Knife Catch">
@@ -3152,6 +3158,20 @@ window.CS = { show(){ redraw(); queuePrep(); } };
   const toTop = () => window.scrollTo(0, 0);
   toTop(); addEventListener("load", toTop); addEventListener("pageshow", e => { if(e.persisted) toTop(); });
   const panels = { "knife-catch": "panel-kc", "knife-throw": "panel-kt", "pfp": "panel-pfp", "colt-says": "panel-says", "memes": "panel-memes" };
+// When the tabs can't fit on one line: Memes, Colt Says, Become Colt on top; the two games below.
+(() => {
+  const bar = document.querySelector(".tabs");
+  if (!bar) return;
+  const fit = () => {
+    bar.classList.remove("wrapped");
+    const tops = [...bar.querySelectorAll("a.tab")].map(t => t.offsetTop);
+    if (Math.max(...tops) - Math.min(...tops) > 4) bar.classList.add("wrapped");
+  };
+  fit();
+  if ("ResizeObserver" in window) new ResizeObserver(fit).observe(bar.parentElement);
+  else addEventListener("resize", fit);
+  document.fonts?.ready.then(fit);
+})();
   const tabs = [...document.querySelectorAll("a.tab[data-tab]")];
   function show(hash){
     let [name, sub] = String(hash || "").split("/");
