@@ -1422,5 +1422,30 @@
    "chill"
   ],
   "kind": "gif"
+ },
+ {
+  "id": "negotiations",
+  "title": "Negotiations",
+  "tags": [
+   "flex",
+   "chill"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "tailor-made",
+  "title": "Tailor Made",
+  "tags": [
+   "flex"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "taking-calls",
+  "title": "Taking Calls",
+  "tags": [
+   "flex"
+  ],
+  "kind": "gif"
  }
 ]
