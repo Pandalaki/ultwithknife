@@ -115,9 +115,9 @@ footer p{max-width:720px;margin:12px auto 0;text-transform:none;letter-spacing:0
     <div class="label"><span>Discord account</span></div>
     <div class="card discord"><span>👾</span><span class="addr" id="username"></span></div>
     <label class="ranks-opt" id="ranksOpt" hidden>
-      <input type="checkbox" id="ranksShow">
+      <input type="checkbox" id="ranksShow" checked>
       <span><b>Show my Discord name on <a id="ranksLink" href="../kult/" target="_blank" rel="noopener">Kult Ranks</a></b><br>
-      Your name and picture appear on the public leaderboard next to your rounded $KULT. Your wallet address is never shown. Leave it off to stay anonymous.</span>
+      Your name and picture appear on the public leaderboard next to your rounded $KULT. Your wallet address is never shown. Untick to stay anonymous.</span>
     </label>
     <div id="ranksMsg" class="ranks-msg" aria-live="polite"></div>
 
@@ -242,7 +242,7 @@ footer p{max-width:720px;margin:12px auto 0;text-transform:none;letter-spacing:0
       render(data);
       if (data.siteBoard) {
         $('ranksOpt').hidden = false;
-        $('ranksShow').checked = !!data.siteBoard.show;
+        $('ranksShow').checked = data.siteBoard.show !== false;
       }
       $('app').style.display = 'block';
     } catch (e) {
