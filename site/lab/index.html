@@ -168,6 +168,10 @@ label.btn{user-select:none}
 }
 
 /* Memes tab: the loud one */
+.tab-pic{width:30px;height:30px;border-radius:50%;overflow:hidden;flex:none;margin:-4px 0 -4px -8px;border:1.5px solid color-mix(in srgb,var(--tc,var(--ice)) 70%,transparent);background:var(--void);transition:transform .2s}
+.tab-pic img{width:100%;height:100%;object-fit:cover;display:block}
+a.tab:hover .tab-pic{transform:rotate(-8deg) scale(1.08)}
+.tab[style*="--tc"][aria-selected="true"]{border-color:var(--tc);box-shadow:0 0 18px color-mix(in srgb,var(--tc) 35%,transparent)}
 .tab.tab-memes{position:relative;gap:10px;padding:6px 16px 6px 6px;color:var(--void);background:linear-gradient(100deg,var(--ice),#8fe6ff 40%,var(--gold) 75%,var(--ice));background-size:220% 100%;
   border-color:transparent;font-size:16px;animation:tmShine 4s linear infinite,tmPop .7s cubic-bezier(.2,1.6,.4,1) .2s both;box-shadow:0 0 24px rgba(63,208,255,.45)}
 .tab.tab-memes:hover{color:var(--void);transform:translateY(-2px) rotate(-1.5deg)}
@@ -348,10 +352,10 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
 
   <div class="tabs" role="tablist" aria-label="Lab tools">
     <a class="tab tab-memes" role="tab" aria-selected="true" href="#memes" data-tab="memes"><span class="tm-pic" aria-hidden="true"><img id="tmPic" src="../memes/gifs/kult-very-nice.webp" alt=""></span><span class="tm-txt">Memes</span><b class="tm-n" id="tmN"></b></a>
-    <a class="tab" role="tab" aria-selected="false" href="#colt-says" data-tab="colt-says">Colt Says</a>
-    <a class="tab" role="tab" aria-selected="false" href="#knife-catch" data-tab="knife-catch">Knife Catch</a>
-    <a class="tab" role="tab" aria-selected="false" href="#knife-throw" data-tab="knife-throw">Knife Throw</a>
-    <a class="tab" role="tab" aria-selected="false" href="#pfp" data-tab="pfp">Become Colt</a>
+    <a class="tab" role="tab" aria-selected="false" href="#colt-says" data-tab="colt-says" style="--tc:#f2c14e"><span class="tab-pic" aria-hidden="true"><img src="../img/tab-says.webp" alt="" width="30" height="30"></span>Colt Says</a>
+    <a class="tab" role="tab" aria-selected="false" href="#knife-catch" data-tab="knife-catch" style="--tc:#3fd0ff"><span class="tab-pic" aria-hidden="true"><img src="../img/tab-catch.webp" alt="" width="30" height="30"></span>Knife Catch</a>
+    <a class="tab" role="tab" aria-selected="false" href="#knife-throw" data-tab="knife-throw" style="--tc:#ff7a1a"><span class="tab-pic" aria-hidden="true"><img src="../img/tab-throw.webp" alt="" width="30" height="30"></span>Knife Throw</a>
+    <a class="tab" role="tab" aria-selected="false" href="#pfp" data-tab="pfp" style="--tc:#4dff9a"><span class="tab-pic" aria-hidden="true"><img src="../img/tab-pfp.webp" alt="" width="30" height="30"></span>Become Colt</a>
   </div>
 
   <section class="tool" id="panel-kc" hidden aria-label="Knife Catch">
