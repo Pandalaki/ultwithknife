@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Kult · $KULT members board</title>
+<meta name="description" content="Every verified $KULT holder in the Discord, ranked. Climb the tiers, hold the longest, burn the most." />
+<meta property="og:title" content="The Kult · $KULT members board" />
+<meta property="og:description" content="Every verified $KULT holder, ranked. Climb the tiers, hold the longest, burn the most." />
+<meta property="og:image" content="https://ultwithknife.com/og.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+:root{--void:#030508;--steel:#0b1118;--edge:#1a2836;--frost:#e9f4ff;--mist:#8ba3b8;--ice:#3fd0ff;--deep:#1a6dff;--gold:#f2c14e;--fire:#ff7a1a;--ok:#4dff9a;--bad:#ff5a6e;
+  --f-display:"Dela Gothic One","Arial Black",Impact,sans-serif;--f-body:"Chakra Petch","Segoe UI",system-ui,sans-serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gut:clamp(16px,4vw,56px);--accent:var(--ice);--accent-rgb:63,208,255;color-scheme:dark}
+*{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;min-height:100vh;color:var(--frost);font-family:var(--f-body);font-size:17px;line-height:1.6;
+  background:radial-gradient(1000px 560px at 50% -80px,rgba(var(--accent-rgb),.16),transparent 70%),var(--void)}
+a{color:inherit}
+img{max-width:100%;display:block}
+::selection{background:var(--ice);color:var(--void)}
+:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
+.nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:14px var(--gut);
+  background:linear-gradient(to bottom,rgba(3,5,8,.92),rgba(3,5,8,.6));backdrop-filter:blur(10px);border-bottom:1px solid rgba(63,208,255,.08)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-size:20px;letter-spacing:.04em;margin-right:auto}
+.brand img{width:44px;height:48px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(242,193,78,.45))}
+.btn{--c:var(--ice);display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 22px;font-family:var(--f-body);font-weight:700;font-size:15px;
+  letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--void);background:var(--c);border:0;cursor:pointer;
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);transition:transform .2s,opacity .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--frost);box-shadow:inset 0 0 0 1.5px rgba(63,208,255,.55)}
+.btn.ghost:hover{color:var(--ice)}
+.btn.sm{padding:10px 16px;font-size:13px}
+.btn.dc{--c:#5865f2;color:#fff}
+@media (max-width:420px){.nav .hide-sm{display:none}}
+
+main{max-width:900px;margin:0 auto;padding:clamp(32px,6vw,72px) var(--gut) 56px}
+.eyebrow{font-family:var(--f-mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--accent);box-shadow:0 0 12px var(--accent);flex:none}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(46px,9vw,84px);line-height:1;margin:14px 0 12px;letter-spacing:-.005em}
+h1 .k{color:var(--accent);text-shadow:0 0 28px rgba(var(--accent-rgb),.55)}
+.lede{color:var(--mist);font-size:18px;margin:0 0 30px;max-width:54ch}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:26px}
+.stat{border:1px solid var(--edge);background:linear-gradient(160deg,rgba(26,40,54,.55),rgba(11,17,24,.9));padding:16px 18px}
+.stat .v{font-family:var(--f-display);font-size:clamp(26px,4.4vw,36px);line-height:1.05}
+.stat .l{font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);margin-top:6px}
+.stat.fire .v{color:var(--fire);text-shadow:0 0 22px rgba(255,122,26,.35)}
+.stat .s{font-size:13px;color:var(--mist)}
+@media (max-width:600px){.stats{grid-template-columns:1fr 1fr}.stat.fire{grid-column:1/-1}}
+
+/* tier ladder */
+.ladder{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px}
+.rung{flex:1 1 150px;border:1px solid var(--edge);background:var(--steel);padding:10px 40px 10px 12px;display:grid;gap:2px;position:relative;overflow:hidden}
+.rung::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--tc)}
+.rung b{font-size:14.5px;letter-spacing:.02em}
+.rung span{font-family:var(--f-mono);font-size:11.5px;color:var(--mist);letter-spacing:.06em}
+.rung em{font-style:normal;font-family:var(--f-display);font-size:20px;color:var(--tc);position:absolute;right:12px;top:50%;transform:translateY(-50%)}
+
+/* tabs */
+.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.tab{flex:1 1 0;min-width:150px;background:var(--steel);border:1px solid var(--edge);color:var(--mist);padding:14px 16px;font:700 14px var(--f-body);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px;transition:border-color .15s,color .15s}
+.tab:hover{color:var(--frost)}
+.tab[aria-selected="true"]{color:var(--frost);border-color:var(--tabc,var(--ice));box-shadow:inset 0 0 0 1px var(--tabc,var(--ice)),0 0 24px -8px var(--tabc,var(--ice))}
+.tab .e{font-size:20px}
+.tab small{display:block;font:500 12px var(--f-body);letter-spacing:.02em;text-transform:none;color:var(--mist)}
+.blurb{color:var(--mist);font-size:15px;margin:0 0 18px}
+
+/* podium */
+.podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:12px;align-items:end;margin-bottom:14px}
+.pod{border:1px solid var(--edge);background:linear-gradient(170deg,rgba(26,40,54,.6),rgba(11,17,24,.95));padding:18px 14px 16px;text-align:center;display:grid;justify-items:center;gap:6px;position:relative}
+.pod.p1{order:2;padding-top:26px;border-color:rgba(242,193,78,.6);background:linear-gradient(170deg,rgba(242,193,78,.16),rgba(11,17,24,.95) 70%);box-shadow:0 0 40px -14px rgba(242,193,78,.6)}
+.pod.p2{order:1;border-color:rgba(200,214,230,.45)}
+.pod.p3{order:3;border-color:rgba(205,127,50,.5)}
+.pod .medal{font-size:26px;line-height:1}
+.pod .av{width:64px;height:64px}
+.pod.p1 .av{width:84px;height:84px}
+.pod .nm{font-weight:700;font-size:16px;line-height:1.2;word-break:break-word}
+.pod .amt{font-family:var(--f-display);font-size:22px;line-height:1.1}
+.pod.p1 .amt{font-size:28px;color:var(--gold)}
+.pod .crown{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-family:var(--f-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;background:var(--gold);color:var(--void);padding:3px 9px;white-space:nowrap;font-weight:700}
+@media (max-width:600px){.podium{grid-template-columns:1fr}.pod.p1,.pod.p2,.pod.p3{order:0}.pod{grid-template-columns:30px 52px 1fr auto;column-gap:12px;row-gap:2px;text-align:left;justify-items:start;align-items:center;padding:14px}.pod.p1{padding-top:22px}.pod .medal{grid-column:1;grid-row:1/3}.pod .av,.pod.p1 .av{width:52px;height:52px;grid-column:2;grid-row:1/3}.pod .nm{grid-column:3;grid-row:1}.pod .tier{grid-column:3;grid-row:2}.pod .amt,.pod.p1 .amt{grid-column:4;grid-row:1/3;font-size:20px;justify-self:end}.pod .sub{display:none}.pod .crown{left:14px;transform:none}}
+
+/* rows */
+.rows{display:grid;gap:6px}
+.row{display:grid;grid-template-columns:44px 44px 1fr auto;align-items:center;gap:12px;border:1px solid var(--edge);background:var(--steel);padding:10px 14px}
+.row .rk{font-family:var(--f-mono);font-size:14px;color:var(--mist);text-align:center}
+.row .av{width:40px;height:40px}
+.row .who{min-width:0}
+.row .nm{font-weight:600;font-size:15.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .amt{font-family:var(--f-display);font-size:18px;text-align:right;line-height:1.1}
+.row .sub,.pod .sub{font-family:var(--f-mono);font-size:11px;color:var(--mist);letter-spacing:.04em}
+.row .sub{text-align:right}
+.anon .nm{color:var(--mist);font-weight:500}
+.av{border-radius:50%;object-fit:cover;background:#0f1822;border:1.5px solid var(--tc,var(--edge))}
+.av.ph{object-fit:contain;padding:7px;opacity:.6}
+.pod .av.ph{padding:12px}
+.tier{display:inline-block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tc,var(--mist));border:1px solid color-mix(in srgb,var(--tc,var(--mist)) 55%,transparent);padding:1px 7px;margin-top:3px;white-space:nowrap}
+.fire .amt{color:#ffb27a}
+@media (max-width:520px){.row .sub{display:none}.row{grid-template-columns:30px 36px 1fr auto;gap:10px;padding:9px 10px}.row .av{width:36px;height:36px}.row .amt{font-size:16px}}
+
+.state{border:1px dashed var(--edge);color:var(--mist);padding:28px 20px;text-align:center;font-size:15.5px}
+.state b{color:var(--frost)}
+.skel{height:62px;border:1px solid var(--edge);background:linear-gradient(90deg,var(--steel),#101a25,var(--steel));background-size:200% 100%;animation:sh 1.4s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}}
+.updated{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);text-align:right;margin-top:12px}
+
+/* join */
+.join{margin-top:44px;border:1px solid rgba(63,208,255,.3);background:linear-gradient(135deg,rgba(63,208,255,.09),rgba(11,17,24,.85) 60%);padding:26px 24px;display:grid;grid-template-columns:1fr auto;gap:18px 24px;align-items:center}
+.join h2{font-family:var(--f-display);font-weight:400;font-size:28px;margin:0 0 8px;line-height:1.1}
+.join ol{margin:0;padding-left:20px;color:var(--mist);font-size:15.5px;line-height:1.75}
+.join ol b{color:var(--frost)}
+.join code{font-family:var(--f-mono);font-size:13px;color:var(--ice)}
+.join .acts{display:grid;gap:10px}
+@media (max-width:680px){.join{grid-template-columns:1fr}.join .acts{grid-auto-flow:column;justify-content:start}}
+.fine{color:var(--mist);font-size:13.5px;margin-top:18px;line-height:1.6}
+
+footer{border-top:1px solid var(--edge);padding:26px var(--gut) 34px;text-align:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
+footer a{color:var(--ice);text-decoration:none}
+footer p{max-width:720px;margin:12px auto 0;text-transform:none;letter-spacing:0;font-family:var(--f-body);font-size:13px;line-height:1.5}
+.foot-ico{display:inline-flex;gap:16px;vertical-align:middle;margin:0 2px}.foot-ico a{display:inline-flex;color:var(--ice);opacity:.85;transition:opacity .15s,transform .15s}.foot-ico a:hover{opacity:1;transform:translateY(-1px)}.foot-ico svg{width:18px;height:18px;display:block}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="../"><img src="../img/pendant-sm.webp" alt="" width="40" height="40">KULT</a>
+  <a class="btn ghost sm hide-sm" href="https://discord.gg/CCZ2X2G9vK" target="_blank" rel="noopener">Discord</a>
+  <a class="btn sm" href="https://vvs.finance/trade/swap?inputCurrency=cro&amp;outputCurrency=0xd0186314CF470650Da5C395346c8A657831d1fc6&amp;exactAmount=0&amp;exactField=input" target="_blank" rel="noopener">Buy $KULT</a>
+</header>
+<main>
+  <div class="eyebrow">Members board · Cronos</div>
+  <h1>The <span class="k">Kult.</span></h1>
+  <p class="lede">Every verified $KULT holder in the Discord, ranked. Climb the tiers, hold the longest, feed the fire.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="v" id="sMembers">–</div><div class="l">Verified members</div></div>
+    <div class="stat"><div class="v" id="sHeld">–</div><div class="l">$KULT held by the Kult</div></div>
+    <div class="stat fire"><div class="v" id="sBurned">–</div><div class="l">$KULT burned <span class="s" id="sPct"></span></div></div>
+  </div>
+
+  <div class="ladder" id="ladder" aria-label="Tiers"></div>
+
+  <div class="tabs" role="tablist" aria-label="Boards">
+    <button class="tab" role="tab" aria-selected="true" data-b="holders" style="--tabc:var(--ice)"><span class="e">🏆</span><span>Holders<small>Biggest bags</small></span></button>
+    <button class="tab" role="tab" aria-selected="false" data-b="diamond" style="--tabc:#9fe8ff"><span class="e">💎</span><span>Diamond hands<small>Longest hold</small></span></button>
+    <button class="tab" role="tab" aria-selected="false" data-b="burners" style="--tabc:var(--fire)"><span class="e">🔥</span><span>Burners<small>Fed the fire</small></span></button>
+  </div>
+  <p class="blurb" id="blurb"></p>
+  <div id="board" aria-live="polite">
+    <div class="rows"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+  </div>
+  <div class="updated" id="updated"></div>
+
+  <section class="join">
+    <div>
+      <h2>Get on the board</h2>
+      <ol>
+        <li>Join the <b>KULT Discord</b>.</li>
+        <li>In <b>#token-verification</b>, tap <b>connections</b> and link your wallet. You only sign a message: free, no transaction.</li>
+        <li>Want your name and picture up here? Tap <b>show my name on the website</b> after verifying, or type <code>/show-on-website</code>.</li>
+      </ol>
+    </div>
+    <div class="acts">
+      <a class="btn dc" href="https://discord.gg/CCZ2X2G9vK" target="_blank" rel="noopener">Join Discord</a>
+      <a class="btn ghost sm" href="../burn/">Burn $KULT</a>
+    </div>
+  </section>
+  <p class="fine">Amounts are rounded and include $KULT in liquidity pools. Wallet addresses are never shown. Members stay anonymous unless they choose to show their name. Diamond hands counts days since a member first held 100K $KULT without dropping below it. Burners counts burns from verified wallets since tracking began. Updated every few minutes. Just for fun: nothing here is a reward or a promise of anything.</p>
+</main>
+<footer>
+  <a href="../">ultwithknife.com</a> · <span class="foot-ico"><a href="https://x.com/ultwithknife" target="_blank" rel="noopener" aria-label="KULT on X" title="KULT on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://discord.gg/CCZ2X2G9vK" target="_blank" rel="noopener" aria-label="KULT on Discord" title="KULT on Discord"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.865-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.1 14.1 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .078-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .079.009c.12.1.246.198.373.292a.077.077 0 0 1-.007.128 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.363 1.225 1.993a.076.076 0 0 0 .084.029 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.029zM8.02 15.331c-1.183 0-2.157-1.086-2.157-2.42 0-1.332.956-2.418 2.157-2.418 1.21 0 2.176 1.095 2.157 2.419 0 1.333-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.086-2.157-2.42 0-1.332.955-2.418 2.157-2.418 1.21 0 2.176 1.095 2.157 2.419 0 1.333-.946 2.419-2.157 2.419z"/></svg></a><a href="https://www.instagram.com/ultwithknife/" target="_blank" rel="noopener" aria-label="KULT on Instagram" title="KULT on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg></a><a href="https://www.tiktok.com/@ult.with.knife" target="_blank" rel="noopener" aria-label="KULT on TikTok" title="KULT on TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.6 3c.3 2.2 1.6 3.6 3.9 3.8v2.6c-1.4.1-2.6-.3-3.9-1.1v5.5c0 6.9-7.6 9.1-10.6 4.1-2-3.2-.8-8.8 5.6-9v2.7c-.5.1-1 .2-1.4.4-1.4.5-2.2 1.4-2 3 .4 3.1 6.1 4 5.6-2.1V3h2.8z"/></svg></a></span>
+  <p>$KULT is a memecoin with no intrinsic value or expectation of financial return. Only buy what you can afford to lose.</p>
+</footer>
+
+<script>
+(() => {
+  const API_BASE = 'https://holder-verify-bot-production-24e2.up.railway.app';
+  const DEMO = new URLSearchParams(location.search).has('demo');
+  const TIER_COLORS = { 'KULT Holder': '#3fd0ff', 'KULT Millionaire': '#4dff9a', 'KULT Whale': '#5b8cff', "Colt's Intern": '#f2c14e', "Colt's BFF": '#ff7a1a' };
+  const PH = '../img/pendant-sm.webp';
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const fmt = (n) => (!n ? '0' : new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: n >= 1e9 ? 2 : 1 }).format(n));
+  const days = (d) => (d === 1 ? '1 day' : `${d} days`);
+  const tc = (t) => TIER_COLORS[t] || '#8ba3b8';
+  const safeAvatar = (u) => (typeof u === 'string' && /^https:\/\/(cdn|media)\.discordapp\.(com|net)\//.test(u) ? u : null);
+
+  const BLURBS = {
+    holders: 'Biggest $KULT bags among verified members, wallets and LP together.',
+    diamond: 'Who has held the longest without blinking. Drop below 100K and the clock starts over.',
+    burners: 'Most $KULT sent to the fire from verified wallets. Gone forever, legends forever.',
+  };
+  const EMPTY = {
+    holders: 'No verified members yet. <b>Be the first</b>: verify in the Discord and claim #1.',
+    diamond: 'The clock just started. Check back soon to see who holds the longest.',
+    burners: 'No burns from verified members yet. <a href="../burn/" style="color:var(--fire)">Light the first fire 🔥</a>',
+  };
+
+  let data = null;
+  let view = 'holders';
+
+  function avatar(p, cls = '') {
+    const src = safeAvatar(p.avatar);
+    const style = `style="--tc:${tc(p.tier)}"`;
+    return src
+      ? `<img class="av ${cls}" ${style} src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${PH}';this.classList.add('ph')">`
+      : `<img class="av ph ${cls}" ${style} src="${PH}" alt="">`;
+  }
+  const name = (p) => (p.name ? esc(p.name) : 'Anonymous Kult member');
+  const tierTag = (p) => `<span class="tier" style="--tc:${tc(p.tier)}">${esc(p.tier || 'Initiate')}</span>`;
+
+  function value(p) {
+    if (view === 'diamond') return { amt: days(p.days), sub: p.since ? `since ${new Date(p.since).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}` : '' };
+    if (view === 'burners') return { amt: `${fmt(p.amount)} 🔥`, sub: '$KULT burned' };
+    return { amt: fmt(p.amount), sub: p.lp ? `incl. ${fmt(p.lp)} in LP` : '$KULT' };
+  }
+
+  function render() {
+    document.querySelectorAll('.tab').forEach((t) => t.setAttribute('aria-selected', String(t.dataset.b === view)));
+    $('blurb').textContent = BLURBS[view];
+    const list = (data && data[view]) || [];
+    if (!list.length) {
+      $('board').innerHTML = `<div class="state">${EMPTY[view]}</div>`;
+      return;
+    }
+    const medals = ['🥇', '🥈', '🥉'];
+    const crown = { holders: "Colt's favourite", diamond: 'Never sold', burners: 'Chief arsonist' }[view];
+    const top = list.slice(0, 3);
+    const rest = list.slice(3);
+    const podium = top
+      .map((p, i) => {
+        const v = value(p);
+        return `<div class="pod p${i + 1} ${p.name ? '' : 'anon'} ${view === 'burners' ? 'fire' : ''}">
+          ${i === 0 ? `<span class="crown">${crown}</span>` : ''}
+          <span class="medal">${medals[i]}</span>${avatar(p)}
+          <span class="nm">${name(p)}</span>${tierTag(p)}
+          <span class="amt">${esc(v.amt)}</span>${v.sub ? `<span class="sub">${esc(v.sub)}</span>` : ''}
+        </div>`;
+      })
+      .join('');
+    const rows = rest
+      .map((p) => {
+        const v = value(p);
+        return `<div class="row ${p.name ? '' : 'anon'} ${view === 'burners' ? 'fire' : ''}">
+          <span class="rk">#${p.rank}</span>${avatar(p)}
+          <span class="who"><div class="nm">${name(p)}</div>${tierTag(p)}</span>
+          <span><div class="amt">${esc(v.amt)}</div>${v.sub ? `<div class="sub">${esc(v.sub)}</div>` : ''}</span>
+        </div>`;
+      })
+      .join('');
+    $('board').innerHTML = `<div class="podium">${podium}</div><div class="rows">${rows}</div>`;
+  }
+
+  function renderStats() {
+    const s = data.stats || {};
+    $('sMembers').textContent = (s.members || 0).toLocaleString('en-US');
+    $('sHeld').textContent = fmt(s.held);
+    $('sBurned').textContent = s.burned == null ? '–' : fmt(s.burned);
+    $('sPct').textContent = s.burnedPct ? `· ${s.burnedPct.toFixed(2)}% of supply` : '';
+    $('ladder').innerHTML = (data.tiers || [])
+      .map((t) => `<div class="rung" style="--tc:${tc(t.name)}"><b>${esc(t.name)}</b><span>${fmt(t.min)}+ $KULT</span><em>${t.members || 0}</em></div>`)
+      .join('');
+    $('updated').textContent = `Updated ${new Date(data.updatedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+  }
+
+  async function load() {
+    try {
+      if (DEMO) data = demoData();
+      else {
+        const res = await fetch(API_BASE + '/api/board', { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        data = await res.json();
+      }
+      renderStats();
+      render();
+    } catch (err) {
+      if (!data) $('board').innerHTML = '<div class="state">The board is catching its breath. <b>Try again in a minute.</b></div>';
+    }
+  }
+
+  document.querySelectorAll('.tab').forEach((t) =>
+    t.addEventListener('click', () => {
+      view = t.dataset.b;
+      if (data) render();
+    })
+  );
+
+  // Preview with made-up members: add ?demo to the address.
+  function demoData() {
+    const n = ['Colt Fan', null, 'knife catcher', null, 'BlueHairDontCare', null, 'cro degen', null, null, 'paperhands.eth', null, 'Wen Lambo'];
+    const tiers = ["Colt's BFF", "Colt's Intern", 'KULT Whale', 'KULT Whale', 'KULT Millionaire', 'KULT Millionaire', 'KULT Millionaire', 'KULT Holder', 'KULT Holder', 'KULT Holder', 'KULT Holder', null];
+    const amts = [42100000, 13800000, 8200000, 5100000, 3400000, 1900000, 1050000, 640000, 410000, 220000, 120000, 64000];
+    const av = (i) => (n[i] ? `https://cdn.discordapp.com/embed/avatars/${i % 6}.png` : null);
+    const holders = amts.map((a, i) => ({ rank: i + 1, name: n[i], avatar: av(i), tier: tiers[i], amount: a, lp: i % 3 === 0 ? Math.round(a / 5) : 0, days: 60 - i * 4 }));
+    const diamond = [...holders].sort((a, b) => b.days - a.days).slice(0, 10).map((p, i) => ({ ...p, rank: i + 1, days: 92 - i * 7, since: Date.now() - (92 - i * 7) * 864e5 }));
+    const burners = holders.slice(0, 6).map((p, i) => ({ ...p, rank: i + 1, amount: [5000000, 2500000, 1000000, 500000, 100000, 20000][i] }));
+    return {
+      updatedAt: Date.now(),
+      tiers: [
+        { name: 'KULT Holder', min: 1e5, members: 4 }, { name: 'KULT Millionaire', min: 1e6, members: 3 }, { name: 'KULT Whale', min: 5e6, members: 2 },
+        { name: "Colt's Intern", min: 1e7, members: 1 }, { name: "Colt's BFF", min: 2e7, members: 1 },
+      ],
+      stats: { members: 12, held: 76500000, burned: 412000000, burnedPct: 0.41 },
+      holders, diamond, burners,
+    };
+  }
+
+  load();
+  setInterval(load, 2 * 60 * 1000);
+})();
+</script>
+</body>
+</html>
