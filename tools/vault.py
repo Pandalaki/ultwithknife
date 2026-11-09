@@ -31,7 +31,7 @@ HOME = os.path.join(SITE, "index.html")
 
 TAG_ALIASES = {"bullish": "bullish", "bull": "bullish", "reaction": "reaction", "reactions": "reaction",
                "flex": "flex", "party": "party", "chill": "chill", "gmgn": "gmgn", "gm": "gmgn", "gn": "gmgn",
-               "gm/gn": "gmgn", "kult": "kult",
+               "gm/gn": "gmgn", "kult": "kult", "colt": "colt",
                # Colt tab sub-tabs
                "references": "references", "reference": "references", "refs": "references", "ref": "references", "model": "model", "models": "model"}
 GIF_MAX = 10_000_000  # keep each download under ~10 MB
