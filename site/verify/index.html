@@ -71,6 +71,15 @@ footer p{max-width:720px;margin:12px auto 0;text-transform:none;letter-spacing:0
 .big small{font-family:var(--f-body);font-size:20px;color:var(--mist);margin-left:10px;font-weight:600}
 .tiers{font-size:14.5px;color:var(--mist);line-height:1.9;margin-top:14px}
 .discord{border-color:rgba(88,101,242,.6);color:#c8ccff}
+.ranks-opt{display:flex;gap:14px;align-items:flex-start;margin-top:12px;padding:14px 16px;border:1px solid rgba(242,193,78,.45);background:rgba(242,193,78,.06);cursor:pointer;font-size:14.5px;line-height:1.55;color:var(--mist)}
+.ranks-opt b{color:var(--frost)}
+.ranks-opt a{color:var(--gold)}
+.ranks-opt input{appearance:none;flex:none;width:24px;height:24px;margin-top:1px;border:2px solid var(--gold);background:transparent;cursor:pointer;display:grid;place-items:center}
+.ranks-opt input:checked{background:var(--gold)}
+.ranks-opt input:checked::after{content:"✓";color:var(--void);font-weight:700;font-size:16px;line-height:1}
+.ranks-opt input:disabled{opacity:.5}
+.ranks-msg{font-size:13.5px;color:var(--mist);min-height:1.2em;margin-top:6px}
+.ranks-msg.ok{color:var(--ok)}.ranks-msg.err{color:var(--bad)}
 .foot-ico{display:inline-flex;gap:16px;vertical-align:middle;margin:0 2px}.foot-ico a{display:inline-flex;color:var(--ice);opacity:.85;transition:opacity .15s,transform .15s}.foot-ico a:hover{opacity:1;transform:translateY(-1px)}.foot-ico svg{width:18px;height:18px;display:block}
 </style>
 </head>
@@ -102,6 +111,12 @@ footer p{max-width:720px;margin:12px auto 0;text-transform:none;letter-spacing:0
 
     <div class="label"><span>Discord account</span></div>
     <div class="card discord"><span>👾</span><span class="addr" id="username"></span></div>
+    <label class="ranks-opt" id="ranksOpt" hidden>
+      <input type="checkbox" id="ranksShow">
+      <span><b>Show my Discord name on <a id="ranksLink" href="../kult/" target="_blank" rel="noopener">Kult Ranks</a></b><br>
+      Your name and picture appear on the public leaderboard next to your rounded $KULT. Your wallet address is never shown. Leave it off to stay anonymous.</span>
+    </label>
+    <div id="ranksMsg" class="ranks-msg" aria-live="polite"></div>
 
     <p class="hint">
       Linking a wallet only asks you to <b>sign a message</b>. It's free, sends no transaction, and never gives access to your funds.
@@ -222,11 +237,35 @@ footer p{max-width:720px;margin:12px auto 0;text-transform:none;letter-spacing:0
         .map((t) => `${esc(t.name)}: ${Number(t.minTokens).toLocaleString('en-US')}+ ${esc(symbol)}`)
         .join('<br>');
       render(data);
+      if (data.siteBoard) {
+        $('ranksOpt').hidden = false;
+        $('ranksShow').checked = !!data.siteBoard.show;
+      }
       $('app').style.display = 'block';
     } catch (e) {
       show($('expired'), 'err', esc(e.message));
     }
   }
+
+  $('ranksShow').addEventListener('change', async (e) => {
+    const box = e.target;
+    const want = box.checked;
+    const msg = $('ranksMsg');
+    box.disabled = true;
+    msg.className = 'ranks-msg';
+    msg.textContent = 'Saving…';
+    try {
+      await api('/api/site-board', { method: 'POST', body: JSON.stringify({ t: token, show: want }) });
+      msg.className = 'ranks-msg ok';
+      msg.textContent = want ? '✓ Your name will show on Kult Ranks within a minute or two.' : '✓ You are anonymous on Kult Ranks.';
+    } catch (err) {
+      box.checked = !want;
+      msg.className = 'ranks-msg err';
+      msg.textContent = err.message;
+    } finally {
+      box.disabled = false;
+    }
+  });
 
   function toHex(str) {
     return '0x' + Array.from(new TextEncoder().encode(str)).map((b) => b.toString(16).padStart(2, '0')).join('');
