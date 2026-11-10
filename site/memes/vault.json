@@ -1471,5 +1471,31 @@
    "reaction"
   ],
   "kind": "img"
+ },
+ {
+  "id": "approved",
+  "title": "Approved",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "autographs",
+  "title": "Autographs",
+  "tags": [
+   "flex",
+   "colt"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "gym-pump",
+  "title": "Gym Pump",
+  "tags": [
+   "flex",
+   "bullish"
+  ],
+  "kind": "gif"
  }
 ]
