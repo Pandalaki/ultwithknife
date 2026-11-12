@@ -5,6 +5,7 @@
 // Netlify env:
 //   NFT_COLLECTION   the collection's contract address (0x...). Until it's set, the feed reports "not live".
 //   EB_API_KEY       optional Ebisu's Bay partner key (only raises their rate limit).
+//   KULT_VERIFY_URL  the KULT verify bot (defaults to the Railway address) for "Kult member" badges.
 //
 // GET /api/nft-market                     → { live, collection, stats, listings, sales, updatedAt }
 // GET /api/nft-market?collection=0x...    → same, for another collection (testing before launch)
@@ -13,6 +14,9 @@ const TTL = 60 * 1000; // refresh at most once a minute per warm function
 const MAX_LISTING_PAGES = 10; // 1,000 active listings is far more than a 750 collection can have
 const ZERO = "0x0000000000000000000000000000000000000000";
 const cache = new Map(); // address -> { at, data }
+const OWNERS_TTL = 5 * 60 * 1000; // owners change less often; refresh every 5 minutes
+const ownersCache = new Map(); // address -> { at, data }
+const VERIFY = (process.env.KULT_VERIFY_URL || "https://holder-verify-bot-production-24e2.up.railway.app").replace(/\/$/, "");
 
 const isAddr = (a) => /^0x[0-9a-fA-F]{40}$/.test(a || "");
 const short = (a) => (isAddr(a) ? `${a.slice(0, 6)}…${a.slice(-4)}` : null);
@@ -47,6 +51,28 @@ function listingOut(addr, l) {
     expiresAt: sec(l.expirationDate),
     url: tokenUrl(addr, l.nftId),
   };
+}
+
+// Every token's owner (from Ebisu's Bay), plus which owners are verified KULT Discord members.
+async function owners(addr) {
+  const hit = ownersCache.get(addr);
+  if (hit && Date.now() - hit.at < OWNERS_TTL) return hit.data;
+  const tokens = {};
+  let page = 1, pages = 1;
+  do {
+    const r = await eb("/fullcollections", { address: addr, pageSize: "100", page: String(page), sortBy: "id", direction: "asc" });
+    for (const n of r.nfts || []) if (isAddr(n.owner)) tokens[Number(n.id)] = n.owner.toLowerCase();
+    pages = Math.min(r.totalPages || 1, 20);
+  } while (++page <= pages);
+  let members = {};
+  try {
+    const wallets = [...new Set(Object.values(tokens))];
+    const res = await fetch(`${VERIFY}/api/wallet-members`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ wallets }), signal: AbortSignal.timeout(8000) });
+    if (res.ok) members = (await res.json()).members || {};
+  } catch (err) { console.error("nft-market members:", err.message); }
+  const data = { tokens, members };
+  ownersCache.set(addr, { at: Date.now(), data });
+  return data;
 }
 
 async function build(addr) {
@@ -97,7 +123,9 @@ async function build(addr) {
     url: tokenUrl(addr, l.nftId),
   })).filter((s) => Number.isFinite(s.id));
 
-  return { live: true, collection: addr, stats, listings: byToken, sales, updatedAt: Date.now() };
+  let own = null;
+  try { own = await owners(addr); } catch (err) { console.error("nft-market owners:", err.message); own = ownersCache.get(addr)?.data || null; }
+  return { live: true, collection: addr, stats, listings: byToken, sales, owners: own, updatedAt: Date.now() };
 }
 
 export default async (req) => {
