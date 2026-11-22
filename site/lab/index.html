@@ -603,6 +603,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
             <button type="button" role="radio" aria-checked="false" data-pose="crowd" aria-label="Scene: Colt in blue standing out in a black-and-white crowd"><img src="../img/pose-crowd-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="climb" aria-label="Scene: Colt climbing a staircase of blue candles"><img src="../img/pose-climb-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="mirror" aria-label="Scene: Colt in a car side mirror at sunset"><img src="../img/pose-mirror-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="paper" aria-label="Scene: Colt holding up a sheet of paper, you choose what's on it"><img src="../img/pose-paper-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="quiz" aria-label="Scene: Colt on a game show, you write the question and answers"><img src="../img/pose-quiz-t.webp" alt="" width="160" height="160"></button>
           </div>
           <div class="seg" role="radiogroup" aria-label="Bubble" id="csBubbleSeg">
@@ -632,6 +633,19 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
             <button type="button" role="radio" aria-checked="true" data-qcol="final">Final answer <small>orange</small></button>
             <button type="button" role="radio" aria-checked="false" data-qcol="right">Correct <small>green</small></button>
           </div>
+        </div>
+        <div class="tool-group" id="csPaper" hidden>
+          <span class="tg-label">On the paper</span>
+          <div class="row-l">
+            <label class="btn" for="csPaperFile" id="csPaperBtn" tabindex="0">Add your image</label>
+            <input type="file" id="csPaperFile" accept="image/*" hidden>
+            <button class="btn ghost sm" id="csPaperReset" type="button" hidden>Use the $KULT chart</button>
+          </div>
+          <div class="seg" role="radiogroup" aria-label="How the image fits" style="margin-top:10px">
+            <button type="button" role="radio" aria-checked="true" data-pfit="cover">Fill the box <small>crops the edges</small></button>
+            <button type="button" role="radio" aria-checked="false" data-pfit="contain">Whole image <small>white around it</small></button>
+          </div>
+          <p class="hint-line">Screenshots, charts and memes all work. Clear the text box above to show the paper without a speech bubble.</p>
         </div>
         <div class="tool-group" id="csHand" hidden>
           <span class="tg-label">In his hand</span>
@@ -2852,6 +2866,9 @@ Object.assign(POSES, {
   mirror: { src: "../img/scene-mirror.webp", scene: true, bubble: "says", mouth: [.72, .655], head: [.55, .2],
            square: { fit: "cover", f: [.5, .4], area: [30, 30, 430, 620], hug: "l", tag: "bl", tip: [.5, .665] },
            wide:   { fit: "contain", f: [1, 0], area: [40, 40, 650, 560], hug: "r", tag: "bl", tip: [.5, .665] } },
+  paper: { src: "../img/scene-paper.webp", scene: true, paper: [.6967, .4397, .9567, .8167], bubble: "says", mouth: [.453, .528], head: [.45, .06],
+           square: { fit: "contain", f: [.5, 1], area: [36, 36, 1044, 420], hug: "l", tag: "bl", tip: [.47, .03] },
+           wide:   { fit: "cover", f: [.5, .5], area: [24, 24, 372, 420], hug: "l", tag: "bl", tip: [.405, .53] } },
   quiz:  { src: "../img/scene-quiz.webp", scene: true, quiz: true, bubble: "says", mouth: [.5, .4], head: [.5, .1] },
   climb: { src: "../img/scene-climb.webp", scene: true, bubble: "says", mouth: [.47, .12], head: [.46, .04],
            square: { fit: "cover", f: [.5, .5], area: [600, 40, 1040, 360], hug: "l", tag: "br" },
@@ -3084,6 +3101,49 @@ cv.addEventListener("pointermove", e => {
 ["pointerup", "pointercancel"].forEach(t => cv.addEventListener(t, () => { if(drag){ drag = null; cv.classList.remove("grabbing"); queuePrep(); } }));
 function syncHand(){ const on = !!POSES[state.pose].hand; $("csHand").hidden = !on; cv.classList.toggle("grab", on); }
 
+/* ---------- the paper scene: whatever people put on the sheet Colt holds up ---------- */
+const PAPER = { img: null, fit: "cover", chart: null };
+function paperChart(){
+  // default: a little "up only" $KULT chart
+  if(PAPER.chart) return PAPER.chart;
+  const c = document.createElement("canvas"); c.width = 800; c.height = 660; const x = c.getContext("2d");
+  x.fillStyle = "#fff"; x.fillRect(0, 0, 800, 660);
+  x.fillStyle = "#0a1226"; x.font = `64px ${FONT}`; x.textBaseline = "top"; x.fillText("$KULT", 48, 40);
+  x.fillStyle = "#16a34a"; x.font = `700 40px ${QFONT}`; x.fillText("UP ONLY ↗", 52, 120);
+  x.strokeStyle = "#e5e7eb"; x.lineWidth = 2; for(let y = 220; y <= 620; y += 80){ x.beginPath(); x.moveTo(48, y); x.lineTo(752, y); x.stroke(); }
+  const pts = [[48, 600], [130, 560], [200, 585], [280, 500], [350, 520], [430, 420], [500, 445], [580, 330], [650, 350], [752, 210]];
+  const gr = x.createLinearGradient(0, 210, 0, 620); gr.addColorStop(0, "rgba(34,197,94,.35)"); gr.addColorStop(1, "rgba(34,197,94,0)");
+  x.beginPath(); x.moveTo(48, 620); pts.forEach(p => x.lineTo(p[0], p[1])); x.lineTo(752, 620); x.closePath(); x.fillStyle = gr; x.fill();
+  x.beginPath(); pts.forEach((p, i) => i ? x.lineTo(p[0], p[1]) : x.moveTo(p[0], p[1])); x.strokeStyle = "#16a34a"; x.lineWidth = 9; x.lineJoin = "round"; x.stroke();
+  return (PAPER.chart = c);
+}
+function drawPaper(box, ox, oy, dw, dh){
+  // fills the cut-out on the sheet; the photo is drawn over it, so the paper's edge and Colt's hand stay in front
+  const x = ox + dw*box[0] - 4, y = oy + dh*box[1] - 4, w = dw*(box[2] - box[0]) + 8, h = dh*(box[3] - box[1]) + 8;
+  g.fillStyle = "#fff"; g.fillRect(x, y, w, h);
+  const src = PAPER.img || paperChart(), fitMode = PAPER.img ? PAPER.fit : "cover";
+  const k = fitMode === "cover" ? Math.max(w/src.width, h/src.height) : Math.min(w/src.width, h/src.height) * .94;
+  const iw = src.width*k, ih = src.height*k;
+  g.save(); g.beginPath(); g.rect(x, y, w, h); g.clip(); g.drawImage(src, x + (w - iw)/2, y + (h - ih)/2, iw, ih); g.restore();
+}
+function syncPaper(){ $("csPaper").hidden = !POSES[state.pose].paper; }
+$("csPaperFile").addEventListener("change", e => {
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const url = URL.createObjectURL(f), im = new Image();
+  im.onload = () => {
+    const k = Math.min(1, 1600 / Math.max(im.width, im.height)), c = document.createElement("canvas");
+    c.width = Math.round(im.width*k); c.height = Math.round(im.height*k); c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+    PAPER.img = c; URL.revokeObjectURL(url); $("csPaperBtn").textContent = "Change image"; $("csPaperReset").hidden = false; redraw(); queuePrep();
+  };
+  im.onerror = () => { URL.revokeObjectURL(url); say("Couldn't open that image"); };
+  im.src = url; e.target.value = "";
+});
+$("csPaperBtn").addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); $("csPaperFile").click(); } });
+$("csPaperReset").addEventListener("click", () => { PAPER.img = null; $("csPaperBtn").textContent = "Add your image"; $("csPaperReset").hidden = true; redraw(); queuePrep(); });
+document.querySelectorAll("[data-pfit]").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll("[data-pfit]").forEach(b => b.setAttribute("aria-checked", String(b === btn)));
+  PAPER.fit = btn.dataset.pfit; redraw();
+}));
 function fitQ(text, maxW, maxH, big, small, maxLines){
   for(let s = big; s >= small; s -= 1){
     g.font = `700 ${s}px ${QFONT}`; const L = wrap(text, maxW);
@@ -3147,6 +3207,7 @@ function render(){
         const kc = Math.max(W/iw, H/ih); g.save(); if("filter" in g) g.filter = "blur(28px)"; g.drawImage(img, (W - iw*kc)/2, (H - ih*kc)/2, iw*kc, ih*kc); g.restore();
         g.fillStyle = "rgba(3,5,8,.62)"; g.fillRect(0, 0, W, H);
       }
+      if(pose.paper) drawPaper(pose.paper, ox, oy, dw, dh);
       g.drawImage(img, ox, oy, dw, dh);
     }
     if(pose.hand) drawHeld(ox, oy, dw, dh);
@@ -3164,7 +3225,8 @@ function render(){
     area = pose.face === "r" ? [Math.max(margin, edge + 24*scale), margin, W - margin, P.y1] : [margin, margin, Math.min(W - margin, edge - 24*scale), P.y1];
     hugRight = pose.face !== "r"; tagRight = pose.face === "r";
   }
-  // fit the words into the allowed area
+  // fit the words into the allowed area (on the paper scene an empty text box means no bubble at all)
+  const noBubble = !!pose.paper && !state.text.trim();
   const text = (state.text.trim() || LINES[0]).replace(/[ \t]+/g, " ");
   const inset = think ? 58 * scale : 0;
   const ax0 = area[0] + inset, ay0 = area[1] - 4*scale + inset, ax1 = area[2] - inset, ay1 = area[3] - inset, pad = (think ? 22 : 44) * scale, labelH = 38 * scale;
@@ -3178,6 +3240,7 @@ function render(){
   // tip stops a little short of the mouth / head
   const dx = aim[0] - (b.x + b.w/2), dy = aim[1] - (b.y + b.h/2), dd = Math.hypot(dx, dy) || 1, gap = (think ? 40 : 26) * scale;
   const tip = tipAt || [aim[0] - dx/dd*gap, aim[1] - dy/dd*gap];
+  if(!noBubble){
   if(think) cloud(b, aim, lw, scale); else speech(b, tip, lw);
   // label + words
   g.textBaseline = "alphabetic"; g.textAlign = "left";
@@ -3188,6 +3251,7 @@ function render(){
   g.font = `${f.size}px ${FONT}`; g.fillStyle = INK;
   let ly = b.y + pad + labelH;
   f.lines.forEach(l => { ly += l.size * .92; g.font = `${l.size}px ${FONT}`; g.fillText(l.t, b.x + pad, ly); ly += l.size * .2; });
+  }
   // brand tag in the free corner
   const tagText = "$KULT · ULTWITHKNIFE.COM";
   g.font = `700 ${Math.round(20*scale)}px ${MONO}`; const tw = g.measureText(tagText).width, ic = 34*scale, th = 46*scale, tWid = tw + ic + 36*scale;
@@ -3215,7 +3279,7 @@ function radio(sel, key){
     document.querySelectorAll(sel).forEach(b => b.setAttribute("aria-checked", String(b === btn)));
     state[key] = btn.dataset[key];
     // each pose comes with the bubble that suits it; the Says / Thinks switch can still override
-    if(key === "pose"){ setBubble(POSES[state.pose].bubble); syncBg(); syncHand(); syncQuiz(); if(POSES[state.pose].hand) drawHandIcons(); }
+    if(key === "pose"){ setBubble(POSES[state.pose].bubble); syncBg(); syncHand(); syncQuiz(); syncPaper(); if(POSES[state.pose].hand) drawHandIcons(); }
     if(key === "bubble") syncPrompt();
     poseImg(state.pose); redraw();
   }));
@@ -3252,7 +3316,7 @@ radio("[data-pose]", "pose"); radio("[data-bubble]", "bubble"); radio("[data-bg]
 const slug = t => (t || "kult").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 32) || "kult";
 const isQuiz = () => !!POSES[state.pose].quiz;
 const fileName = () => isQuiz() ? `colt-quiz-${slug(quiz.q.trim())}.png` : `colt-${state.bubble}-${(state.text.trim() || "kult").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 32) || "kult"}.png`;
-const shareText = () => isQuiz() ? `Colt asks: ${quiz.q.trim() || "Ask Colt anything"}\n\n${quiz.a.map((a, i) => "ABCD"[i] + ": " + (a.trim() || "…")).join("\n")}\n\nMake your own at https://ultwithknife.com/lab/says/\n\n$KULT @ultwithknife #cronos #crofam` : `${state.bubble === "says" ? "Colt says" : "Colt thinks"}: "${(state.text.trim() || LINES[0])}"\n\nFor more Colt wisdom go to https://ultwithknife.com/lab/says/\n\n$KULT @ultwithknife #cronos #crofam`;
+const shareText = () => POSES[state.pose].paper && !state.text.trim() ? `Colt has something to show you.\n\nMake your own at https://ultwithknife.com/lab/says/\n\n$KULT @ultwithknife #cronos #crofam` : isQuiz() ? `Colt asks: ${quiz.q.trim() || "Ask Colt anything"}\n\n${quiz.a.map((a, i) => "ABCD"[i] + ": " + (a.trim() || "…")).join("\n")}\n\nMake your own at https://ultwithknife.com/lab/says/\n\n$KULT @ultwithknife #cronos #crofam` : `${state.bubble === "says" ? "Colt says" : "Colt thinks"}: "${(state.text.trim() || LINES[0])}"\n\nFor more Colt wisdom go to https://ultwithknife.com/lab/says/\n\n$KULT @ultwithknife #cronos #crofam`;
 function updatePost(){ $("csPost").href = "https://x.com/intent/post?text=" + encodeURIComponent(shareText()); }
 let shareFile = null;
 function prepFile(){ shareFile = null; cv.toBlob(b => { if(b) shareFile = new File([b], fileName(), { type: "image/png" }); }, "image/png"); }
