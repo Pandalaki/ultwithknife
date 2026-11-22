@@ -131,6 +131,15 @@ label.btn{user-select:none}
 .share-note a{color:var(--ice)}
 .share-note kbd{font-family:var(--f-mono);font-size:13px;padding:1px 6px;border:1px solid rgba(233,244,255,.4);border-bottom-width:2px;background:rgba(3,5,8,.5)}
 /* Colt Says */
+.quiz-ans{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.quiz-ans label{display:flex;align-items:center;gap:8px;border:1px solid var(--edge,#1a2a3a);background:rgba(3,5,8,.5);padding:0 10px}
+.quiz-ans b{font-family:var(--f-display);font-weight:400;color:#f08a4b;font-size:15px}
+.quiz-ans input{flex:1;min-width:0;background:none;border:0;color:var(--frost);font:600 16px var(--f-body);padding:11px 0;outline:none}
+.quiz-ans label:focus-within{border-color:var(--ice)}
+#csQ{width:100%}
+.seg.quiz-hi{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+.quiz-hi button{min-width:0;text-align:center;justify-content:center;padding-left:4px;padding-right:4px}
+@media (max-width:520px){.quiz-ans{grid-template-columns:1fr}}
 .poses{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .bg-off{opacity:.35;pointer-events:none}
 .hand-picks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
@@ -567,7 +576,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
         <div class="cs-stage"><canvas id="csCanvas" width="1080" height="1080" aria-label="Your Colt Says card"></canvas></div>
       </div>
       <div class="pfp-tools">
-        <div class="tool-group">
+        <div class="tool-group" id="csTextGroup">
           <label class="tg-label" for="csText" id="csPrompt">1. What does Colt say?</label>
           <textarea id="csText" maxlength="140" rows="3" placeholder="Never fold." spellcheck="true"></textarea>
           <div class="row-l cs-meta">
@@ -593,10 +602,34 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
             <button type="button" role="radio" aria-checked="false" data-pose="bull" aria-label="Scene: Colt riding a bull"><img src="../img/pose-bull-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="crowd" aria-label="Scene: Colt in blue standing out in a black-and-white crowd"><img src="../img/pose-crowd-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="climb" aria-label="Scene: Colt climbing a staircase of blue candles"><img src="../img/pose-climb-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="quiz" aria-label="Scene: Colt on a game show, you write the question and answers"><img src="../img/pose-quiz-t.webp" alt="" width="160" height="160"></button>
           </div>
-          <div class="seg" role="radiogroup" aria-label="Bubble">
+          <div class="seg" role="radiogroup" aria-label="Bubble" id="csBubbleSeg">
             <button type="button" role="radio" aria-checked="true" data-bubble="says">Says <small>speech bubble</small></button>
             <button type="button" role="radio" aria-checked="false" data-bubble="thinks">Thinks <small>thought bubble</small></button>
+          </div>
+        </div>
+        <div class="tool-group" id="csQuiz" hidden>
+          <span class="tg-label">Your question</span>
+          <textarea id="csQ" maxlength="110" rows="2" placeholder="What does Colt do when the chart dumps?" spellcheck="true" aria-label="Question"></textarea>
+          <div class="quiz-ans">
+            <label><b>A</b><input id="csQA" maxlength="40" placeholder="Sell" spellcheck="true"></label>
+            <label><b>B</b><input id="csQB" maxlength="40" placeholder="Panic" spellcheck="true"></label>
+            <label><b>C</b><input id="csQC" maxlength="40" placeholder="Cry" spellcheck="true"></label>
+            <label><b>D</b><input id="csQD" maxlength="40" placeholder="Buy more" spellcheck="true"></label>
+          </div>
+          <div class="row-l cs-meta"><button class="btn ghost sm" id="csQShuffle" type="button">Shuffle</button><span class="cs-count">Question 110, answers 40 characters</span></div>
+          <span class="tg-label" style="margin-top:14px">Light up an answer</span>
+          <div class="seg quiz-hi" role="radiogroup" aria-label="Light up an answer">
+            <button type="button" role="radio" aria-checked="true" data-qhi="">None</button>
+            <button type="button" role="radio" aria-checked="false" data-qhi="0">A</button>
+            <button type="button" role="radio" aria-checked="false" data-qhi="1">B</button>
+            <button type="button" role="radio" aria-checked="false" data-qhi="2">C</button>
+            <button type="button" role="radio" aria-checked="false" data-qhi="3">D</button>
+          </div>
+          <div class="seg" role="radiogroup" aria-label="Colour" id="csQCol" hidden>
+            <button type="button" role="radio" aria-checked="true" data-qcol="final">Final answer <small>orange</small></button>
+            <button type="button" role="radio" aria-checked="false" data-qcol="right">Correct <small>green</small></button>
           </div>
         </div>
         <div class="tool-group" id="csHand" hidden>
@@ -628,7 +661,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
             <button type="button" role="radio" aria-checked="false" data-bg="neonk" style="--sw:url(../img/bg-neonk-t.webp) center/cover"><span>Neon K</span></button>
           </div>
         </div>
-        <div class="tool-group">
+        <div class="tool-group" id="csShape">
           <span class="tg-label">4. Shape</span>
           <div class="seg" role="radiogroup" aria-label="Shape">
             <button type="button" role="radio" aria-checked="true" data-fmt="square">Square <small>PFP, Telegram</small></button>
@@ -2815,12 +2848,34 @@ Object.assign(POSES, {
   crowd: { src: "../img/scene-crowd.webp", scene: true, bubble: "says", mouth: [.51, .495], head: [.51, .4],
            square: { fit: "cover", f: [.5, .5], area: [36, 36, 1044, 320], hug: "l", tag: "br", tip: [.425, .45] },
            wide:   { fit: "cover", f: [.5, .2], area: [24, 20, 760, 268], hug: "l", tag: "br", tip: [.425, .45] } },
+  quiz:  { src: "../img/scene-quiz.webp", scene: true, quiz: true, bubble: "says", mouth: [.5, .4], head: [.5, .1] },
   climb: { src: "../img/scene-climb.webp", scene: true, bubble: "says", mouth: [.47, .12], head: [.46, .04],
            square: { fit: "cover", f: [.5, .5], area: [600, 40, 1040, 360], hug: "l", tag: "br" },
            wide:   { fit: "contain", f: [0, 0], area: [515, 30, 1170, 330], hug: "l", tag: "br" } }
 });
 const SIZES = { square: [1080, 1080], wide: [1200, 675] };
 const state = { text: "", pose: "crossed", bubble: "says", bg: "blue", fmt: "square" };
+/* game show scene: the question and the four answers go in the empty bars */
+const QUIZZES = [
+  ["What does Colt do when the chart dumps?", "Sell", "Panic", "Cry", "Buy more"],
+  ["What colour is Colt's hair?", "Blue", "Ult Blue", "Kult Blue", "All of the above"],
+  ["Where does Colt keep his knife?", "Kitchen drawer", "Back pocket", "Under the pillow", "Always in hand"],
+  ["How long is Colt holding $KULT?", "A week", "Till the next dip", "Until I'm 80", "Forever"],
+  ["What's the best time to buy $KULT?", "Yesterday", "Today", "Every dip", "All of the above"],
+  ["Who's the real Colt?", "Me", "You", "Us", "We are all Colt"],
+  ["What does Colt wear to a wedding?", "A suit", "A tux", "Tracksuit", "Tracksuit, ironed"],
+  ["What's heavier?", "A ton of bricks", "A ton of feathers", "Colt's chain", "Your bags"],
+  ["How does Colt take profits?", "Market sell", "Limit order", "He doesn't", "He takes naps"],
+  ["What does Colt say to paper hands?", "Bye", "See ya", "Good luck", "Nothing. He's busy."],
+  ["What is the KULT?", "A cult", "A coin", "A family", "Spelled with a K"],
+  ["What should you never catch?", "A cold", "Feelings", "A falling knife", "Colt slipping"]
+];
+const quiz = { q: QUIZZES[0][0], a: QUIZZES[0].slice(1), hi: null, col: "final" };
+// bars in the 1472 x 1069 picture: text area [x0, x1, centre y, height]; answer boxes as six-sided shapes
+const QBAR = { q: [165, 1320, 758, 112], a: [[192, 680, 890], [888, 1362, 890], [192, 680, 1000], [888, 1362, 1000]] };
+const QHEX = [[86, 124, 686, 722, 853, 890, 928], [780, 816, 1362, 1398, 853, 890, 928], [86, 124, 686, 722, 963, 1000, 1038], [780, 816, 1362, 1398, 963, 1000, 1038]];
+const QLBL = [[125, 890], [825, 890], [125, 1000], [825, 1000]];
+const QFONT = '"Chakra Petch","Segoe UI",system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji"';
 const ART = {};
 
 /* each pose image loads the first time it's needed */
@@ -3025,7 +3080,54 @@ cv.addEventListener("pointermove", e => {
 ["pointerup", "pointercancel"].forEach(t => cv.addEventListener(t, () => { if(drag){ drag = null; cv.classList.remove("grabbing"); queuePrep(); } }));
 function syncHand(){ const on = !!POSES[state.pose].hand; $("csHand").hidden = !on; cv.classList.toggle("grab", on); }
 
+function fitQ(text, maxW, maxH, big, small, maxLines){
+  for(let s = big; s >= small; s -= 1){
+    g.font = `700 ${s}px ${QFONT}`; const L = wrap(text, maxW);
+    if(L.length <= maxLines && L.length * s * 1.12 <= maxH && L.every(l => g.measureText(l).width <= maxW + 1)) return { s, L };
+  }
+  g.font = `700 ${small}px ${QFONT}`; let L = wrap(text, maxW);
+  if(L.length > maxLines){ L = L.slice(0, maxLines); let t = L[maxLines - 1]; while(t && g.measureText(t + "…").width > maxW) t = t.slice(0, -1); L[maxLines - 1] = t + "…"; }
+  return { s: small, L };
+}
+function drawLines(f, x, cy, align){
+  g.font = `700 ${f.s}px ${QFONT}`; g.textAlign = align; g.textBaseline = "middle";
+  const lh = f.s * 1.12, top = cy - (f.L.length - 1) * lh / 2;
+  f.L.forEach((l, i) => g.fillText(l, x, top + i * lh + f.s * .04));
+}
+function renderQuiz(){
+  const img = poseImg("quiz"), W = 1472, H = 1069;
+  if(cv.width !== W || cv.height !== H){ cv.width = W; cv.height = H; }
+  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = "#030508"; g.fillRect(0, 0, W, H);
+  if(img) g.drawImage(img, 0, 0, W, H);
+  // the lit-up answer: orange for a locked-in final answer, green for the correct one
+  if(quiz.hi != null){
+    const [l, l2, r2, r, t, m, b] = QHEX[quiz.hi], gr = g.createLinearGradient(0, t, 0, b);
+    if(quiz.col === "right"){ gr.addColorStop(0, "#8dff8a"); gr.addColorStop(.5, "#36c94a"); gr.addColorStop(1, "#14892c"); }
+    else { gr.addColorStop(0, "#ffd27a"); gr.addColorStop(.5, "#ff9a2e"); gr.addColorStop(1, "#d8650f"); }
+    g.save(); g.beginPath(); g.moveTo(l, m); g.lineTo(l2, t); g.lineTo(r2, t); g.lineTo(r, m); g.lineTo(r2, b); g.lineTo(l2, b); g.closePath();
+    g.shadowColor = quiz.col === "right" ? "rgba(80,255,110,.8)" : "rgba(255,160,60,.8)"; g.shadowBlur = 26; g.fillStyle = gr; g.fill(); g.restore();
+    const [lx, ly] = QLBL[quiz.hi]; g.font = `700 54px ${QFONT}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillStyle = "#fff";
+    g.fillText("ABCD"[quiz.hi] + ":", lx, ly + 2);
+  }
+  g.fillStyle = "#fff"; g.shadowColor = "rgba(0,0,0,.6)"; g.shadowBlur = 6;
+  const [qx0, qx1, qcy, qh] = QBAR.q, qt = (quiz.q.trim() || "Ask Colt anything").replace(/\s+/g, " ");
+  drawLines(fitQ(qt, qx1 - qx0, qh, 46, 24, 3), (qx0 + qx1) / 2, qcy, "center");
+  QBAR.a.forEach(([x0, x1, cy], i) => {
+    const t = (quiz.a[i] || "").trim().replace(/\s+/g, " "); if(!t) return;
+    g.fillStyle = quiz.hi === i ? "#0a1226" : "#fff"; g.shadowBlur = quiz.hi === i ? 0 : 6;
+    drawLines(fitQ(t, x1 - x0, 70, 38, 20, 2), x0, cy, "left");
+  });
+  g.shadowBlur = 0; g.textBaseline = "alphabetic"; g.textAlign = "left";
+  // brand tag, top left
+  const tagText = "$KULT · ULTWITHKNIFE.COM";
+  g.font = `700 22px ${MONO}`; const tw = g.measureText(tagText).width, ic = 36, th = 50, tWid = tw + ic + 38, tx = 26, ty = 24;
+  g.fillStyle = "rgba(3,5,8,.78)"; rr(tx, ty, tWid, th, th/2); g.fill();
+  if(ART.logo) g.drawImage(ART.logo, tx + 10, ty + (th - ic)/2, ic, ic);
+  g.fillStyle = "#e9f4ff"; g.fillText(tagText, tx + ic + 20, ty + th/2 + 8);
+  updatePost();
+}
 function render(){
+  if(POSES[state.pose].quiz) return renderQuiz();
   const pose = POSES[state.pose], P = pose[state.fmt], [W, H] = SIZES[state.fmt], think = state.bubble === "thinks";
   if(cv.width !== W || cv.height !== H){ cv.width = W; cv.height = H; }
   g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, H);
@@ -3109,19 +3211,44 @@ function radio(sel, key){
     document.querySelectorAll(sel).forEach(b => b.setAttribute("aria-checked", String(b === btn)));
     state[key] = btn.dataset[key];
     // each pose comes with the bubble that suits it; the Says / Thinks switch can still override
-    if(key === "pose"){ setBubble(POSES[state.pose].bubble); syncBg(); syncHand(); if(POSES[state.pose].hand) drawHandIcons(); }
+    if(key === "pose"){ setBubble(POSES[state.pose].bubble); syncBg(); syncHand(); syncQuiz(); if(POSES[state.pose].hand) drawHandIcons(); }
     if(key === "bubble") syncPrompt();
     poseImg(state.pose); redraw();
   }));
 }
+function syncQuiz(){
+  const on = !!POSES[state.pose].quiz;
+  $("csQuiz").hidden = !on; $("csTextGroup").hidden = on; $("csBubbleSeg").hidden = on; $("csShape").hidden = on;
+}
+const qIn = [$("csQA"), $("csQB"), $("csQC"), $("csQD")];
+function fillQuiz(){ $("csQ").value = quiz.q; qIn.forEach((el, i) => el.value = quiz.a[i]); }
+$("csQ").addEventListener("input", e => { quiz.q = e.target.value; redraw(); $("csNote").hidden = true; });
+qIn.forEach((el, i) => el.addEventListener("input", () => { quiz.a[i] = el.value; redraw(); }));
+["csQ", "csQA", "csQB", "csQC", "csQD"].forEach(id => { $(id).addEventListener("focus", () => $("panel-says").classList.add("typing")); $(id).addEventListener("blur", () => $("panel-says").classList.remove("typing")); });
+let lastQuiz = 0;
+$("csQShuffle").addEventListener("click", () => {
+  let i; do { i = Math.floor(Math.random() * QUIZZES.length); } while(i === lastQuiz);
+  lastQuiz = i; quiz.q = QUIZZES[i][0]; quiz.a = QUIZZES[i].slice(1); fillQuiz(); redraw();
+});
+document.querySelectorAll("[data-qhi]").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll("[data-qhi]").forEach(b => b.setAttribute("aria-checked", String(b === btn)));
+  quiz.hi = btn.dataset.qhi === "" ? null : +btn.dataset.qhi; $("csQCol").hidden = quiz.hi == null; redraw();
+}));
+document.querySelectorAll("[data-qcol]").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll("[data-qcol]").forEach(b => b.setAttribute("aria-checked", String(b === btn)));
+  quiz.col = btn.dataset.qcol; redraw();
+}));
+fillQuiz();
 function syncPrompt(){ $("csPrompt").textContent = `1. What does Colt ${state.bubble === "says" ? "say" : "think"}?`; }
 function syncBg(){ const sc = !!POSES[state.pose].scene; $("csSwatches").classList.toggle("bg-off", sc); $("csSwatches").setAttribute("aria-disabled", String(sc)); $("csBgNote").hidden = !sc; }
 function setBubble(v){ state.bubble = v; document.querySelectorAll("[data-bubble]").forEach(b => b.setAttribute("aria-checked", String(b.dataset.bubble === v))); syncPrompt(); }
 radio("[data-pose]", "pose"); radio("[data-bubble]", "bubble"); radio("[data-bg]", "bg"); radio("[data-fmt]", "fmt");
 
 /* ---------- save + share ---------- */
-const fileName = () => `colt-${state.bubble}-${(state.text.trim() || "kult").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 32) || "kult"}.png`;
-const shareText = () => `${state.bubble === "says" ? "Colt says" : "Colt thinks"}: "${(state.text.trim() || LINES[0])}"\n\nFor more Colt wisdom go to https://ultwithknife.com/lab/says/\n\n$KULT @ultwithknife #cronos #crofam`;
+const slug = t => (t || "kult").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 32) || "kult";
+const isQuiz = () => !!POSES[state.pose].quiz;
+const fileName = () => isQuiz() ? `colt-quiz-${slug(quiz.q.trim())}.png` : `colt-${state.bubble}-${(state.text.trim() || "kult").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 32) || "kult"}.png`;
+const shareText = () => isQuiz() ? `Colt asks: ${quiz.q.trim() || "Ask Colt anything"}\n\n${quiz.a.map((a, i) => "ABCD"[i] + ": " + (a.trim() || "…")).join("\n")}\n\nMake your own at https://ultwithknife.com/lab/says/\n\n$KULT @ultwithknife #cronos #crofam` : `${state.bubble === "says" ? "Colt says" : "Colt thinks"}: "${(state.text.trim() || LINES[0])}"\n\nFor more Colt wisdom go to https://ultwithknife.com/lab/says/\n\n$KULT @ultwithknife #cronos #crofam`;
 function updatePost(){ $("csPost").href = "https://x.com/intent/post?text=" + encodeURIComponent(shareText()); }
 let shareFile = null;
 function prepFile(){ shareFile = null; cv.toBlob(b => { if(b) shareFile = new File([b], fileName(), { type: "image/png" }); }, "image/png"); }
