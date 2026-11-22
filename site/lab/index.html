@@ -602,6 +602,7 @@ footer{padding:32px var(--gut) 44px;max-width:1360px;margin:0 auto;display:grid;
             <button type="button" role="radio" aria-checked="false" data-pose="bull" aria-label="Scene: Colt riding a bull"><img src="../img/pose-bull-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="crowd" aria-label="Scene: Colt in blue standing out in a black-and-white crowd"><img src="../img/pose-crowd-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="climb" aria-label="Scene: Colt climbing a staircase of blue candles"><img src="../img/pose-climb-t.webp" alt="" width="160" height="160"></button>
+            <button type="button" role="radio" aria-checked="false" data-pose="mirror" aria-label="Scene: Colt in a car side mirror at sunset"><img src="../img/pose-mirror-t.webp" alt="" width="160" height="160"></button>
             <button type="button" role="radio" aria-checked="false" data-pose="quiz" aria-label="Scene: Colt on a game show, you write the question and answers"><img src="../img/pose-quiz-t.webp" alt="" width="160" height="160"></button>
           </div>
           <div class="seg" role="radiogroup" aria-label="Bubble" id="csBubbleSeg">
@@ -2848,6 +2849,9 @@ Object.assign(POSES, {
   crowd: { src: "../img/scene-crowd.webp", scene: true, bubble: "says", mouth: [.51, .495], head: [.51, .4],
            square: { fit: "cover", f: [.5, .5], area: [36, 36, 1044, 320], hug: "l", tag: "br", tip: [.425, .45] },
            wide:   { fit: "cover", f: [.5, .2], area: [24, 20, 760, 268], hug: "l", tag: "br", tip: [.425, .45] } },
+  mirror: { src: "../img/scene-mirror.webp", scene: true, bubble: "says", mouth: [.72, .655], head: [.55, .2],
+           square: { fit: "cover", f: [.5, .4], area: [30, 30, 430, 620], hug: "l", tag: "bl", tip: [.5, .665] },
+           wide:   { fit: "contain", f: [1, 0], area: [40, 40, 650, 560], hug: "r", tag: "bl", tip: [.5, .665] } },
   quiz:  { src: "../img/scene-quiz.webp", scene: true, quiz: true, bubble: "says", mouth: [.5, .4], head: [.5, .1] },
   climb: { src: "../img/scene-climb.webp", scene: true, bubble: "says", mouth: [.47, .12], head: [.46, .04],
            square: { fit: "cover", f: [.5, .5], area: [600, 40, 1040, 360], hug: "l", tag: "br" },
