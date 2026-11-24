@@ -1678,5 +1678,22 @@
   ],
   "kind": "vid",
   "dur": 4.0
+ },
+ {
+  "id": "jaw-drop",
+  "title": "Jaw Drop",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "spotted-it",
+  "title": "Spotted It",
+  "tags": [
+   "chill",
+   "reaction"
+  ],
+  "kind": "gif"
  }
 ]
