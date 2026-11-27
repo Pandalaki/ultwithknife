@@ -1786,5 +1786,45 @@
   ],
   "kind": "vid",
   "dur": 5.0
+ },
+ {
+  "id": "aura-2",
+  "title": "Aura",
+  "tags": [
+   "flex"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "it-s-a-kult",
+  "title": "It's a KULT",
+  "tags": [
+   "kult"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "max-pain",
+  "title": "Max Pain",
+  "tags": [
+   "reaction"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "school-the-bear",
+  "title": "School the Bear",
+  "tags": [
+   "flex"
+  ],
+  "kind": "gif"
+ },
+ {
+  "id": "stand-strong",
+  "title": "Stand Strong",
+  "tags": [
+   "kult"
+  ],
+  "kind": "gif"
  }
 ]
